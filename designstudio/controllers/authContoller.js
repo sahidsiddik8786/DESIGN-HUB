@@ -178,35 +178,71 @@ export const testController = (req, res) => {
 
 export const updateProfileController = async (req, res) => {
     try {
-      const { name, email, password, address, phone } = req.body;
-      const user = await userModel.findById(req.user._id);
-  
-      console.log("Request Body:", req.body); // Add this line for debugging
-      console.log("Found User:", user); // Add this line for debugging
 
-      // Define updatedUser after the user is updated
-
-      user.name = name || user.name;
-      user.email = email || user.email;
-      user.password = password ? await hashPassword(password) : user.password;
-      user.address = address || user.address;
-      user.phone = phone || user.phone;
-
-
-      const updatedUser = await user.save();
-      //console.log("Updated User:", updatedUser); // Move this line after defining updatedUser
-  
-      res.status(200).send({
-        success: true,
-        message: "Profile Updated Successfully",
-        updatedUser,
-      });
-    } catch (error) {
-      console.error("Error:", error); // Add this line for debugging
-      res.status(400).send({
-        success: false,
-        message: "Error While Updating Profile",
-        error,
-      });
-    }
-};
+            const { name, password, address, phone } = req.body;
+            const user = await userModel.findById(req.user._id);
+        
+            console.log("Request Body:", req.body); // Debugging log
+            console.log("Found User:", user); // Debugging log
+        
+            if (!user) {
+              return res.status(404).send({
+                success: false,
+                message: "User not found",
+              });
+            }
+        
+            // Validate incoming data
+            if (name && typeof name !== 'string') {
+              return res.status(400).json({
+                success: false,
+                message: 'Invalid name format',
+              });
+            }
+        
+            if (password && typeof password !== 'string') {
+              return res.status(400).json({
+                success: false,
+                message: 'Invalid password format',
+              });
+            }
+        
+            if (address && typeof address !== 'string') {
+              return res.status(400).json({
+                success: false,
+                message: 'Invalid address format',
+              });
+            }
+        
+            // Validate phone format (e.g., allow only digits, optional dashes, and parentheses)
+            if (phone && !/^\d{10}$/.test(phone)) {
+              return res.status(400).json({
+                success: false,
+                message: 'Invalid phone number format',
+              });
+            }
+        
+            // Update user properties with the new values
+            user.name = name || user.name;
+            user.password = password ? await hashPassword(password) : user.password;
+            user.address = address || user.address;
+            user.phone = phone || user.phone;
+        
+            const updatedUser = await user.save();
+            // console.log("Updated User:", updatedUser); // Debugging log
+        
+            res.status(200).send({
+              success: true,
+              message: "Profile Updated Successfully",
+              updatedUser,
+            });
+          } catch (error) {
+            console.error("Error:", error); // Debugging log
+            res.status(400).send({
+              success: false,
+              message: "Error While Updating Profile",
+              error: error.message, // Include the error message for better debugging
+            });
+          }
+        };
+        
