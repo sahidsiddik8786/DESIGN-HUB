@@ -28,11 +28,11 @@ const Register = () => {
   };
 
   const handleNameValidation = (value) => {
-    // Check if the value contains only alphabetic characters
-    const namePattern = /^[A-Za-z0-9]+$/;
-    if (!namePattern.test(value)) {
+    // Check if the value contains only alphabetic characters and no numbers or whitespace
+    const namePattern = /^[A-Za-z]+$/;
+    if (!namePattern.test(value) || /\s/.test(value)) {
       toast.dismiss();
-      toast.error("Name should contain only alphabetic characters.");
+      toast.error("Name should contain only alphabetic characters without whitespace or numbers.");
       return false;
     }
     return true;
@@ -44,6 +44,16 @@ const Register = () => {
     if (!phonePattern.test(value)) {
       toast.dismiss();
       toast.error("Phone number should contain only numbers.");
+      return false;
+    }
+    return true;
+  };
+
+  const handlePhoneZeroValidation = (value) => {
+    // Check if the value contains 10 consecutive zeros
+    if (/0{10}/.test(value)) {
+      toast.dismiss();
+      toast.error("Phone number cannot contain 10 consecutive zeros.");
       return false;
     }
     return true;
@@ -65,7 +75,7 @@ const Register = () => {
     e.preventDefault();
 
     // Basic validation
-    if (!name || !email || !password || !phone || !address) {
+    if (!name || !email || !password || !phone || !address || !answer) {
       toast.error("Please fill in all fields.");
       return;
     }
@@ -83,12 +93,16 @@ const Register = () => {
     if (!handleWhitespaceValidation(password)) return;
     if (!handleWhitespaceValidation(phone)) return;
     if (!handleWhitespaceValidation(address)) return;
+    if (!handleWhitespaceValidation(answer)) return;
 
     // Name validation
     if (!handleNameValidation(name)) return;
 
     // Phone number validation
     if (!handlePhoneValidation(phone)) return;
+
+    // New phone number zero validation
+    if (!handlePhoneZeroValidation(phone)) return;
 
     // Password strength validation
     if (passwordStrength === "weak") {
@@ -136,7 +150,7 @@ const Register = () => {
                 handleNameValidation(e.target.value);
               }}
               className="form-control"
-              placeholder="Enter Your Name"
+              placeholder="Enter Your Username"
               required
               autoFocus
             />
@@ -177,6 +191,7 @@ const Register = () => {
                 setPhone(e.target.value);
                 handleWhitespaceValidation(e.target.value);
                 handlePhoneValidation(e.target.value);
+                handlePhoneZeroValidation(e.target.value);
               }}
               className="form-control"
               placeholder="Enter Your Phone"
