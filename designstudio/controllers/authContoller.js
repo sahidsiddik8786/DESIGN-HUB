@@ -1,12 +1,24 @@
 import { comparePassword, hashPassword } from "../helpers/authHelper.js";
 import userModel from "../models/userModel.js";
 import JWT from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
+
+//const emailUser = "sahidsiddik0977@gmail.com";
+//const emailPassword = "";
+
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: 'sahidsiddik0977@gmail.com',
+    pass: 'wwet hllo cnhz fdzh',
+  },
+});
 
 
 export const registerContoller = async (req, res) => {
     try {
         console.log("Received registration request #########");
-        const { name, email, password, phone, address,answer } = req.body;
+        const { name, email, password, phone, address } = req.body;
         //validation
         if (!name) {
             return res.send({ error: 'Name is Required' })
@@ -27,9 +39,6 @@ export const registerContoller = async (req, res) => {
             return res.send({ message: 'address is Required' })
         }
 
-        if (!answer) {
-            return res.send({ error: 'Answer is Required' })
-        }
 
 
         //check User
@@ -51,13 +60,27 @@ export const registerContoller = async (req, res) => {
         }
 
         //save
-        const user = await new userModel({ name, email, phone, address, password: hashedPassword,answer }).save()
+        const user = await new userModel({ name, email, phone, address, password: hashedPassword }).save()
 
-        res.status(201).send({
-            success: true,
-            message: 'user Registration Successful',
-            user,
-
+        const mailOptions = {
+          from: "Design_Studio",
+          to: email,
+          subject: 'Registration Confirmation',
+          text: "You have been successfully registered.",
+        };
+  
+  
+        res.status(200).send({
+            success : true,
+            message : "Registered Successfully",
+        })
+  
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.log("Email not sent: " + error);
+          } else {
+            console.log("Email sent: " + info.response);
+          }
         });
     } catch (error) {
         console.error("Error in registration: ########", error);
@@ -95,6 +118,14 @@ export const loginController = async (req, res) => {
         message: "Email is not registered",
       });
     }
+
+    if (!user.active) {
+      return res.status(403).json({
+        success: false,
+        message: 'User is deactivated and cannot log in',
+      });
+    }
+    
     const match = await comparePassword(password, user.password);
     if (!match) {
       return res.status(200).send({
@@ -114,7 +145,7 @@ export const loginController = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        phone: user.email,
+        phone: user.phone,
         address: user.address,
         role: user.role,
       },
@@ -130,43 +161,6 @@ export const loginController = async (req, res) => {
   }
 };
 
-// FORGOT PASSWORD
-export const forgotPasswordController = async (req, res) => {
-  try {
-    const { email, answer, newPassword } = req.body;
-    if (!email) {
-      res.status(400).send({ message: "Email is required" });
-    }
-    if (!answer) {
-      res.status(400).send({ message: "Answer is required" });
-    }
-    if (!newPassword) {
-      res.status(400).send({ message: "Enter New Password" });
-    }
-    // Check
-    const user = await userModel.findOne({ email, answer });
-    // Validation
-    if (!user) {
-      return res.status(404).send({
-        success: false,
-        message: "Wrong Email Or Answer",
-      });
-    }
-    const hashed = await hashPassword(newPassword);
-    await userModel.findByIdAndUpdate(user._id, { password: hashed });
-    res.status(200).send({
-      success: true,
-      message: "Password Reset Successfully",
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      success: false,
-      message: "Something went wrong",
-      error,
-    });
-  }
-};
 
 // TEST CONTROLLER
 export const testController = (req, res) => {
@@ -178,7 +172,7 @@ export const testController = (req, res) => {
 export const updateProfileController = async (req, res) => {
     try {
 
-            const { name, password, address, phone } = req.body;
+            const { name, /*password*/  address, phone } = req.body;
             const user = await userModel.findById(req.user._id);
         
             console.log("Request Body:", req.body); // Debugging log
@@ -199,12 +193,12 @@ export const updateProfileController = async (req, res) => {
               });
             }
         
-            if (password && typeof password !== 'string') {
+            /*if (password && typeof password !== 'string') {
               return res.status(400).json({
                 success: false,
                 message: 'Invalid password format',
               });
-            }
+            }*/
         
             if (address && typeof address !== 'string') {
               return res.status(400).json({
@@ -223,7 +217,7 @@ export const updateProfileController = async (req, res) => {
         
             // Update user properties with the new values
             user.name = name || user.name;
-            user.password = password ? await hashPassword(password) : user.password;
+            //user.password = password ? await hashPassword(password) : user.password;
             user.address = address || user.address;
             user.phone = phone || user.phone;
         

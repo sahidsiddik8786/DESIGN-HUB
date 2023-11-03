@@ -135,8 +135,100 @@
   align-items: center;
   height: 100vh;
   /* Set the background image URL relative to the CSS file */
-  background-image: url('https://img.freepik.com/free-photo/armchair-green-living-room-with-copy-space_43614-910.jpg?w=996&t=st=1696340858~exp=1696341458~hmac=f2a7d7c0c75c9ab3d73ff59d8b0c91ab4ef00bb86725e7f0e84b5d79ad2c4ce9');
+  background-image: url('C:\Users\sahid\OneDrive\Desktop\DESIGN-HUB\designstudio\client\public\assets\img\hero\h1_hero.jpg');
   background-size: cover; /* Adjust the background-size as needed */
   background-position: center; /* Adjust the background-position as needed */
   background-repeat: no-repeat; /* Prevent background image repetition */
+}
+/* form.css */
+
+/* Style for the main container of the form */
+.form-container {
+  text-align: center;
+  padding: 20px;
+}
+
+/* Style for form input fields */
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Style for the Submit button */
+.submit-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+/* CSS for OTP input field */
+.otp-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px; /* Adjust font size as needed */
+}
+
+/* Optionally, you can add styling for the OTP label */
+.otp-label {
+  font-size: 14px; /* Adjust font size as needed */
+  color: #333; /* Text color */
+  margin-bottom: 5px;
+}
+
+/* Add any additional styling you want here */
+
+/* Add your CSS styles here */
+.form {
+  /* Styles for the entire form */
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.form-title {
+  /* Styles for the form title */
+  font-size: 24px;
+  color: #333;
+}
+
+.input-label {
+  /* Styles for input labels */
+  font-weight: bold;
+}
+
+.input-field {
+  /* Styles for input fields */
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submit-button {
+  /* Styles for the submit button */
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-text {
+  /* Styles for the form text (e.g., login link) */
+  margin-top: 10px;
 }

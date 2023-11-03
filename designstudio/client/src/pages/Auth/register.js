@@ -5,6 +5,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
+import 'popper.js/dist/umd/popper.min.js';
+import "bootstrap/dist/css/bootstrap.min.css";
+import { GoogleOAuthProvider,GoogleLogin } from '@react-oauth/google';
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -12,11 +17,23 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [answer, setAnswer] = useState("");
   
   const [passwordStrength, setPasswordStrength] = useState("weak");
   const navigate = useNavigate();
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  const [selectedCountryCode, setSelectedCountryCode] = useState("+1");
 
+  /*const sendVerificationEmail = () => {
+    axios.post('http://localhost:3001/send-verification-email', { email })
+      .then((response) => {
+        console.log(response.data);
+        // Handle the response as needed
+      })
+      .catch((error) => {
+        console.error(error);
+        // Handle the error as needed
+      });
+  };*/
   const handleWhitespaceValidation = (value) => {
     // Check for leading whitespace
     if (value.startsWith(" ")) {
@@ -75,7 +92,7 @@ const Register = () => {
     e.preventDefault();
 
     // Basic validation
-    if (!name || !email || !password || !phone || !address || !answer) {
+    if (!name || !email || !password || !phone || !address) {
       toast.error("Please fill in all fields.");
       return;
     }
@@ -93,7 +110,6 @@ const Register = () => {
     if (!handleWhitespaceValidation(password)) return;
     if (!handleWhitespaceValidation(phone)) return;
     if (!handleWhitespaceValidation(address)) return;
-    if (!handleWhitespaceValidation(answer)) return;
 
     // Name validation
     if (!handleNameValidation(name)) return;
@@ -119,7 +135,6 @@ const Register = () => {
         password,
         phone,
         address,
-        answer,
       });
       if (res && res.data.success) {
         toast.success(res.data.message);
@@ -137,9 +152,9 @@ const Register = () => {
 
   return (
     <Layout title="Register - Ecommer App">
-      <div className="form-container" style={{ minHeight: "90vh" }}>
-        <form onSubmit={handleSubmit}>
-          <h4 className="title">REGISTER FORM</h4>
+      <div className="form-container">
+        <form className="rounded p-4 bg-light" onSubmit={handleSubmit}>
+          <h4 className="title">Sign Up</h4>
           <div className="mb-3">
             <input
               type="text"
@@ -149,12 +164,13 @@ const Register = () => {
                 handleWhitespaceValidation(e.target.value);
                 handleNameValidation(e.target.value);
               }}
-              className="form-control"
+              className="form-control mb-2 rounded"
               placeholder="Enter Your Username"
               required
               autoFocus
             />
           </div>
+
           <div className="mb-3">
             <input
               type="email"
@@ -163,11 +179,12 @@ const Register = () => {
                 setEmail(e.target.value);
                 handleWhitespaceValidation(e.target.value);
               }}
-              className="form-control"
+              className="form-control mb-2 rounded"
               placeholder="Enter Your Email"
               required
             />
           </div>
+
           <div className="mb-3">
             <input
               type="password"
@@ -177,27 +194,43 @@ const Register = () => {
                 handleWhitespaceValidation(e.target.value);
                 handlePasswordStrength(e.target.value);
               }}
-              className="form-control"
+              className="form-control mb-2 rounded"
               placeholder="Enter Your Password"
               required
             />
             <div className={`password-strength ${passwordStrength}`} />
           </div>
+
           <div className="mb-3">
-            <input
-              type="text"
-              value={phone}
-              onChange={(e) => {
-                setPhone(e.target.value);
-                handleWhitespaceValidation(e.target.value);
-                handlePhoneValidation(e.target.value);
-                handlePhoneZeroValidation(e.target.value);
-              }}
-              className="form-control"
-              placeholder="Enter Your Phone"
-              required
-            />
+  <div className="input-group">
+    <div className="input-group-prepend">
+      <select
+        className="form-control rounded"
+        value={selectedCountryCode}
+        onChange={(e) => setSelectedCountryCode(e.target.value)}
+      >
+        <option value="+1">+1 (US)</option>
+        <option value="+91">+91 (IN)</option>
+        <option value="+44">+44 (UK)</option>
+        {/* Add more country code options as needed */}
+      </select>
+    </div>
+    <input
+      type="text"
+      value={phone}
+      onChange={(e) => {
+        setPhone(e.target.value);
+        handleWhitespaceValidation(e.target.value);
+        handlePhoneValidation(e.target.value);
+        handlePhoneZeroValidation(e.target.value);
+      }}
+      className="form-control rounded mb-2"
+      placeholder="Phone Number"
+      required
+    />
+  </div>
           </div>
+
           <div className="mb-3">
             <input
               type="text"
@@ -206,28 +239,27 @@ const Register = () => {
                 setAddress(e.target.value);
                 handleWhitespaceValidation(e.target.value);
               }}
-              className="form-control"
-              placeholder="Enter Your Address"
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              value={answer}
-              onChange={(e) => {
-                setAnswer(e.target.value);
-                handleWhitespaceValidation(e.target.value);
-              }}
-              className="form-control"
-              placeholder="Favorite color ? "
+              className="form-control mb-2 rounded"
+              placeholder="Address"
               required
             />
           </div>
 
-          <button type="submit" className="btn btn-primary">
-            REGISTER
+          <button type="submit" className="btn-primary rounded-pill">
+            Sign Up
           </button>
+          <div className="mt-3  rounded-pill" >
+          <GoogleOAuthProvider clientId="1024520067027-654iu66ttlfcksukd5r1orfjl8hfffsi.apps.googleusercontent.com">
+              <GoogleLogin
+        onSuccess={credentialResponse => {
+          console.log(credentialResponse);
+        }}
+        onError={() => {
+          console.log('Login Failed');
+        }}
+        />
+          </GoogleOAuthProvider>
+          </div>
         </form>
         <Toaster />
       </div>

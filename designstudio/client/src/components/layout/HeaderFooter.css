@@ -67,3 +67,16 @@
   font-family: "Your Custom Font", serif; /* Change the font style as needed */
   /* Add other styles like color, size, etc. */
 }
+
+
+/* Add any additional styling you need */
+.header-wrapper {
+ /*  position: fixed;*/
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Ensure it's above other elements */
+ /* height: 100px; /* Adjust the height to your preference */
+}
+
+/* Customize other header styles as needed */

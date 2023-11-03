@@ -8,267 +8,406 @@ const HomePage = () => {
 
   return (
     <Layout title={"Design Studio"}>
-      <header id="header">
-        <div className="intro">
-          <div className="overlay">
-            <div className="container">
-              <div className="row">
-                <div className="intro-text">
-                  <h1>
-                    <strong>NEST</strong> <span>/</span> Interior Design Studio
-                  </h1>
-                  <p>Lorem ipsum dolor sit amet consectetur adipiscing.</p>
-                  <a
-                    href="#about"
-                    className="btn btn-custom btn-lg page-scroll"
-                  >
-                    Learn More
-                  </a>{" "}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-      {/* About Section */}
-      <div id="about">
-        <div className="container">
-          <div className="section-title text-center center">
-            <h2>Our Story</h2>
-            <hr />
-          </div>
-          <div className="row">
-            <div className="col-xs-12 col-md-6 text-center">
-              <img
-                src="img/about.jpg"
-                className="img-responsive"
-                alt=""
-              />
-            </div>
-            <div className="col-xs-12 col-md-6">
-              <div className="about-text">
-                <h3>The Studio</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Duis sed dapibus leo nec ornare diam. Sed commodo nibh ante
-                  facilisis bibendum dolor feugiat at. Duis sed dapibus leo
-                  nec ornare diam commodo nibh.
-                </p>
-                <h3>How We Work</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Duis sed dapibus leo nec ornare diam. Sed commodo nibh ante
-                  facilisis bibendum dolor feugiat at. Duis sed dapibus leo
-                  nec ornare.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* Services Section */}
-      <div id="services">
-        <div className="container">
-          <div className="col-md-10 col-md-offset-1 section-title text-center">
-            <h2>Our Services</h2>
-            <hr />
-            <p></p>
-          </div>
-          <div className="row">
-            <div className="col-xs-12 col-sm-4 service">
-              <img
-                src="img/residential-design.jpg"
-                className="img-responsive"
-                alt="Project Title"
-              />
-            </div>
-            <div className="col-xs-12 col-sm-4 service">
-              <img
-                src="img/office-design.jpg"
-                className="img-responsive"
-                alt="Project Title"
-              />
-            </div>
-            <div className="col-xs-12 col-sm-4 service">
-              <img
-                src="img/commercial-design.jpg"
-                className="img-responsive"
-                alt="Project Title"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* Portfolio Section */}
-      <div id="portfolio">
-        <div className="container">
-          <div className="section-title text-center center">
-            <h2>Projects</h2>
-            <hr />
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit duis sed
-              dapibus leonec.
-            </p>
-          </div>
-          <div className="categories">
-            <ul className="cat">
-              <li>
-                <ol className="type">
-                  <li>
-                    <a href="#" data-filter="*" className="active">
-                      All Projects
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" data-filter=".residential">
-                      Residential
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" data-filter=".office">
-                      Office
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" data-filter=".commercial">
-                      Commercial
-                    </a>
-                  </li>
-                </ol>
-              </li>
-            </ul>
-            <div className="clearfix" />
-          </div>
-          <div className="row">
-            <div className="portfolio-items">
-              {/* Add your portfolio items here */}
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* Team Section */}
-      <div id="team" className="text-center">
-        <div className="overlay">
+
+<>
+
+  <main>
+
+    <div className="slider-area">
+      <div className="slider-active dot-style">
+
+
+        <div className="single-slider slider-height hero-overly d-flex align-items-center">
           <div className="container">
-            <div className="col-md-8 col-md-offset-2 section-title">
-              <h2>Meet the Team</h2>
-              <hr />
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit duis sed
-                dapibus leonec.
-              </p>
-            </div>
-            <div id="row">
-              <div className="col-md-3 col-sm-6 team">
-                <div className="thumbnail">
-                  <img src="img/team/01.jpg" alt="..." className="team-img" />
-                  <div className="caption">
-                    <h3>John Doe</h3>
-                    <p>Director</p>
-                  </div>
+            <div className="row">
+              <div className="col-xl-6 col-lg-6">
+                <div className="hero__caption">
+                  <span data-animation="fadeInLeft" data-delay=".4s">
+                    Welcome to Intorior
+                  </span>
+                  <h1 data-animation="fadeInLeft" data-delay=".6s">
+                    Modern Interior &amp; Design
+                  </h1>
                 </div>
               </div>
-              <div className="col-md-3 col-sm-6 team">
-                <div className="thumbnail">
-                  <img
-                    src="img/team/02.jpg"
-                    alt="..."
-                    className="img-circle team-img"
-                  />
-                  <div className="caption">
-                    <h3>Mike Doe</h3>
-                    <p>Senior Designer</p>
-                  </div>
-                </div>
-              </div>
-              {/* Add more team members here */}
             </div>
           </div>
         </div>
       </div>
-      {/* Contact Section */}
-      <div id="contact">
-        <div className="container">
-          <div className="section-title text-center">
-            <h2>Contact Us</h2>
-            <hr />
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit duis sed
-              dapibus leonec.
-            </p>
-          </div>
-          <div className="col-md-4">
-            <h3>Contact Info</h3>
-            <div className="contact-item">
-              <span>Address</span>
-              <p>
-                4321 California St,
-                <br />
-                San Francisco, CA 12345
-              </p>
-            </div>
-            <div className="contact-item">
-              <span>Email</span>
-              <p>info@company.com</p>
-            </div>
-            <div className="contact-item">
-              <span>Phone</span>
-              <p> +1 123 456 1234</p>
+
+    </div>
+
+    <div className="services-area section-padding3">
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="cl-xl-7 col-lg-8 col-md-10">
+     
+            <div className="section-tittle text-center mb-70">
+              <span>Our Professional Services</span>
+              <h2>Best Interitor Services</h2>
             </div>
           </div>
-          <div className="col-md-8">
-            <h3>Leave us a message</h3>
-            <form
-              name="sentMessage"
-              id="contactForm"
-              noValidate=""
-            >
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      id="name"
-                      className="form-control"
-                      placeholder="Name"
-                      required="required"
-                    />
-                    <p className="help-block text-danger" />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <input
-                      type="email"
-                      id="email"
-                      className="form-control"
-                      placeholder="Email"
-                      required="required"
-                    />
-                    <p className="help-block text-danger" />
-                  </div>
-                </div>
+        </div>
+        <div className="row">
+          <div className="col-lg-4 col-md-6 col-sm-10">
+            <div className="single-services mb-200">
+              <div className="services-img">
+                <img src="assets/img/gallery/services1.png" alt="" />
               </div>
-              <div className="form-group">
-                <textarea
-                  name="message"
-                  id="message"
-                  className="form-control"
-                  rows={4}
-                  placeholder="Message"
-                  required=""
-                  defaultValue={""}
-                />
-                <p className="help-block text-danger" />
+              <div className="services-caption">
+                <h3>
+                  <a href="services.html">Lighting</a>
+                </h3>
+                <p className="pera1">For each project we establish </p>
+                <p className="pera2">
+                  For each project we establish relationships with partners who
+                  we know will help us.{" "}
+                </p>
               </div>
-              <div id="success" />
-              <button type="submit" className="btn btn-custom btn-lg">
-                Send Message
-              </button>
-            </form>
+            </div>
+          </div>
+          <div className="col-lg-4 col-md-6 col-sm-10">
+            <div className="single-services mb-200">
+              <div className="services-img">
+                <img src="assets/img/gallery/services2.png" alt="" />
+              </div>
+              <div className="services-caption">
+                <h3>
+                  <a href="services.html">Interior Design</a>
+                </h3>
+                <p className="pera1">For each project we establish </p>
+                <p className="pera2">
+                  For each project we establish relationships with partners who
+                  we know will help us.{" "}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-4 col-md-6 col-sm-10">
+            <div className="single-services mb-200">
+              <div className="services-img">
+                <img src="assets/img/gallery/services3.png" alt="" />
+              </div>
+              <div className="services-caption">
+                <h3>
+                  <a href="services.html">Office Decoretion</a>
+                </h3>
+                <p className="pera1">For each project we establish </p>
+                <p className="pera2">
+                  For each project we establish relationships with partners who
+                  we know will help us.{" "}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+
+    <div className="gallery-area">
+      <div className="container-fluid p-0 fix">
+        <div className="row">
+          <div className="col-xl-6 col-lg-4 col-md-6">
+            <div className="single-gallery mb-30">
+              <div
+                className="gallery-img"
+                style={{
+                  backgroundImage: "url(assets/img/gallery/gallery1.png)"
+                }}
+              />
+              <div className="thumb-content-box">
+                <div className="thumb-content">
+                  <h3>
+                    <span>Intorior</span>Burj Khalifa
+                  </h3>
+                  <a href="work.html">
+                    <i className="fas fa-angle-right" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-xl-3 col-lg-4 col-md-6">
+            <div className="single-gallery mb-30">
+              <div
+                className="gallery-img"
+                style={{
+                  backgroundImage: "url(assets/img/gallery/gallery2.png)"
+                }}
+              />
+              <div className="thumb-content-box">
+                <div className="thumb-content">
+                  <h3>
+                    <span>Intorior</span>Burj Khalifa
+                  </h3>
+                  <a href="work.html">
+                    <i className="fas fa-angle-right" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-xl-3 col-lg-4 col-md-6">
+            <div className="single-gallery mb-30">
+              <div
+                className="gallery-img"
+                style={{
+                  backgroundImage: "url(assets/img/gallery/gallery3.png)"
+                }}
+              />
+              <div className="thumb-content-box">
+                <div className="thumb-content">
+                  <h3>
+                    <span>Intorior</span>Burj Khalifa
+                  </h3>
+                  <a href="work.html">
+                    <i className="fas fa-angle-right" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-xl-3 col-lg-4 col-md-6">
+            <div className="single-gallery mb-30">
+              <div
+                className="gallery-img"
+                style={{
+                  backgroundImage: "url(assets/img/gallery/gallery4.png)"
+                }}
+              />
+              <div className="thumb-content-box">
+                <div className="thumb-content">
+                  <h3>
+                    <span>Intorior</span>Burj Khalifa
+                  </h3>
+                  <a href="work.html">
+                    <i className="fas fa-angle-right" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-xl-3 col-lg-4 col-md-6">
+            <div className="single-gallery mb-30">
+              <div
+                className="gallery-img"
+                style={{
+                  backgroundImage: "url(assets/img/gallery/gallery5.png)"
+                }}
+              />
+              <div className="thumb-content-box">
+                <div className="thumb-content">
+                  <h3>
+                    <span>Intorior</span>Burj Khalifa
+                  </h3>
+                  <a href="work.html">
+                    <i className="fas fa-angle-right" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-xl-6 col-lg-4 col-md-6">
+            <div className="single-gallery mb-30">
+              <div
+                className="gallery-img"
+                style={{
+                  backgroundImage: "url(assets/img/gallery/gallery6.png)"
+                }}
+              />
+              <div className="thumb-content-box">
+                <div className="thumb-content">
+                  <h3>
+                    <span>Intorior</span>Burj Khalifa
+                  </h3>
+                  <a href="work.html">
+                    <i className="fas fa-angle-right" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div className="team-area section-padding30">
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="cl-xl-7 col-lg-8 col-md-10">
+
+            <div className="section-tittle text-center mb-70">
+              <span>Creative derector</span>
+              <h2>Best Interitor Services</h2>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+
+          <div className="col-xl-4 col-lg-4 col-md-6 col-sm-">
+            <div className="single-team mb-30">
+              <div className="team-img">
+                <img src="assets/img/gallery/team2.png" alt="" />
+              </div>
+
+            </div>
+          </div>
+          <div className="col-xl-4 col-lg-4 col-md-6 col-sm-">
+            <div className="single-team mb-30">
+              <div className="team-img">
+                <img src="assets/img/gallery/team3.png" alt="" />
+              </div>
+
+            </div>
+          </div>
+          <div className="col-xl-4 col-lg-4 col-md-6 col-sm-">
+            <div className="single-team mb-30">
+              <div className="team-img">
+                <img src="assets/img/gallery/team1.png" alt="" />
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div className="testimonial-area testimonial-padding">
+      <div className="container">
+
+        <div className="row d-flex justify-content-center">
+          <div className="col-xl-8 col-lg-8 col-md-10">
+            <div className="h1-testimonial-active dot-style">
+
+              <div className="single-testimonial text-center">
+   
+                <div className="testimonial-caption ">
+                  <div className="testimonial-top-cap">
+                    <img src="assets/img/gallery/testi-logo.png" alt="" />
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                      ullamco laboris nisi ut aliquip
+                    </p>
+                  </div>
+      
+                  <div className="testimonial-founder  ">
+                    <div className="founder-img">
+                      <span>
+                        <strong>Christine Eve</strong> - Co Founder
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="single-testimonial text-center">
+         
+                <div className="testimonial-caption ">
+                  <div className="testimonial-top-cap">
+                    <img src="assets/img/gallery/testi-logo.png" alt="" />
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                      ullamco laboris nisi ut aliquip
+                    </p>
+                  </div>
+     
+                  <div className="testimonial-founder  ">
+                    <div className="founder-img">
+                      <span>
+                        <strong>Christine Eve</strong> - Co Founder
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <section className="wantToWork-area w-padding2">
+      <div className="container">
+        <div className="row align-items-center justify-content-between">
+          <div className="col-xl-8 col-lg-8 col-md-8">
+            <div className="wantToWork-caption wantToWork-caption2">
+              <h2>Are you Searching For a First-Class Consultant?</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div className="home-blog-area section-padding30">
+      <div className="container">
+
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="section-tittle text-center mb-70">
+              <span>Our latest blog</span>
+              <h2>Our recent news</h2>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-xl-6 col-lg-6 col-md-6">
+            <div className="home-blog-single mb-30">
+              <div className="blog-img-cap">
+                <div className="blog-img">
+                  <img src="assets/img/gallery/home_blog1.png" alt="" />
+                </div>
+                <ul>
+                  <li className="black-bg">October 27, 2020</li>
+                  <li>By Admin - 30 Likes - 4 Comments</li>
+                </ul>
+                <div className="blog-cap">
+                  <h3>
+                    <a href="blog_details.html">
+                      16 Easy Ideas to Use Everyday Stuff in Kitchen.
+                    </a>
+                  </h3>
+                  <a href="blog_details.html" className="more-btn">
+                    Read more
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-xl-6 col-lg-6 col-md-6">
+            <div className="home-blog-single mb-30">
+              <div className="blog-img-cap">
+                <div className="blog-img">
+                  <img src="assets/img/gallery/home_blog2.png" alt="" />
+                </div>
+                <ul>
+                  <li className="black-bg">October 27, 2020</li>
+                  <li>By Admin - 30 Likes - 4 Comments</li>
+                </ul>
+                <div className="blog-cap">
+                  <h3>
+                    <a href="blog_details.html">
+                      16 Easy Ideas to Use Everyday Stuff in Kitchen.
+                    </a>
+                  </h3>
+                  <a href="blog_details.html" className="more-btn">
+                    Read more
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</>
+
     </Layout>
   );
 };

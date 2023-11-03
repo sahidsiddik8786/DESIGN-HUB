@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Layout from "../../components/layout/Layout";
-import "../../styles/form.css";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import toast from "react-hot-toast";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useAuth } from "../../context/auth";
 import { NavLink } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
+import 'popper.js/dist/umd/popper.min.js';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -45,6 +46,9 @@ const Login = () => {
         password,
       });
 
+      console.log("Server Response:", res);
+
+
       if (res && res.data.success) {
         // Successful login
         toast.success(res.data && res.data.message);
@@ -59,7 +63,13 @@ const Login = () => {
         }, 100);
       } else {
         // Unsuccessful login
-        toast.error(res.data.message);
+        if (res.status === 403) {
+          // User is deactivated, show an error message
+          toast.error("User is deactivated");
+        } else {
+          // Other login errors
+          toast.error(res.data.message);
+        }
       }
     } catch (error) {
       // Something went wrong with the request
@@ -71,8 +81,8 @@ const Login = () => {
   return (
     <Layout title="Login">
       <div className="form-container" style={{ minHeight: "90vh" }}>
-        <form onSubmit={handleSubmit}>
-          <h4 className="title">LOGIN FORM</h4>
+        <form onSubmit={handleSubmit} className="rounded p-4 bg-light">
+          <h4 className="title">Sign In</h4>
 
           <div className="mb-3">
             <input
@@ -100,13 +110,13 @@ const Login = () => {
             {passwordError && <p className="error-text">{passwordError}</p>}
           </div>
           <div className="mb-3">
-            <NavLink to="/forgot-password" className="forgot-link">
+            <NavLink to="/forgotpassword" className="forgot-link">
               Forgot Password
             </NavLink>
           </div>
 
-          <button type="submit" className="btn btn-primary">
-            LOGIN
+          <button type="submit" className="btn-primary rounded-pill">
+            Sign In
           </button>
         </form>
       </div>

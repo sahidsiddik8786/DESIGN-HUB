@@ -2,6 +2,10 @@ import React from "react";
 import AdminMenu from "../../components/layout/AdminMenu";
 import Layout from "../../components/layout/Layout";
 import { useAuth } from "../../context/auth";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
+import 'popper.js/dist/umd/popper.min.js';
+
 
 const AdminDashboard = () => {
   const [auth] = useAuth();

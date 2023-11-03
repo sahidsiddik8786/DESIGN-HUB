@@ -1,86 +1,72 @@
 import React, { useState } from "react";
-
-import Layout from "./../../components/layout/Layout";
+import Layout from "../../components/layout/Layout";
+import "../../styles/form.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import "../../styles/form.css";
+import { Toaster } from "react-hot-toast";
+import { useAuth } from "../../context/auth";
+import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { RecoveryContext } from "../../App";
 
-const ForgotPasssword = () => {
-  const [email, setEmail] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [answer, setAnswer] = useState("");
-
+function MyComponent() {
+  const { setEmail, setPage, email, setOTP } = useContext(RecoveryContext);
   const navigate = useNavigate();
 
-  // form function
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:8080/api/v1/auth/forgot-password", {
-        email,
-        newPassword,
-        answer,
-      });
-      if (res && res.data.success) {
-        toast.success(res.data && res.data.message);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-        navigate("/login");
-      } else {
-        toast.error(res.data.message);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
+  function handleEmailChange(e) {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+    setIsButtonDisabled(!newEmail);
+  }
+
+  function navigateToOtp() {
+    if (email) {
+      const OTP = Math.floor(Math.random() * 9000 + 1000);
+      console.log(OTP);
+      setOTP(OTP);
+
+      axios
+        .post("http://localhost:8080/send_recovery_email", {
+          OTP,
+          recipient_email: email,
+        })
+        .then(() => {
+          setPage("otp");
+          navigate("/otpinput");
+        })
+        .catch(console.log);
+      return;
     }
-  };
+    alert("Please enter your email");
+  }
+
   return (
-    <Layout title={"Forgot Password - Ecommerce APP"}>
-      <div className="form-container ">
-        <form onSubmit={handleSubmit}>
-          <h4 className="title">RESET PASSWORD</h4>
+    <Layout title="Reset Password">
+      <div className="form-container text-center rounded p-4">
+        <form>
+        <h2 className="mb-4">Password Reset</h2>
+        <input
+          type="text"
+          className="form-control rounded-pill"
 
-          <div className="mb-3">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="form-control"
-              id="exampleInputEmail1"
-              placeholder="Enter Your Email "
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              value={answer}
-              onChange={(e) => setAnswer(e.target.value)}
-              className="form-control"
-              id="exampleInputEmail1"
-              placeholder="Enter Your favorite Color ? "
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="form-control"
-              id="exampleInputPassword1"
-              placeholder="Enter New Password"
-              required
-            />
-          </div>
-
-          <button type="submit" className="btn btn-primary">
-            RESET
-          </button>
+          placeholder="Email address"
+          onChange={handleEmailChange}
+        />
         </form>
+        <button
+          onClick={navigateToOtp}
+          disabled={isButtonDisabled}
+          className=" btn-primary btn-lg rounded-pill"
+        >
+          Send OTP
+        </button>
       </div>
+      <Toaster />
     </Layout>
   );
-};
+}
 
-export default ForgotPasssword;
+export default MyComponent;
