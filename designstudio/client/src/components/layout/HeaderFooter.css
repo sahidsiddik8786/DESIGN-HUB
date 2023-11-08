@@ -80,3 +80,50 @@
 }
 
 /* Customize other header styles as needed */
+
+
+/* AdminMenu.css */
+.admin-menu {
+  background-color: #ece8e8; /* Set the background color to a standard color */
+  color: #111111; /* Set the text color to white */
+  padding: 20px; /* Add padding for better spacing */
+  border-radius: 8px; /* Add rounded corners */
+  height: 100%; /* Increase the height to fill the container */
+
+  /* Center the text in the header and add styling */
+  .admin-menu-header {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  /* Style the menu items */
+  .list-group-item {
+    background-color: rgb(212, 212, 215)48; /* Set the background color for menu items */
+    border: none; /* Remove borders */
+    color: #0a0a0a; /* Text color for menu items */
+    margin-bottom: 5px; /* Add margin between items */
+  }
+
+  /* Style the active menu item */
+  .list-group-item.active {
+    background-color: #080808;
+  }
+
+  /* Hover effect on menu items */
+  .list-group-item:hover {
+    background-color: #620080;
+  }
+}
+
+
+.search-bar-wrapper {
+  display: flex;
+  justify-content: flex-end; /* Move the search bar to the right */
+  align-items: center; /* Vertically align the content */
+  margin-right: 10px; /* Adjust the margin for spacing */
+}
+
+.nav-link.custom-font {
+  margin-right: 10px; /* Add margin to other nav links for spacing */
+}

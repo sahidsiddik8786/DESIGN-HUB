@@ -9,7 +9,8 @@ import session from 'express-session';
 import userModel from './models/userModel.js';
 import nodemailer from 'nodemailer';
 import bcrypt from 'bcrypt';
-
+import categoryRoutes from "./routes/categoryRoute.js";
+import productRoutes from "./routes/productRoute.js";
 const app = express();
 
 app.use(
@@ -26,6 +27,8 @@ app.use(morgan('dev'));
 app.use(cors());
 
 app.use('/api/v1/auth', authRoutes);
+app.use("/api/v1/category", categoryRoutes);
+app.use("/api/v1/product", productRoutes);
 
 app.get('/', (req, res) => {
   res.send('<h1>Welcome to MERN stack project</h1>');
@@ -69,7 +72,7 @@ function sendEmail({ recipient_email, OTP }) {
         return reject({ message: 'An error has occurred' });
       }
       return resolve({ message: 'Email sent successfully' });
-    });
+    });zzzz
   });
 }
 

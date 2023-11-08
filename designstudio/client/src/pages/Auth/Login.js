@@ -31,6 +31,7 @@ const Login = () => {
     // Validate email
     if (!email) {
       setEmailError("Email is required");
+      toast.error("Email is required");
       return;
     }
 
@@ -74,7 +75,7 @@ const Login = () => {
     } catch (error) {
       // Something went wrong with the request
       console.log(error);
-      toast.error("Something went wrong");
+      toast.error("Contact Admin ");
     }
   };
 

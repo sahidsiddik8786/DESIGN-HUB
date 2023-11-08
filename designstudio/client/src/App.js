@@ -1,5 +1,5 @@
 // App.js
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState} from "react";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import About from "./pages/About";
@@ -23,6 +23,11 @@ import ResetPassword from "./pages/Auth/ResetPassword";
 import Recovered from "./pages/Auth/Recovered";
 import ForgotPassword from "./pages/Auth/ForgotPassword"
 import Users from "./pages/Admin/Users";
+import Products from "./pages/Admin/Products";
+import UpdateProduct from "./pages/Admin/UpdateProduct";
+import Shop from "./pages/Shop";
+import Search from "antd/es/input/Search";
+import ProductDetails from "./pages/ProductDetails";
 const RecoveryContext = createContext();
 
 function App() {
@@ -52,16 +57,23 @@ function App() {
   <Route path="Userdashboard" element={<Userdashboard />} />
   <Route path="Userdashboard/Orders" element={<Orders />} />
   <Route path="Userdashboard/Profile" element={<Profile />} />
+  
 </Route>
 
 <Route path="/Dashboard" element={<AdminRoute />}>
   <Route path="/Dashboard" element={<Dashboard />} />
   <Route path="AdminDashboard" element={<AdminDashboard />} />
   <Route path="AdminDashboard/create-category" element={<CreateCategory />} />
+  <Route path="AdminDashboard/products" element={<Products />} />
   <Route path="AdminDashboard/create-product" element={<CreateProduct />} />
   <Route path="AdminDashboard/users" element={<Users />} />
+  <Route path="AdminDashboard/product/:slug" element={<UpdateProduct />} />
 </Route>
 
+<Route path="/search" element={< Search />} />
+<Route path="/product/:slug" element={< ProductDetails />} />
+<Route path="/searchInput" element={< searchInput/>} />
+<Route path="/shop" element={<Shop />} />
 <Route path="/about" element={<About />} />
 <Route path="/Contact" element={<Contact />} />
 <Route path="/Policy" element={<Policy />} />

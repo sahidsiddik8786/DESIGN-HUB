@@ -216,8 +216,108 @@
     border-radius: 5px;
   }
   
+/* Shop.css */
+
+/* Container styles */
+.container-fluid {
+  background-color: #c4c2c200; /* Set a background color for the container */
+  padding: 20px;
+}
+
+/* Product card styles */
+.card {
+  width: 18rem;
+  margin: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a box shadow */
+  background-color: #fff;
+}
+
+.card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a hover effect */
+  transform: scale(1.02); /* Scale the card on hover */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 0.9rem;
+}
+
+.card-img-top {
+  max-height: 200px; /* Set a maximum height for the product images */
+  object-fit: contain; /* Maintain aspect ratio and contain the image */
+}
+
+/* Button styles */
+.card-body .btn {
+  margin: 8px 4px; /* Add some spacing between the buttons */
+}
+
+/* Reset filter button style */
+.btn-danger {
+  background-color: #dc3545; /* Change background color to red */
+  color: #fff;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #c82333; /* Change background color on hover */
+}
+
+/* Load more button style */
+.btn-warning {
+  background-color: #ffc107; /* Change background color to yellow */
+  color: #212529;
+  border: none;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800; /* Change background color on hover */
+}
 
 
+/* Shop.css */
+
+/* Add styles for the menu button */
+.menu-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+/* Add styles for the open menu */
+.open {
+  transform: translateX(0); /* Slide in from the left */
+}
+
+/* Add styles for the menu content */
+.menu-content {
+  transform: translateX(-100%); /* Initially slide out to the left */
+  transition: transform 0.3s ease-in-out;
+  background-color: #f5f5f5;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 70%; /* Adjust the width of the menu as needed */
+  z-index: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Additional styling for the menu */
+.menu-content h4 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* ... Add more styling as needed */
 
 
 

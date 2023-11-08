@@ -20,8 +20,8 @@ const Register = () => {
   
   const [passwordStrength, setPasswordStrength] = useState("weak");
   const navigate = useNavigate();
-  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  const [selectedCountryCode, setSelectedCountryCode] = useState("+1");
+  //const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  //const [selectedCountryCode, setSelectedCountryCode] = useState("+1");
 
   /*const sendVerificationEmail = () => {
     axios.post('http://localhost:3001/send-verification-email', { email })
@@ -63,8 +63,19 @@ const Register = () => {
       toast.error("Phone number should contain only numbers.");
       return false;
     }
+  
+    // Check if the phone number is of a valid length (e.g., 10 digits for a standard phone number)
+    if (value.length !== 10) {
+      toast.dismiss();
+      toast.error("Phone number should be 10 digits long.");
+      return false;
+    }
+  
+    // Add any other custom phone number validation rules here
+  
     return true;
   };
+  
 
   const handlePhoneZeroValidation = (value) => {
     // Check if the value contains 10 consecutive zeros
@@ -83,11 +94,15 @@ const Register = () => {
       setPasswordStrength("strong");
     } else if (value.length >= 8) {
       setPasswordStrength("moderate");
+      toast.dismiss();
+      toast.error("Password is too weak. It should contain at least one letter and one number.");
     } else {
       setPasswordStrength("weak");
+      toast.dismiss();
+      toast.error("Password is too weak. It should contain at least one letter and one number.");
     }
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -151,7 +166,7 @@ const Register = () => {
   };
 
   return (
-    <Layout title="Register - Ecommer App">
+    <Layout title="Register">
       <div className="form-container">
         <form className="rounded p-4 bg-light" onSubmit={handleSubmit}>
           <h4 className="title">Sign Up</h4>
@@ -171,7 +186,7 @@ const Register = () => {
             />
           </div>
 
-          <div className="mb-3">
+          <div className="mb-2">
             <input
               type="email"
               value={email}
@@ -185,7 +200,7 @@ const Register = () => {
             />
           </div>
 
-          <div className="mb-3">
+          <div className="mb-2">
             <input
               type="password"
               value={password}
@@ -201,9 +216,9 @@ const Register = () => {
             <div className={`password-strength ${passwordStrength}`} />
           </div>
 
-          <div className="mb-3">
+          <div className="mb-2">
   <div className="input-group">
-    <div className="input-group-prepend">
+   {/* <div className="input-group-prepend">
       <select
         className="form-control rounded"
         value={selectedCountryCode}
@@ -212,9 +227,8 @@ const Register = () => {
         <option value="+1">+1 (US)</option>
         <option value="+91">+91 (IN)</option>
         <option value="+44">+44 (UK)</option>
-        {/* Add more country code options as needed */}
       </select>
-    </div>
+            </div>*/}
     <input
       type="text"
       value={phone}
@@ -231,7 +245,7 @@ const Register = () => {
   </div>
           </div>
 
-          <div className="mb-3">
+          <div className="mb-2">
             <input
               type="text"
               value={address}
@@ -248,7 +262,7 @@ const Register = () => {
           <button type="submit" className="btn-primary rounded-pill">
             Sign Up
           </button>
-          <div className="mt-3  rounded-pill" >
+          <div className="mt-2  rounded-pill" >
           <GoogleOAuthProvider clientId="1024520067027-654iu66ttlfcksukd5r1orfjl8hfffsi.apps.googleusercontent.com">
               <GoogleLogin
         onSuccess={credentialResponse => {

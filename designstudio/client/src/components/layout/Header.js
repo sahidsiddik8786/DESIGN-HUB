@@ -1,11 +1,13 @@
 import React from "react";
 import { NavDropdown, Navbar, Nav } from "react-bootstrap";
 import { useAuth } from "../../context/auth";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./HeaderFooter.css"; // Import your custom CSS file
+import SearchInput from "../Form/Searchinput";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
+  const location = useLocation();
 
   const handleLogout = () => {
     localStorage.removeItem("auth");
@@ -16,25 +18,34 @@ const Header = () => {
     });
   };
 
+  const isShopPage = location.pathname === "/Shop";
+
   return (
     <Navbar bg="black" expand="lg" variant="lg" className="navbar-custom">
       <div className="container-fluid">
         <Navbar.Toggle aria-controls="navbarTogglerDemo01" />
         <Navbar.Collapse id="navbarTogglerDemo01">
           <Link to="/" className="navbar-brand">
-            <span className="design-studio custom-font">Design Studio</span>
+            <img
+              src="assets/img/logo/company logo.png"
+              alt=""
+              style={{ width: "140px", height: "auto" }}
+            />
           </Link>
           <Nav className="ms-auto mb-2 mb-lg-0">
+          <div className="search-bar-wrapper"> {/* Add this wrapper */}
+              {isShopPage && <SearchInput />}
+            </div>
             <Nav.Link as={Link} to="/" className="nav-link custom-font">
               Home
             </Nav.Link>
             {!auth.user ? (
               <>
                 <Nav.Link as={Link} to="/register" className="nav-link custom-font">
-                  Register
+                  Sign Up
                 </Nav.Link>
                 <Nav.Link as={Link} to="/login" className="nav-link custom-font">
-                  Login
+                  Sign In
                 </Nav.Link>
               </>
             ) : (
@@ -62,6 +73,10 @@ const Header = () => {
                 </NavDropdown.Item>
               </NavDropdown>
             )}
+            <Nav.Link as={Link} to="/Shop" className="nav-link custom-font">
+              Shop
+            </Nav.Link>
+
             <Nav.Link as={Link} to="/Dashboard" className="nav-link custom-font">
               Cart
             </Nav.Link>

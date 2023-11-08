@@ -2,25 +2,62 @@ import React from "react";
 import AdminMenu from "../../components/layout/AdminMenu";
 import Layout from "../../components/layout/Layout";
 import { useAuth } from "../../context/auth";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.min.js';
-import 'popper.js/dist/umd/popper.min.js';
-
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
+import "popper.js/dist/umd/popper.min.js";
+import './Users.css';
 
 const AdminDashboard = () => {
   const [auth] = useAuth();
+
   return (
     <Layout>
-      <div className="container-fluid m-3 p-3 ">
+      <div className="container-fluid m-3 p-3">
         <div className="row">
           <div className="col-md-3">
             <AdminMenu />
           </div>
-          <div className="col-md-9">
-            <div className="card w-75 p-3">
-              <h3> Admin Name : {auth?.user?.name}</h3>
-              <h3> Admin Email : {auth?.user?.email}</h3>
-              <h3> Admin Contact : {"9207707172"}</h3>
+          <div className="col-md-9 content-area">
+            <div className="card p-3">
+              <h2>Admin Dashboard</h2>
+              <form>
+                <div className="mb-3">
+                  <label htmlFor="name" className="form-label">
+                    Admin Name:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="name"
+                    value={auth?.user?.name}
+                    readOnly
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">
+                    Admin Email:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="email"
+                    value={auth?.user?.email}
+                    readOnly
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="contact" className="form-label">
+                    Admin Contact:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="contact"
+                    value={auth?.user?.phone}
+                    readOnly
+                  />
+                </div>
+              </form>
             </div>
           </div>
         </div>
