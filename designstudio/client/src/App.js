@@ -67,7 +67,7 @@ function App() {
   <Route path="AdminDashboard/products" element={<Products />} />
   <Route path="AdminDashboard/create-product" element={<CreateProduct />} />
   <Route path="AdminDashboard/users" element={<Users />} />
-  <Route path="AdminDashboard/product/:slug" element={<UpdateProduct />} />
+  <Route path="admin/product/:slug" element={<UpdateProduct />} />
 </Route>
 
 <Route path="/search" element={< Search />} />

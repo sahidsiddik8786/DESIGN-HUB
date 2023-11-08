@@ -2,8 +2,8 @@
 
 /* Styles for the footer container */
 .footer {
-    background-color: #333;
-    color: white;
+    background-color: #000000;
+    color: rgb(18, 1, 1);
     padding: 20px 0;
   }
   
@@ -14,8 +14,8 @@
   
   /* Style for the "Back to Top" button */
   .back-to-top {
-    background-color: #140206;
-    color: white;
+    background-color: #a7a3a4;
+    color: rgb(9, 9, 9);
     border: none;
     border-radius: 3px;
     padding: 10px 20px;
@@ -25,7 +25,7 @@
   
   /* Style for the "Back to Top" button on hover */
   .back-to-top:hover {
-    background-color: #f4f5f7;
+    background-color: #535252;
   }
  /* Header.css */
 .navbar-custom {
@@ -76,7 +76,7 @@
   left: 0;
   right: 0;
   z-index: 1000; /* Ensure it's above other elements */
- /* height: 100px; /* Adjust the height to your preference */
+ height: 100px; /* Adjust the height to your preference */
 }
 
 /* Customize other header styles as needed */
