@@ -28,6 +28,7 @@ import UpdateProduct from "./pages/Admin/UpdateProduct";
 import Shop from "./pages/Shop";
 import Search from "antd/es/input/Search";
 import ProductDetails from "./pages/ProductDetails";
+import CartPage from "./pages/CartPage";
 const RecoveryContext = createContext();
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
   <Route path="admin/product/:slug" element={<UpdateProduct />} />
 </Route>
 
+<Route path="/cart" element={< CartPage />} />
 <Route path="/search" element={< Search />} />
 <Route path="/product/:slug" element={< ProductDetails />} />
 <Route path="/searchInput" element={< searchInput/>} />

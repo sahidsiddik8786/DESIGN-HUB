@@ -77,7 +77,7 @@ const Header = () => {
               Shop
             </Nav.Link>
 
-            <Nav.Link as={Link} to="/Dashboard" className="nav-link custom-font">
+            <Nav.Link as={Link} to="/cart" className="nav-link custom-font">
               Cart
             </Nav.Link>
           </Nav>

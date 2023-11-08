@@ -6,7 +6,9 @@ import { Checkbox, Radio } from "antd";
 import { Prices } from "../components/Router/Prices";
 import SearchInput from "../components/Form/Searchinput";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/cart";
 const Shop = () => {
+  const [cart,setCart] =useCart()
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -185,7 +187,7 @@ const Shop = () => {
                   >
                     More Details
                   </button>
-                  <button className=" btn-secondary ms-1">
+                  <button className=" btn-secondary ms-1" >
                     ADD TO CART
                   </button>
                 </div>
