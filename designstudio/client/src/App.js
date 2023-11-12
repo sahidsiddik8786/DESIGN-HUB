@@ -29,6 +29,7 @@ import Shop from "./pages/Shop";
 import Search from "./pages/Search";
 import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/CartPage";
+import AdminOrders from "./pages/Admin/AdminOrders";
 const RecoveryContext = createContext();
 
 function App() {
@@ -69,6 +70,7 @@ function App() {
   <Route path="AdminDashboard/create-product" element={<CreateProduct />} />
   <Route path="AdminDashboard/users" element={<Users />} />
   <Route path="admin/product/:slug" element={<UpdateProduct />} />
+  <Route path="admin/orders" element={<AdminOrders />} />
 </Route>
 
 <Route path="/cart" element={<CartPage />} />
