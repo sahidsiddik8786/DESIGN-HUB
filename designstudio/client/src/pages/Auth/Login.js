@@ -52,17 +52,31 @@ const Login = () => {
 
       if (res && res.data.success) {
         // Successful login
+      
+        // Display a success toast message
         toast.success(res.data && res.data.message);
+      
+        // Update the authentication state with user information and token
         setAuth({
           ...auth,
           user: res.data.user,
           token: res.data.token,
         });
+      
+        // Store authentication data in local storage
         localStorage.setItem("auth", JSON.stringify(res.data));
+      
+        // Redirect after a short delay
         setTimeout(() => {
-          navigate(location.state || "/");
+          // Determine the destination based on the user's role
+          const destination = auth.user?.role === "1" ? "/Dashboard/AdminDashboard" : "/";
+      
+          // Redirect to the determined destination
+          navigate(location.state || destination);
         }, 100);
-      } else {
+      }
+      
+       else {
         // Unsuccessful login
         if (res.status === 403) {
           // User is deactivated, show an error message
@@ -127,3 +141,4 @@ const Login = () => {
 };
 
 export default Login;
+

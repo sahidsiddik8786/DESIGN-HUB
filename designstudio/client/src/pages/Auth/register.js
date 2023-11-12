@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Layout from "../../components/layout/Layout";
 import "../../index.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,6 +10,7 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import 'popper.js/dist/umd/popper.min.js';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { GoogleOAuthProvider,GoogleLogin } from '@react-oauth/google';
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -274,6 +275,7 @@ const Register = () => {
         />
           </GoogleOAuthProvider>
           </div>
+            <p>Already have an account? <Link to="/login">Login</Link></p>
         </form>
         <Toaster />
       </div>

@@ -72,7 +72,7 @@ function sendEmail({ recipient_email, OTP }) {
         return reject({ message: 'An error has occurred' });
       }
       return resolve({ message: 'Email sent successfully' });
-    });zzzz
+    });
   });
 }
 

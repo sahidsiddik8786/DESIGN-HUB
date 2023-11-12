@@ -2,13 +2,13 @@ import React, { useState, useContext } from "react";
 import { RecoveryContext } from "../../App";
 import axios from "axios";
 import "../../index.css";
-import { useNavigate } from "react-router-dom"; // Removed unnecessary useLocation import
+import { useNavigate } from "react-router-dom";
 
 function OTPInput() {
   const { email, otp, setPage } = useContext(RecoveryContext);
   const [OTPinput, setOTPinput] = useState(["", "", "", ""]);
   const [disable, setDisable] = useState(false);
-  const navigate = useNavigate(); // Get the navigation function
+  const navigate = useNavigate();
 
   function resendOTP() {
     if (disable) return;
@@ -31,6 +31,17 @@ function OTPInput() {
     }
   }
 
+  const handleInputChange = (value, index) => {
+    const newInput = [...OTPinput];
+    newInput[index] = value;
+    setOTPinput(newInput);
+
+    if (index < 3 && value) {
+      // If the current input box is not the last one and has a value, focus on the next box
+      document.getElementById(`otp-input-${index + 1}`).focus();
+    }
+  };
+
   return (
     <div className="container">
       <div className="wrapper">
@@ -46,24 +57,18 @@ function OTPInput() {
                 type="text"
                 maxLength="1"
                 value={value}
-                onChange={(e) => setOTPinput(OTPinput.map((v, i) => (i === index ? e.target.value : v)))}
+                onChange={(e) => handleInputChange(e.target.value, index)}
+                id={`otp-input-${index}`}
               />
             ))}
           </div>
 
-          <button
-            onClick={verifyOTP}
-            className="verify-button"
-            disabled={disable}
-          >
+          <button onClick={verifyOTP} className="verify-button" disabled={disable}>
             Verify Account
           </button>
 
           <div className="resend-link">
-            <span
-              className={`resend-link ${disable ? 'disabled' : ''}`}
-              onClick={resendOTP}
-            >
+            <span className={`resend-link ${disable ? 'disabled' : ''}`} onClick={resendOTP}>
               Resend OTP
             </span>
           </div>

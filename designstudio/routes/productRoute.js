@@ -10,7 +10,9 @@ import {
   productCountController,
   productListController,
   searchProductController,
-  realtedProductController
+  realtedProductController,
+  braintreeTokenController,
+  brainTreePaymentController
 } from "../controllers/productController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 import formidable from "express-formidable";
@@ -47,7 +49,6 @@ router.get("/product-photo/:pid", productPhotoController);
 router.delete("/delete-product/:pid", deleteProductController);
 //filter product
 router.post("/product-filters", productFiltersController);
-export default router;
 //product count
 router.get("/product-count",productCountController);
 
@@ -57,3 +58,9 @@ router.get("/product-list/:page", productListController);
 router.get("/search/:keyword", searchProductController);
 //similar product
 router.get("/related-product/:pid/:cid", realtedProductController);
+//payments routes
+//token
+router.get("/braintree/token", braintreeTokenController);
+//payments
+router.post("/braintree/payment", requireSignIn, brainTreePaymentController);
+export default router;

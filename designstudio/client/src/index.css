@@ -197,3 +197,26 @@ form {
 
 /* Additional styles can be added as needed */
 
+/* Login.css */
+
+.login-form {
+  max-width: 300px;
+  margin: 0 auto;
+  background-color: black; /* Set the background color to black */
+  color: white; /* Set the text color to white */
+  padding: 20px; /* Add some padding for better visibility */
+  border-radius: 10px; /* Add border-radius for rounded corners */
+}
+
+.error-text {
+  color: red;
+}
+
+.forgot-link {
+  color: #007bff;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}

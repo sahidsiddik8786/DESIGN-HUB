@@ -1,24 +1,46 @@
 import React from "react";
+import {
+  CForm,
+  CCol,
+  CFormInput,
+  CFormFeedback,
+  CButton,
+} from "@coreui/react";
 
-const CategoryForm = ({ handleSubmit, value, setValue }) => {
+const CategoryForm = ({ handleSubmit, value, setValue, validated }) => {
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Enter new category"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-          />
-        </div>
-
-        <button type="submit" className="btn btn-primary">
+    <CForm
+      className="row g-3 needs-validation"
+      noValidate
+      validated={validated}
+      onSubmit={handleSubmit}
+    >
+      <CCol md={12}>
+        <CFormInput
+          type="text"
+          value={value}
+          onChange={handleChange}
+          name="name"
+          feedbackValid="Looks good!"
+          id="validationCustom01"
+          placeholder="Enter category name"
+          required
+          pattern="^[a-zA-Z\s]*$"
+        />
+        <CFormFeedback invalid>
+          {value.trim() === "" ? "Name is required." : "Name should not contain numbers."}
+        </CFormFeedback>
+      </CCol>
+      <CCol md={12}>
+        <CButton color="primary" type="submit">
           Submit
-        </button>
-      </form>
-    </>
+        </CButton>
+      </CCol>
+    </CForm>
   );
 };
 
