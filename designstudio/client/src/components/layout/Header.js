@@ -13,7 +13,6 @@ const Header = () => {
   const location = useLocation();
   const [cart] = useCart();
   const categories = useCategory();
-
   const handleLogout = () => {
     localStorage.removeItem("auth");
     setAuth({
@@ -22,15 +21,13 @@ const Header = () => {
       token: "",
     });
   };
-
   const isShopPage = location.pathname === "/Shop";
-
   return (
-   // <Navbar className="navbar navbar-expand-lg navbar-custom ">
-       <Navbar bg="black" expand="lg" variant="lg" className="navbar-custom">
+    <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
+   {/* <Navbar className="navbar navbar-expand-lg navbar-custom ">
+      // <Navbar bg="black" expand="lg" variant="lg" className="navbar-custom">*/}
     <div className="container-fluid">
       <Navbar.Toggle aria-controls="navbarTogglerDemo01" />
-
       <Link to="/" style={{ color: "white" }} className="navbar-brand">
         Design Studio
       </Link>
@@ -47,7 +44,7 @@ const Header = () => {
             {!auth.user ? (
               <>
                 <Nav.Link as={Link} to="/login" style={{ color: "white" }} className="nav-link custom-font">
-                  Sign In
+                <i className='fas fa-user'></i>Sign In
                 </Nav.Link>
               </>
             ) : (
@@ -75,11 +72,19 @@ const Header = () => {
                 >
                   Logout
                 </NavDropdown.Item>
+               {/*<NavDropdown title='Admin' id='adminmenu'>
+                  <LinkContainer to='/admin/userlist'>
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/productlist'>
+                    <NavDropdown.Item>Products</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/orderlist'>
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>*/}
               </NavDropdown>
             )}
-
-
-
             {auth.user?.role !== "1" && (
               <>
                 <Nav.Link
@@ -99,7 +104,7 @@ const Header = () => {
                         style={{ color: "white" }}
                         className="nav-link custom-font"
                       >
-                        Cart
+                       <i className='fas fa-shopping-cart'></i>
                       </Nav.Link>
                     </Badge>
                   </div>
@@ -118,5 +123,4 @@ const Header = () => {
   </Navbar>
   );
 };
-
 export default Header;

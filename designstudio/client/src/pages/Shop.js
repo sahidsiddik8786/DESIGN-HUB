@@ -171,6 +171,7 @@ const HomePage = () => {
                         JSON.stringify([...cart, p])
                       );
                       toast.success("Item Added to cart");
+                      navigate('/cart');
                     }}
                   >
                     ADD TO CART
