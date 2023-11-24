@@ -89,17 +89,17 @@ const Login = () => {
     } catch (error) {
       // Something went wrong with the request
       console.log(error);
-      toast.error("Contact Admin ");
+      toast.error ("Contact Admin");
     }
   };
 
   return (
     <Layout title="Login">
-      <div className="form-container" style={{ minHeight: "90vh" }}>
-        <form onSubmit={handleSubmit} className="rounded p-4 bg-light">
-          <h4 className="title">Sign In</h4>
+      <div className="form-container">
+        <form onSubmit={handleSubmit} className="rounded p-5 bg-light w-50">
+          <h4 className="title ">Sign In</h4>
 
-          <div className="mb-3">
+          <div className=" mb-3 w-100">
             <input
               type="email"
               autoFocus
@@ -112,7 +112,7 @@ const Login = () => {
             />
             {emailError && <p className="error-text">{emailError}</p>}
           </div>
-          <div className="mb-3">
+          <div className="mb-3 w-100">
             <input
               type="password"
               value={password}
@@ -124,15 +124,21 @@ const Login = () => {
             />
             {passwordError && <p className="error-text">{passwordError}</p>}
           </div>
-          <div className="mb-3">
+          <div className="mb-3 w-100">
             <NavLink to="/forgotpassword" className="forgot-link">
               Forgot Password
             </NavLink>
           </div>
-
-          <button type="submit" className="btn-primary rounded-pill">
+          <div className="mb-3">
+            <p>Don't have an account?</p>
+                    <NavLink to="/register" className=" btn btn-default  rounded-p4">
+                        Create new account
+                    </NavLink>
+          </div>
+          <button type="submit" className=" w-50 btn-primary rounded-pill">
             Sign In
           </button>
+          
         </form>
       </div>
       <Toaster />

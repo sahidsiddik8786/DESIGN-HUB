@@ -169,9 +169,9 @@ const Register = () => {
   return (
     <Layout title="Register">
       <div className="form-container">
-        <form className="rounded p-4 bg-light" onSubmit={handleSubmit}>
-          <h4 className="title">Sign Up</h4>
-          <div className="mb-3">
+        <form className="rounded p-4 bg-light w-100 " onSubmit={handleSubmit}>
+          <h4 className="title ">Sign Up</h4>
+          <div className="mb-3 w-100">
             <input
               type="text"
               value={name}
@@ -187,7 +187,7 @@ const Register = () => {
             />
           </div>
 
-          <div className="mb-2">
+          <div className="mb-2 w-100">
             <input
               type="email"
               value={email}
@@ -201,7 +201,7 @@ const Register = () => {
             />
           </div>
 
-          <div className="mb-2">
+          <div className="mb-2 w-100">
             <input
               type="password"
               value={password}
@@ -217,7 +217,7 @@ const Register = () => {
             <div className={`password-strength ${passwordStrength}`} />
           </div>
 
-          <div className="mb-2">
+          <div className="mb-2 w-100">
   <div className="input-group">
    {/* <div className="input-group-prepend">
       <select
@@ -240,13 +240,13 @@ const Register = () => {
         handlePhoneZeroValidation(e.target.value);
       }}
       className="form-control rounded mb-2"
-      placeholder="Phone Number"
+      placeholder="Phone Number "
       required
     />
   </div>
           </div>
 
-          <div className="mb-2">
+          <div className="mb-2 w-100">
             <input
               type="text"
               value={address}
@@ -260,21 +260,25 @@ const Register = () => {
             />
           </div>
 
-          <button type="submit" className="btn-primary rounded-pill">
+          <button type="submit" className=" w-50 btn-primary rounded-pill">
             Sign Up
           </button>
-          <div className="mt-2  rounded-pill" >
-          <GoogleOAuthProvider clientId="1024520067027-654iu66ttlfcksukd5r1orfjl8hfffsi.apps.googleusercontent.com">
-              <GoogleLogin
+          <button className="btn-danger  mt-3">
+  <div>
+    <GoogleOAuthProvider clientId="">
+      <GoogleLogin
         onSuccess={credentialResponse => {
           console.log(credentialResponse);
         }}
         onError={() => {
           console.log('Login Failed');
         }}
-        />
-          </GoogleOAuthProvider>
-          </div>
+      />
+    </GoogleOAuthProvider>
+    <span style={{ color: 'white', fontWeight: 'bold' }}>Google</span>
+  </div>
+</button>
+
             <p>Already have an account? <Link to="/login">Login</Link></p>
         </form>
         <Toaster />

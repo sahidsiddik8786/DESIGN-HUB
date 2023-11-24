@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import Layout from "../components/layout/Layout";
 import { useCart } from "../context/cart";
 import { useAuth } from "../context/auth";
@@ -10,7 +10,7 @@ import "../styles/CartStyles.css";
 
 const CartPage = () => {
   const [auth, setAuth] = useAuth();
-  const initialCart = JSON.parse(localStorage.getItem('cart')) || [];
+  const initialCart = JSON.parse(localStorage.getItem("cart")) || [];
 
   const [cart, setCart] = useState(initialCart);
   const [clientToken, setClientToken] = useState("");
@@ -42,7 +42,7 @@ const CartPage = () => {
     if (item.quantity >= item.stock) {
       alert(`Only ${item.stock} stocks available`);
     } else if (item.quantity < 1) {
-      alert('Invalid quantity');
+      alert("Invalid quantity");
     } else {
       item.quantity++;
       updateItemPrice(item, item.quantity);
@@ -59,7 +59,7 @@ const CartPage = () => {
   };
 
   const handleRemove = (productId) => {
-    const updatedCart = cart.filter(item => item._id !== productId);
+    const updatedCart = cart.filter((item) => item._id !== productId);
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     updateTotalPrice();
@@ -67,7 +67,9 @@ const CartPage = () => {
 
   const getToken = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/v1/product/braintree/token");
+      const { data } = await axios.get(
+        "http://localhost:8080/api/v1/product/braintree/token"
+      );
       setClientToken(data?.clientToken);
     } catch (error) {
       console.log(error);
@@ -82,10 +84,13 @@ const CartPage = () => {
     try {
       setLoading(true);
       const { nonce } = await instance.requestPaymentMethod();
-      const { data } = await axios.post("http://localhost:8080/api/v1/product/braintree/payment", {
-        nonce,
-        cart,
-      });
+      const { data } = await axios.post(
+        "http://localhost:8080/api/v1/product/braintree/payment",
+        {
+          nonce,
+          cart,
+        }
+      );
       setLoading(false);
       localStorage.removeItem("cart");
       setCart([]);
@@ -98,7 +103,9 @@ const CartPage = () => {
   };
 
   const handleAddToCart = (product) => {
-    const existingItemIndex = cart.findIndex((item) => item._id === product._id);
+    const existingItemIndex = cart.findIndex(
+      (item) => item._id === product._id
+    );
 
     if (existingItemIndex !== -1) {
       // Product is already in the cart, increment the quantity
@@ -106,7 +113,7 @@ const CartPage = () => {
       updatedCart[existingItemIndex].quantity += 1;
       setCart(updatedCart, () => {
         // Update local storage after setting the updated cart state
-        localStorage.setItem('cart', JSON.stringify(updatedCart));
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
       });
     } else {
       // Product is not in the cart, add it with a quantity of 1
@@ -120,7 +127,7 @@ const CartPage = () => {
 
       setCart([...cart, newItem], () => {
         // Update local storage after setting the updated cart state
-        localStorage.setItem('cart', JSON.stringify([...cart, newItem]));
+        localStorage.setItem("cart", JSON.stringify([...cart, newItem]));
       });
     }
   };
@@ -130,6 +137,24 @@ const CartPage = () => {
       <div className="cart-container">
         <div className="cart-summary">
           <h2>Shopping Cart</h2>
+          <div className="row mb-2 mt-4">
+      <div className="col-md-12">
+        <h1 className="text-center p-2 mb-1">
+          {`Hello ${auth?.token && auth?.user?.name}`}
+        </h1>
+        <h4 className="text-center">
+          {cart?.length
+            ? `You Have ${cart.length} items in your cart ${
+                auth?.token ? "" : "please login to checkout"
+              }`
+            : " Your Cart Is Empty"}
+        </h4>
+      </div>
+    </div>
+
+    
+
+    
           <table>
             <thead>
               <tr>
@@ -149,25 +174,38 @@ const CartPage = () => {
                       src={`http://localhost:8080/api/v1/product/product-photo/${item._id}`}
                       alt={item.name}
                       className="img-fluid"
-                      style={{ maxWidth: '100px', maxHeight: '100px' }}
+                      style={{ maxWidth: "100px", maxHeight: "100px" }}
                     />
                   </td>
                   <td>
                     <div className="quantity-controls">
-                      <button onClick={() => handleDecrement(item)} className="decrement-btn">
+                      <button
+                        onClick={() => handleDecrement(item)}
+                        className="decrement-btn"
+                      >
                         -
                       </button>
                       <span className="quantity">{item.quantity}</span>
-                      <button onClick={() => handleIncrement(item)} className="increment-btn">
+                      <button
+                        onClick={() => handleIncrement(item)}
+                        className="increment-btn"
+                      >
                         +
                       </button>
                     </div>
                   </td>
+
                   <td className="item-price">
-                    ₹ <span data-price={item.price}>{item.totalPrice || item.price}</span>
+                    ₹{" "}
+                    <span data-price={item.price}>
+                      {item.totalPrice || item.price}
+                    </span>
                   </td>
                   <td>
-                    <button onClick={() => handleRemove(item._id)} className="remove-btn">
+                    <button
+                      onClick={() => handleRemove(item._id)}
+                      className="remove-btn"
+                    >
                       Remove
                     </button>
                   </td>
@@ -177,10 +215,16 @@ const CartPage = () => {
           </table>
 
           <div className="total-price">
-            <p>Total Price: ₹<span><h2>{totalPrice}</h2></span></p>
+            <p>
+              Total Price: ₹
+              <span>
+                <h2>{totalPrice}</h2>
+              </span>
+            </p>
           </div>
-          <div className="checkout-button">
-            {!clientToken || !cart.length ? (
+
+          <div className="mt-2">
+            {!clientToken || !cart?.length ? (
               ""
             ) : (
               <>
@@ -194,11 +238,11 @@ const CartPage = () => {
                   onInstance={(instance) => setInstance(instance)}
                 />
                 <button
-                  className="checkout-btn"
+                  className=" btn-primary"
                   onClick={handlePayment}
                   disabled={loading || !instance || !auth?.user?.address}
                 >
-                  {loading ? "Processing ...." : "Checkout Now"}
+                  {loading ? "Processing ...." : "Make Payment"}
                 </button>
               </>
             )}
