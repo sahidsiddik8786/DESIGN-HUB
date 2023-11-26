@@ -1,0 +1,12 @@
+.dashboard-container {
+   
+    background-repeat: no-repeat;
+    background-position: center center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    /* Add more styles as needed */
+}

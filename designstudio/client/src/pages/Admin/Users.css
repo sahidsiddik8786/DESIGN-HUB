@@ -89,4 +89,15 @@
   }
   
 
-  
+  .container-fluid m-3 p-3{
+   
+    background-repeat: no-repeat;
+    background-position: center center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    /* Add more styles as needed */
+}
