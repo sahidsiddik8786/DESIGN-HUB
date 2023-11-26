@@ -10,6 +10,10 @@ const categorySchema = new mongoose.Schema({
     type: String,
     lowercase: true,
   },
+  subCategories: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Subcategory'
+  }]
 });
 
 export default mongoose.model("Category", categorySchema);

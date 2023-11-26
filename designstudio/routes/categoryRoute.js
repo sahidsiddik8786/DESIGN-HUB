@@ -6,11 +6,14 @@ import {
   deleteCategoryCOntroller,
   singleCategoryController,
   updateCategoryController,
+  categorySubcategoriesController,
 } from "./../controllers/categoryController.js";
+import { createSubcategoryController } from "../controllers/subcategoryController.js";
+
 
 const router = express.Router();
 
-//routes
+// Existing routes
 // create category
 router.post(
   "/create-category",
@@ -40,5 +43,11 @@ router.delete(
   isAdmin,
   deleteCategoryCOntroller
 );
+// Add this route for subcategories
+
+// Update the route to include 'subcategories'
+router.route('/:categoryId/subcategories')
+  .get(categorySubcategoriesController)
+  .post(createSubcategoryController);
 
 export default router;

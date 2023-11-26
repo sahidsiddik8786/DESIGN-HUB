@@ -1,4 +1,5 @@
 import categoryModel from "../models/categoryModel.js";
+import Subcategory from '../models/subcategoryModel.js';
 import slugify from "slugify";
 export const createCategoryController = async (req, res) => {
   try {
@@ -111,5 +112,16 @@ export const deleteCategoryCOntroller = async (req, res) => {
       message: "error while deleting category",
       error,
     });
+  }
+};
+
+export const categorySubcategoriesController = async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+    const subcategories = await Subcategory.find({ parentCategory: categoryId });
+    res.status(200).send({ success: true, message: 'Subcategories for category retrieved successfully.', subcategories });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ success: false, error, message: 'Error while getting subcategories for category.' });
   }
 };

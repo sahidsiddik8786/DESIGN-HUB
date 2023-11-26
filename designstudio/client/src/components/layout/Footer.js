@@ -1,23 +1,33 @@
 import React from "react";
-//import { Link } from "react-router-dom";
-import "./HeaderFooter.css";
+import playStore from "../../images/playstore.png"
+import appStore from "../../images/Appstore.png"
+import "./Footer.css";
 
-const Footer = () => (
-  <div>
-    <footer className="footer">
-      <div className="footer-content">
-        <center>
-          <p>Interior Designs Studio</p>
-        
-          </center>
-        <div className="footer-right">
-          <button className="back-to-top" onClick={() => window.scrollTo(0, 0)}>
-            Back to Top
-          </button>
-        </div>
+const Footer = () => {
+  return (
+    <footer id="footer">
+      <div className="leftFooter">
+        <h4>DOWNLOAD OUR APP</h4>
+        <p>Download App for Android and IOS mobile phone</p>
+        <img src={playStore} alt="playstore" />
+        <img src={appStore} alt="Appstore" />
+      </div>
+
+      <div className="midFooter">
+        <h3>Interior Design</h3>
+    
+
+        <p>Copyrights 2023 &copy; Design Studio </p>
+      </div>
+
+      <div className="rightFooter">
+        <h4>Follow Us</h4>
+        <a href="http://instagram.com">Instagram</a>
+        <a href="http://youtube.com">Youtube</a>
+        <a href="http://facebook.com">Facebook</a>
       </div>
     </footer>
-  </div>
-);
+  );
+};
 
 export default Footer;

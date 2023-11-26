@@ -8,6 +8,7 @@ import { useCart } from "../context/cart";
 import toast from "react-hot-toast";
 import SearchInput from "../components/Form/SearchInput";
 import "./pages.css";
+
 const HomePage = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
@@ -133,7 +134,7 @@ const HomePage = () => {
           </div>
           <div className="d-flex flex-column">
             <button
-              className="btn btn-danger"
+              className="btn-danger"
               onClick={() => window.location.reload()}
             >
               RESET FILTERS

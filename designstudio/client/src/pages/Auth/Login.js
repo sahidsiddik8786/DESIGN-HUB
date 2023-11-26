@@ -5,9 +5,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useAuth } from "../../context/auth";
 import { NavLink } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.min.js';
-import 'popper.js/dist/umd/popper.min.js';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
+import "popper.js/dist/umd/popper.min.js";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -49,36 +49,34 @@ const Login = () => {
 
       console.log("Server Response:", res);
 
-
       if (res && res.data.success) {
         // Successful login
-      
+
         // Display a success toast message
         toast.success(res.data && res.data.message);
-      
+
         // Update the authentication state with user information and token
         setAuth({
           ...auth,
           user: res.data.user,
           token: res.data.token,
         });
-      
+
         // Store authentication data in local storage
         localStorage.setItem("auth", JSON.stringify(res.data));
-      
+
         // Redirect after a short delay
         setTimeout(() => {
           // Determine the destination based on the user's role
-          const destination = auth.user?.role === "1" ? "/Dashboard/AdminDashboard" : "/";
-      
+          const destination =
+            auth.user?.role === "1" ? "/Dashboard/AdminDashboard" : "/";
+
           // Redirect to the determined destination
           navigate(location.state || destination);
         }, 100);
-      }
-      
-       else {
+      } else {
         // Unsuccessful login
-        if (res.status === 403) {
+        if (res.status === "User is deactivated") {
           // User is deactivated, show an error message
           toast.error("User is deactivated");
         } else {
@@ -89,7 +87,7 @@ const Login = () => {
     } catch (error) {
       // Something went wrong with the request
       console.log(error);
-      toast.error ("Contact Admin");
+      toast.error("Contact Admin");
     }
   };
 
@@ -131,14 +129,13 @@ const Login = () => {
           </div>
           <div className="mb-3">
             <p>Don't have an account?</p>
-                    <NavLink to="/register" className=" btn btn-default  rounded-p4">
-                        Create new account
-                    </NavLink>
+            <NavLink to="/register" className=" btn btn-default  rounded-p4">
+              Create new account
+            </NavLink>
           </div>
           <button type="submit" className=" w-50 btn-primary rounded-pill">
             Sign In
           </button>
-          
         </form>
       </div>
       <Toaster />
@@ -147,4 +144,3 @@ const Login = () => {
 };
 
 export default Login;
-

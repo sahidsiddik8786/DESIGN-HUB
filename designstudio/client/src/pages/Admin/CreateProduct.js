@@ -19,10 +19,12 @@ const { Option } = Select;
 const CreateProduct = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);  // Added state for subcategories
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
+  const [subcategory, setSubcategory] = useState("");  // Added state for subcategory
   const [quantity, setQuantity] = useState("");
   const [shipping, setShipping] = useState("");
   const [photo, setPhoto] = useState("");
@@ -43,9 +45,31 @@ const CreateProduct = () => {
     }
   };
 
+  // get subcategories based on selected category
+  const getSubcategories = async (categoryId) => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8080/api/v1/category/${categoryId}/subcategories`
+      );
+      if (data?.success) {
+        setSubcategories(data?.subcategories);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong in getting subcategories");
+    }
+  };
+
   useEffect(() => {
     getAllCategory();
   }, []);
+
+  // handle category change
+  const handleCategoryChange = (value) => {
+    setCategory(value);
+    setSubcategory("");  // Reset subcategory when category changes
+    getSubcategories(value);
+  };
 
   // create product function
   const handleCreate = async (e) => {
@@ -62,10 +86,13 @@ const CreateProduct = () => {
         productData.append("quantity", quantity);
         productData.append("photo", photo);
         productData.append("category", category);
-        const { data } = axios.post(
+        productData.append("subcategory", subcategory);  // Added subcategory to the form data
+
+        const { data } = await axios.post(
           "http://localhost:8080/api/v1/product/create-product",
           productData
         );
+        
         if (data?.success) {
           toast.error(data?.message);
         } else {
@@ -98,15 +125,15 @@ const CreateProduct = () => {
                   validated={validated}
                   onSubmit={handleCreate}
                 >
-                  <Select
+
+                    <Select
                     bordered={false}
                     placeholder="Select a category"
                     size="large"
                     showSearch
                     className="form-select mb-3"
-                    onChange={(value) => {
-                      setCategory(value);
-                    }}
+                    onChange={handleCategoryChange}
+                    value={category}
                   >
                     {categories?.map((c) => (
                       <Option key={c._id} value={c._id}>
@@ -114,6 +141,22 @@ const CreateProduct = () => {
                       </Option>
                     ))}
                   </Select>
+                  <Select
+                    bordered={false}
+                    placeholder="Select a subcategory"
+                    size="large"
+                    showSearch
+                    className="form-select mb-3"
+                    onChange={(value) => setSubcategory(value)}
+                    value={subcategory}
+                  >
+                    {subcategories?.map((s) => (
+                      <Option key={s._id} value={s._id}>
+                        {s.name}
+                      </Option>
+                    ))}
+                  </Select>
+
                   <div className="mb-3">
                     <label className="btn btn-outline-secondary col-md-12">
                       {photo ? photo.name : "Upload Photo"}

@@ -13,6 +13,7 @@ import AdminRoute from "./components/Router/AdminRoute";
 import Userdashboard from "./pages/user/Userdashboard";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import CreateCategory from "./pages/Admin/CreateCategory";
+import CreatesubCategory from "./pages/Admin/CreatesubCategory";
 import CreateProduct from "./pages/Admin/CreateProduct";
 import Orders from "./pages/user/Orders";
 import Profile from "./pages/user/Profile";
@@ -66,6 +67,7 @@ function App() {
   <Route path="/Dashboard" element={<Dashboard />} />
   <Route path="AdminDashboard" element={<AdminDashboard />} />
   <Route path="AdminDashboard/create-category" element={<CreateCategory />} />
+  <Route path="AdminDashboard/create-subcategory" element={< CreatesubCategory/>} />
   <Route path="AdminDashboard/products" element={<Products />} />
   <Route path="AdminDashboard/create-product" element={<CreateProduct />} />
   <Route path="AdminDashboard/users" element={<Users />} />

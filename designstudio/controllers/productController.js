@@ -18,10 +18,10 @@ var gateway = new braintree.BraintreeGateway({
 });
 export const createProductController = async (req, res) => {
   try {
-    const { name, description, price, category, quantity, shipping } =
-      req.fields;
+    const { name, description, price, category, subcategory, quantity, shipping } = req.fields;
     const { photo } = req.files;
-    //alidation
+
+    // Validation
     switch (true) {
       case !name:
         return res.status(500).send({ error: "Name is Required" });
@@ -31,14 +31,15 @@ export const createProductController = async (req, res) => {
         return res.status(500).send({ error: "Price is Required" });
       case !category:
         return res.status(500).send({ error: "Category is Required" });
+      case !subcategory:
+        return res.status(500).send({ error: "Subcategory is Required" });
       case !quantity:
         return res.status(500).send({ error: "Quantity is Required" });
-      case photo && photo.size > 1000000:
-        return res
-          .status(500)
-          .send({ error: "photo is Required and should be less then 1mb" });
+      case photo && photo.size > 5000000:
+        return res.status(500).send({ error: "Photo is Required and should be less than 5mb" });
     }
 
+    // Assuming `category` and `subcategory` are valid IDs
     const products = new productModel({ ...req.fields, slug: slugify(name) });
     if (photo) {
       products.photo.data = fs.readFileSync(photo.path);
@@ -55,10 +56,11 @@ export const createProductController = async (req, res) => {
     res.status(500).send({
       success: false,
       error,
-      message: "Error in crearing product",
+      message: "Error in creating product",
     });
   }
 };
+
 
 //get all products
 export const getProductController = async (req, res) => {
@@ -160,10 +162,10 @@ export const updateProductController = async (req, res) => {
         return res.status(500).send({ error: "Category is Required" });
       case !quantity:
         return res.status(500).send({ error: "Quantity is Required" });
-      case photo && photo.size > 1000000:
+      case photo && photo.size > 5000000:
         return res
           .status(500)
-          .send({ error: "photo is Required and should be less then 1mb" });
+          .send({ error: "photo is Required and should be less then 5mb" });
     }
 
     const products = await productModel.findByIdAndUpdate(
