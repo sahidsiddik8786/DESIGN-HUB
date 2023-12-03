@@ -11,6 +11,7 @@ import nodemailer from 'nodemailer';
 import bcrypt from 'bcrypt';
 import categoryRoutes from "./routes/categoryRoute.js";
 import productRoutes from "./routes/productRoute.js";
+import Payment from     "./routes/payment.js";
 const app = express();
 
 app.use(
@@ -29,6 +30,7 @@ app.use(cors());
 app.use('/api/v1/auth', authRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/product", productRoutes);
+app.use("/api/v1/payment", Payment);
 
 app.get('/', (req, res) => {
   res.send('<h1>Welcome to MERN stack project</h1>');

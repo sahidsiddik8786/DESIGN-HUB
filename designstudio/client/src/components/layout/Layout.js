@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import NavigationMenu from "./NavigationMenu";
+//import NavigationMenu from "./NavigationMenu";
 import { Helmet } from "react-helmet";
 import {Toaster} from "react-hot-toast";
 
@@ -18,7 +18,7 @@ const Layout = ({ children,title, description, keywords, author  }) => {
             </Helmet>
 
             <Header />
-            <NavigationMenu/>
+           
             <main style={{ minHeight: "77vh" }}>{children}</main>
              <Toaster/>
             <Footer />

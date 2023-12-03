@@ -19,8 +19,13 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     category: {
-      type: mongoose.ObjectId,
-      ref: "Category",
+      type: mongoose.Schema.Types.ObjectId, // Corrected this line
+      ref: "Category", // Updated the reference
+      required: true,
+    },
+    subcategory: {
+      type: mongoose.Schema.Types.ObjectId, // Corrected this line
+      ref: "Subcategory", // Updated the reference
       required: true,
     },
     quantity: {
@@ -38,4 +43,4 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Products", productSchema);
+export default mongoose.model("Product", productSchema); // Updated the model name

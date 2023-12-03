@@ -67,13 +67,14 @@ const Login = () => {
 
         // Redirect after a short delay
         setTimeout(() => {
-          // Determine the destination based on the user's role
-          const destination =
-            auth.user?.role === "1" ? "/Dashboard/AdminDashboard" : "/";
+ 
+if(res.data.user.role === "1") {
+  navigate(location.state || "/Dashboard/AdminDashboard");
+}   else {
+  navigate(location.state || "/")
+}
+},100);
 
-          // Redirect to the determined destination
-          navigate(location.state || destination);
-        }, 100);
       } else {
         // Unsuccessful login
         if (res.status === "User is deactivated") {

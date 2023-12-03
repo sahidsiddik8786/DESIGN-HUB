@@ -8,6 +8,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import "../styles/CartStyles.css";
 
+
 const CartPage = () => {
   const [auth, setAuth] = useAuth();
   const initialCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -99,6 +100,44 @@ const CartPage = () => {
     } catch (error) {
       console.log(error);
       setLoading(false);
+    }
+  };
+
+
+
+	const initPayment = (product) => {
+		const options = {
+			key: "rzp_test_X95luzrUXuWQHr",
+			price: product.price,
+      name: product.name,
+			description: "Test Transaction",
+      _id: product._id,
+	
+			handler: async (response) => {
+				try {                   
+					const verifyUrl = "http://localhost:8080/api/v1/payment/verify";
+					const { data } = await axios.post(verifyUrl, response);
+					console.log(data);
+				} catch (error) {
+					console.log(error);
+				}
+			},
+			theme: {
+				color: "#3399cc",
+			},
+		};
+		const rzp1 = new window.Razorpay(options);
+		rzp1.open();
+	};
+
+  const handlepayment = async () => {
+    try {
+      const orderUrl = "http://localhost:8080/api/v1/payment/orders";
+      const { data } = await axios.post(orderUrl, { amount: totalPrice });
+      console.log(data);
+      initPayment(data.data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -244,6 +283,10 @@ const CartPage = () => {
                 >
                   {loading ? "Processing ...." : "Make Payment"}
                 </button>
+                <button onClick={handlepayment} className="buy_btn">
+					buy now
+				</button>
+
               </>
             )}
           </div>

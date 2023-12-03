@@ -2,12 +2,19 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/layout/Layout";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Checkbox, Radio } from "antd";
+import { Checkbox, Radio, Button  , Card, CardMedia, CardContent, Typography, Grid } from "@mui/material";
 import { Prices } from "../components/Prices";
 import { useCart } from "../context/cart";
 import toast from "react-hot-toast";
 import SearchInput from "../components/Form/SearchInput";
 import "./pages.css";
+import NavigationMenu from "../components/layout/NavigationMenu";
+//import { Checkbox, Radio, Button } from 'antd';
+//import { Button, Checkbox, Radio } from '@mui/material';
+import { Checkbox as AntCheckbox, Radio as AntRadio } from 'antd';
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { Link } from "react-router-dom";
+
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -19,6 +26,51 @@ const HomePage = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [wishlist, setWishlist] = useState([]);
+  const [isInWishlist, setIsInWishlist] = useState([]);
+
+  useEffect(() => {
+    // Load wishlist from local storage on component mount
+    const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    setWishlist(storedWishlist);
+
+// Check if each product is in the wishlist
+const isInWishlistArray = products.map((product) => wishlist.some((item) => item._id === product._id));
+setIsInWishlist(isInWishlistArray);
+
+  }, [wishlist, products]);
+
+  const handleToggleWishlist = (productId) => {
+    const productIndex = products.findIndex((product) => product._id === productId);
+    const updatedWishlist = [...wishlist];
+  
+    if (productIndex !== -1) {
+      const product = products[productIndex];
+  
+      // Check if the product is already in the wishlist
+      const isProductInWishlist = updatedWishlist.some((item) => item._id === productId);
+  
+      if (!isProductInWishlist) {
+        // If the product is not in the wishlist, add it
+        updatedWishlist.push(product);
+      } else {
+        // If the product is in the wishlist, remove it
+        updatedWishlist.splice(productIndex, 1);
+      }
+  
+      // Update the wishlist state
+      setWishlist(updatedWishlist);
+  
+      // Save the updated wishlist to local storage
+      localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+    }
+  };
+
+  
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   //get all cat
   const getAllCategory = async () => {
@@ -106,98 +158,139 @@ const HomePage = () => {
       console.log(error);
     }
   };
-  return (
-    <Layout title={"ALl Products - Best offers "}>
-      <div className="container-fluid row mt-3">
-        <div className="col-md-2">
+
+    return (
+  <Layout title={"All Products - Best offers "}>
+  <NavigationMenu />
+  <Link to="/wishlist">View Wishlist</Link>
+        {/* Button to toggle sidebar */}
+        <Button
+            variant="outlined"
+            color="primary"
+            onClick={toggleSidebar}
+            className="mt-3"
+          >
+            {sidebarOpen ? "Hide Filters" : "Show Filters"}
+          </Button>
+  <div className="container-fluid row mt-3">
+ {/* Sidebar */}
+ <div className={`col-md-2 ${sidebarOpen ? "" : " d-none"}`}>
           <h4 className="text-center">Filter By Category</h4>
           <div className="d-flex flex-column">
             {categories?.map((c) => (
-              <Checkbox
+             <AntCheckbox
                 key={c._id}
                 onChange={(e) => handleFilter(e.target.checked, c._id)}
               >
                 {c.name}
-              </Checkbox>
+                </AntCheckbox>
             ))}
           </div>
-          {/* price filter */}
+          {/* Price filter */}
           <h4 className="text-center mt-4">Filter By Price</h4>
           <div className="d-flex flex-column">
-            <Radio.Group onChange={(e) => setRadio(e.target.value)}>
+          <AntRadio.Group onChange={(e) => setRadio(e.target.value)}>
               {Prices?.map((p) => (
                 <div key={p._id}>
-                  <Radio value={p.array}>{p.name}</Radio>
+                   <AntRadio value={p.array}>{p.name}</AntRadio>
                 </div>
               ))}
-            </Radio.Group>
+            </AntRadio.Group>
           </div>
           <div className="d-flex flex-column">
-            <button
-              className="btn-danger"
+            <Button
+              variant="outlined"
+              color="secondary"
+              fullWidth
               onClick={() => window.location.reload()}
             >
               RESET FILTERS
-            </button>
+            </Button>
           </div>
         </div>
+
         <div className="col-md-9 offset-1">
-          <h1 className="text-center">All Products</h1>
-          <div className="d-flex flex-wrap">
-            {products?.map((p) => (
-              <div className="card m-2" style={{ width: "18rem" }} key={p._id}>
-                <img
-                  src={`http://localhost:8080/api/v1/product/product-photo/${p._id}`}
-                  className="card-img-top"
-                  alt={p.name}
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{p.name}</h5>
-                  <p className="card-text">
-                    {p.description.substring(0, 30)}...
-                  </p>
-                  <p className="card-text"> {p.price}</p>
-                  <button
-                    className="btn-primary ms-1"
-                    onClick={() => navigate(`/product/${p.slug}`)}
-                  >
-                    More Details
-                  </button>
-                  <button
-                    className="btn-secondary ms-1"
-                    onClick={() => {
-                      setCart([...cart, p]);
-                      localStorage.setItem(
-                        "cart",
-                        JSON.stringify([...cart, p])
-                      );
-                      toast.success("Item Added to cart");
-                      navigate('/cart');
-                    }}
-                  >
-                    ADD TO CART
-                  </button>
-                </div>
-              </div>
+          <h1 className="text-center mb-4">SHOP Now </h1>
+          <Grid container spacing={3}>
+            {products?.map((p , index) => (
+              <Grid item key={p._id} xs={12} sm={6} md={4}>
+                <Card className="mb-4" sx={{ width: "80%" }}>
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image={`http://localhost:8080/api/v1/product/product-photo/${p._id}`}
+                    alt={p.name}
+                  />
+                  <CardContent>
+                    <Typography variant="h6" component="div" className="mb-2">
+                      {p.name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" className="mb-2">
+                      {p.description.substring(0, 50)}...
+                    </Typography>
+                    <Typography variant="h6" color="primary" className="mb-2">
+                    ₹{p.price}
+                    </Typography>
+
+                    <FavoriteIcon
+                    color={isInWishlist[index] ? "error" : "inherit"}
+                    onClick={() => handleToggleWishlist(p._id)}
+                    style={{ cursor: "pointer" }}
+                  />
+
+
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      fullWidth
+                      className="mb-2"
+                      onClick={() => navigate(`/product/${p.slug}`)}
+                    >
+                      View Details
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                      onClick={() => {
+                        setCart([...cart, p]);
+                        localStorage.setItem("cart", JSON.stringify([...cart, p]));
+                        toast.success("Item Added to cart");
+                        navigate("/cart");
+                      }}
+                    >
+                      Add to Cart
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
             ))}
-          </div>
+          </Grid>
           <div className="m-2 p-3">
             {products && products.length < total && (
-              <button
-                className="btn btn-warning"
+              <Button
+                variant="contained"
+                color="warning"
+           
                 onClick={(e) => {
                   e.preventDefault();
                   setPage(page + 1);
                 }}
               >
-                {loading ? "Loading ..." : "Loadmore"}
-              </button>
+                {loading ? "Loading ..." : "Load More"}
+              </Button>
             )}
           </div>
         </div>
       </div>
     </Layout>
   );
-};
+}
+
+
+
+
+
+  
 
 export default HomePage;

@@ -1,7 +1,7 @@
 import express from "express";
 import { isAdmin, requireSignIn } from "./../middlewares/authMiddleware.js";
 import {
-  categoryControlller,
+  categoryController,
   createCategoryController,
   deleteCategoryCOntroller,
   singleCategoryController,
@@ -9,6 +9,7 @@ import {
   categorySubcategoriesController,
 } from "./../controllers/categoryController.js";
 import { createSubcategoryController } from "../controllers/subcategoryController.js";
+import { productsBySubcategoryController } from "../controllers/productController.js";
 
 
 const router = express.Router();
@@ -31,7 +32,7 @@ router.put(
 );
 
 //getALl category
-router.get("/get-category", categoryControlller);
+router.get("/get-category", categoryController);
 
 //single category
 router.get("/single-category/:slug", singleCategoryController);
@@ -49,5 +50,9 @@ router.delete(
 router.route('/:categoryId/subcategories')
   .get(categorySubcategoriesController)
   .post(createSubcategoryController);
+
+
+router.get("/:subcategoryId/products", productsBySubcategoryController);
+
 
 export default router;

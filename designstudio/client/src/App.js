@@ -31,6 +31,9 @@ import Search from "./pages/Search";
 import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/CartPage";
 import AdminOrders from "./pages/Admin/AdminOrders";
+import WishlistPage from "./pages/WishlistPage";
+
+
 const RecoveryContext = createContext();
 
 function App() {
@@ -75,6 +78,7 @@ function App() {
   <Route path="admin/orders" element={<AdminOrders />} />
 </Route>
 
+<Route path="/wishlist" element={<WishlistPage />} />
 <Route path="/cart" element={<CartPage />} />
 <Route path="/search" element={< Search />} />
 <Route path="/product/:slug" element={< ProductDetails />} />
@@ -90,6 +94,9 @@ function App() {
 <Route path="/reset" element={<ResetPassword />} />
 <Route path="/forgotpassword" element={<ForgotPassword />} />
 <Route path="/*" element={<PageNotFound />} />
+
+
+
         </Routes>
 
       </div>

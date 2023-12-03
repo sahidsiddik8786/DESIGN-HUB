@@ -23,8 +23,9 @@ const Header = () => {
   };
   const isShopPage = location.pathname === "/Shop";
   return (
-    <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
-   {/* <Navbar className="navbar navbar-expand-lg navbar-custom ">
+<Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect sticky="top">
+
+    {/* <Navbar className="navbar navbar-expand-lg navbar-custom ">
       // <Navbar bg="black" expand="lg" variant="lg" className="navbar-custom">*/}
     <div className="container-fluid">
       <Navbar.Toggle aria-controls="navbarTogglerDemo01" />

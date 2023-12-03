@@ -65,3 +65,13 @@
 .custom-font {
   font-weight: bold; /* Add bold font weight to the custom-font class */
 }
+
+
+
+.user-menu-container {
+  position: fixed;
+  width: 20%;
+  background-color: #ffffff;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

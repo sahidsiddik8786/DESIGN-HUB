@@ -376,3 +376,24 @@ export const brainTreePaymentController = async (req, res) => {
     console.log(error);
   }
 };
+
+export const productsBySubcategoryController = async (req, res) => {
+  try {
+    const subcategoryId = req.params.subcategoryId;
+
+    // Use the subcategoryId to find products associated with that subcategory
+    // Fix the model name to productModel
+    const products = await productModel.find({ subcategory: subcategoryId });
+
+    res.status(200).json({
+      success: true,
+      products: products,
+    });
+  } catch (error) {
+    console.error("Error fetching products by subcategory", error);
+    res.status(500).json({
+      success: false,
+      error: "Internal Server Error",
+    });
+  }
+};

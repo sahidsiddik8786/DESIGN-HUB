@@ -147,14 +147,14 @@ const CreateCategory = () => {
                         >
                           Edit
                         </button>
-                        <button
+                      {/*}  <button
                           className="btn btn-warning ms-2"
                           onClick={() => {
                             handleDisable(c._id);
                           }}
                         >
                           Disable
-                        </button>
+                        </button>*/}
                       </td>
                     </tr>
                   ))}
