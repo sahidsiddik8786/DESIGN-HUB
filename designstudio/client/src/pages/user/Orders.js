@@ -107,7 +107,7 @@ const Orders = () => {
                     <div className="product-info">
                       <p>{product.name}</p>
                       <p>{product.description.substring(0, 30)}</p>
-                      <p>Price: ${product.price.toFixed(2)}</p>
+                      <p>Price: ₹{product.price.toFixed(2)}</p>
                     </div>
                   </div>
                 ))}
