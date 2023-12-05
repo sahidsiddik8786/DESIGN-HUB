@@ -133,7 +133,7 @@ const CartPage = () => {
   const handlepayment = async () => {
     try {
       const orderUrl = "http://localhost:8080/api/v1/payment/orders";
-      const { data } = await axios.post(orderUrl, { amount: totalPrice });
+      const { data } = await axios.post(orderUrl, { amount:cart.reduce((total, item) => total + item.price * item.quantity, 0),});
       console.log(data);
       initPayment(data.data);
     } catch (error) {

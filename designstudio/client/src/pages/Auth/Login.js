@@ -100,12 +100,14 @@ if(res.data.user.role === "1") {
 
           <div className=" mb-3 w-100">
             <input
+              name="email"
               type="email"
               autoFocus
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="form-control"
               id="exampleInputEmail1"
+           
               placeholder="Enter Your Email"
               required
             />
@@ -113,11 +115,12 @@ if(res.data.user.role === "1") {
           </div>
           <div className="mb-3 w-100">
             <input
-              type="password"
+              name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="form-control"
               id="exampleInputPassword1"
+              type="password"
               placeholder="Enter Your Password"
               required
             />
@@ -134,7 +137,8 @@ if(res.data.user.role === "1") {
               Create new account
             </NavLink>
           </div>
-          <button type="submit" className=" w-50 btn-primary rounded-pill">
+
+          <button type="submit"  className=" w-50 btn-primary rounded-pill" name="button1">
             Sign In
           </button>
         </form>
