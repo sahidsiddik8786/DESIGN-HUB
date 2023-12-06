@@ -7,11 +7,7 @@
     border-radius: 4px;
     cursor: pointer;
   }
-  
-  .btn {
-    background-color: #e85c05;
-  }
-  
+
   /* Style the product details card */
   .card {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

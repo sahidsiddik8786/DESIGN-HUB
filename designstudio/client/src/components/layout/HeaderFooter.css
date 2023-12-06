@@ -28,8 +28,6 @@
   background-color: #535252;
 }
 
-/* Add any additional styling you need */
-/* Add any additional styling you need */
 .navbar-custom {
   background-color: #2c3e50b7; /* Dark blue-gray background color */
   padding: 15px 0; /* Add padding to the top and bottom */
@@ -40,14 +38,13 @@
 .nav-link,
 .nav-dropdown {
   color: #ecf0f1; /* White text color */
+  font-family: 'YourChosenFont', sans-serif; /* Replace 'YourChosenFont' with the desired font-family */
 }
 
 .nav-link:hover,
 .nav-dropdown:hover {
   color: #3498db; /* Highlight color on hover */
 }
-
-
 
 .dropdown-item {
   color: #ecf0f1; /* White text color for dropdown items */
@@ -65,6 +62,7 @@
 .custom-font {
   font-weight: bold; /* Add bold font weight to the custom-font class */
 }
+
 
 
 

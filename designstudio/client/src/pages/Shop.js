@@ -162,8 +162,6 @@ setIsInWishlist(isInWishlistArray);
     return (
   <Layout title={"All Products - Best offers "}>
   <NavigationMenu />
-  <Link to="/wishlist">View Wishlist</Link>
-        {/* Button to toggle sidebar */}
         <Button
             variant="outlined"
             color="primary"
@@ -207,8 +205,9 @@ setIsInWishlist(isInWishlistArray);
               RESET FILTERS
             </Button>
           </div>
+          
         </div>
-
+   
         <div className="col-md-9 offset-1">
           <h1 className="text-center mb-4">SHOP Now </h1>
           <Grid container spacing={3}>
@@ -281,7 +280,17 @@ setIsInWishlist(isInWishlistArray);
               </Button>
             )}
           </div>
+          <Button
+        component={Link}
+        to="/wishlist"
+        variant="contained"
+        color="primary"  // Adjust color as needed
+        className="mt-3"
+      >
+        View Wishlist
+      </Button>
         </div>
+   
       </div>
     </Layout>
   );

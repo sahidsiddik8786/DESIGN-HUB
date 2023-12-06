@@ -6,11 +6,13 @@ const router = Router();
 
 router.post("/orders", async (req, res) => {
   try {
+    const cartTotal = req.body.amount;
     const instance = new Razorpay({
       key_id: process.env.KEY_ID,
       key_secret: process.env.KEY_SECRET,
     });
 
+   
     const options = {
       amount: req.body.amount * 100, // Use 'amount' instead of 'price'
       currency: "INR",

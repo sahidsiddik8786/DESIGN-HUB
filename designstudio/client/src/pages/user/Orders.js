@@ -4,9 +4,8 @@ import Layout from "../../components/layout/Layout";
 import axios from "axios";
 import { useAuth } from "../../context/auth";
 import moment from "moment";
-import jsPDF from "jspdf"; // Import jspdf library
-// ... (your imports)
-import images from "../../images/companylogo.png"; // Replace with the actual path to your logo
+import jsPDF from "jspdf"; 
+import images from "../../images/companylogo.png";
 import "../user/order.css";
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -25,6 +24,7 @@ const Orders = () => {
 
   const generateAndDownloadPDF = (order) => {
     const pdf = new jsPDF();
+    let totalAmount = 0;
 
     // Set font and font size
     pdf.setFont("helvetica");
@@ -67,10 +67,13 @@ const Orders = () => {
     order.products.forEach((product, index) => {
       const yPosition = 130 + index * 20;
       pdf.text(20, yPosition, `Product: ${product.name}`);
-      pdf.text(120, yPosition, `Price: $${product.price.toFixed(2)}`);
-    });
+      pdf.text(120, yPosition, `Price: ${product.price.toFixed(2)}`);
+      totalAmount += product.price;
 
-    // Save the PDF with a filename based on the order ID
+    });
+ const yPosition = 130 + order.products.length * 20;
+ pdf.text(20, yPosition, `Total Amount: ${totalAmount.toFixed(2)}`);
+
     pdf.save(`order_${order._id}.pdf`);
   };
 
@@ -113,7 +116,7 @@ const Orders = () => {
                 ))}
               </div>
               <button
-                className="btn btn-primary mt-3"
+                className="btn-primary mt-3"
                 onClick={() => generateAndDownloadPDF(order)}
               >
                 Download PDF

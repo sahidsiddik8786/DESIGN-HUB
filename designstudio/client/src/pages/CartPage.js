@@ -8,7 +8,6 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import "../styles/CartStyles.css";
 
-
 const CartPage = () => {
   const [auth, setAuth] = useAuth();
   const initialCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -103,44 +102,44 @@ const CartPage = () => {
     }
   };
 
-
-
-	const initPayment = (product) => {
-		const options = {
-			key: "rzp_test_X95luzrUXuWQHr",
-			price: product.price,
+  const initPayment = (product) => {
+    const options = {
+      key: "rzp_test_X95luzrUXuWQHr",
+      price: product.price,
       name: product.name,
-			description: "Test Transaction",
+      description: "Test Transaction",
       _id: product._id,
-	
-			handler: async (response) => {
-				try {                   
-					const verifyUrl = "http://localhost:8080/api/v1/payment/verify";
-					const { data } = await axios.post(verifyUrl, response);
-					console.log(data);
-				} catch (error) {
-					console.log(error);
-				}
-			},
-			theme: {
-				color: "#3399cc",
-			},
-		};
-		const rzp1 = new window.Razorpay(options);
-		rzp1.open();
-	};
+
+      handler: async (response) => {
+        try {
+          const verifyUrl = "http://localhost:8080/api/v1/payment/verify";
+          const { data } = await axios.post(verifyUrl, response);
+          console.log(data);
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  };
 
   const handlepayment = async () => {
     try {
       const orderUrl = "http://localhost:8080/api/v1/payment/orders";
-      const { data } = await axios.post(orderUrl, { amount:cart.reduce((total, item) => total + item.price * item.quantity, 0),});
+      const { data } = await axios.post(orderUrl, {
+        
+        amount: parseFloat(totalPrice), // Send the total amount directly
+      });
       console.log(data);
       initPayment(data.data);
     } catch (error) {
       console.log(error);
     }
   };
-
   const handleAddToCart = (product) => {
     const existingItemIndex = cart.findIndex(
       (item) => item._id === product._id
@@ -177,23 +176,20 @@ const CartPage = () => {
         <div className="cart-summary">
           <h2>Shopping Cart</h2>
           <div className="row mb-2 mt-4">
-      <div className="col-md-12">
-        <h1 className="text-center p-2 mb-1">
-          {`Hello ${auth?.token && auth?.user?.name}`}
-        </h1>
-        <h4 className="text-center">
-          {cart?.length
-            ? `You Have ${cart.length} items in your cart ${
-                auth?.token ? "" : "please login to checkout"
-              }`
-            : " Your Cart Is Empty"}
-        </h4>
-      </div>
-    </div>
+            <div className="col-md-12">
+              <h1 className="text-center p-2 mb-1">
+                {`Hello ${auth?.token && auth?.user?.name}`}
+              </h1>
+              <h4 className="text-center">
+                {cart?.length
+                  ? `You Have ${cart.length} items in your cart ${
+                      auth?.token ? "" : "please login to checkout"
+                    }`
+                  : " Your Cart Is Empty"}
+              </h4>
+            </div>
+          </div>
 
-    
-
-    
           <table>
             <thead>
               <tr>
@@ -277,16 +273,18 @@ const CartPage = () => {
                   onInstance={(instance) => setInstance(instance)}
                 />
                 <button
-                  className=" btn-primary"
+                  className=" btn-primary mb-2"
+              
                   onClick={handlePayment}
                   disabled={loading || !instance || !auth?.user?.address}
                 >
                   {loading ? "Processing ...." : "Make Payment"}
                 </button>
-                <button onClick={handlepayment} className="buy_btn">
-					buy now
-				</button>
-
+                <div>
+                <button onClick={handlepayment} className="btn-primary mb-2">
+                  Payment 2
+                </button>
+                </div>
               </>
             )}
           </div>
