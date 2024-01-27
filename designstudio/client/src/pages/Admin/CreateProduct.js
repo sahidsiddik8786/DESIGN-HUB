@@ -94,10 +94,10 @@ const CreateProduct = () => {
         );
         
         if (data?.success) {
-          toast.error(data?.message);
-        } else {
           toast.success("Product Created Successfully");
           navigate("/Dashboard/AdminDashboard/products");
+        } else {
+          toast.success("Product not  Created ");
         }
       } catch (error) {
         console.log(error);

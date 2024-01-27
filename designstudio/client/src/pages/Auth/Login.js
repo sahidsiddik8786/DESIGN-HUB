@@ -128,13 +128,13 @@ if(res.data.user.role === "1") {
           </div>
           <div className="mb-3 w-100">
             <NavLink to="/forgotpassword" className="forgot-link">
-              Forgot Password
+              <h5>Forgot Password</h5>
             </NavLink>
           </div>
           <div className="mb-3">
-            <p>Don't have an account?</p>
-            <NavLink to="/register" className=" btn btn-default  rounded-p4">
-              Create new account
+            <p><h5>Don't have an account?</h5></p>
+            <NavLink to="/register" className="btn-default  rounded-p4">
+               <h5>Create new account</h5>
             </NavLink>
           </div>
 

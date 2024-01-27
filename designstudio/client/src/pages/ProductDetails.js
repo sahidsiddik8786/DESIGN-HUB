@@ -4,6 +4,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../context/cart";
 import toast from "react-hot-toast";
+
 const ProductDetails = () => {
   const [cart, setCart] = useCart();
   const params = useParams();
@@ -38,6 +39,14 @@ const ProductDetails = () => {
     }
   };
 
+  const handleAddToCart = () => {
+    setCart([...cart, product]);
+    localStorage.setItem("cart", JSON.stringify([...cart, product]));
+    toast.success("Item Added to cart");
+    // Redirect to the cart page after adding to the cart
+    navigate("/cart");
+  };
+
   return (
     <Layout>
       <div className="container mt-2">
@@ -56,15 +65,9 @@ const ProductDetails = () => {
             <h6>Price: {product.price}</h6>
             <h6>Category: {product?.category?.name}</h6>
             <button
-              className=" btn-secondary ms-1"
-              onClick={() => {
-                setCart([...cart, product]);
-                localStorage.setItem(
-                  "cart",
-                  JSON.stringify([...cart, product])
-                );
-                toast.success("Item Added to cart");
-              }}
+              className="btn-secondary ms-1"
+              id="btn"
+              onClick={handleAddToCart}
             >
               ADD TO CART
             </button>
@@ -100,7 +103,7 @@ const ProductDetails = () => {
                       More Details
                     </button>
                     <button
-                      className=" btn-secondary ms-1"
+                      className="btn-secondary ms-1"
                       onClick={() => {
                         setCart([...cart, product]);
                         localStorage.setItem(
@@ -108,6 +111,7 @@ const ProductDetails = () => {
                           JSON.stringify([...cart, product])
                         );
                         toast.success("Item Added to cart");
+                        navigate("/cart"); // Redirect to cart page
                       }}
                     >
                       ADD TO CART

@@ -8,7 +8,7 @@ const HomePage = () => {
 
   return (
     <Layout title={"Design Studio"}>
-
+{/*
 <>
 
   <main>
@@ -407,7 +407,7 @@ const HomePage = () => {
 
   </main>
 </>
-
+              */}
     </Layout>
   );
 };

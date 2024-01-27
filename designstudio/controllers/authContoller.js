@@ -19,26 +19,8 @@ const transporter = nodemailer.createTransport({
 export const registerContoller = async (req, res) => {
   try {
     console.log("Received registration request #########");
-    const { name, email, password, phone, address } = req.body;
-    //validation
-    if (!name) {
-      return res.send({ error: "Name is Required" });
-    }
+    const { firstname, lastname, address,  streetaddress, city, state, postal, email, password, phone} = req.body;
 
-    if (!email) {
-      return res.send({ message: "email is Required" });
-    }
-
-    if (!password) {
-      return res.send({ message: "Phone is Required" });
-    }
-    if (!phone) {
-      return res.send({ message: "email is Required" });
-    }
-
-    if (!address) {
-      return res.send({ message: "address is Required" });
-    }
 
     //check User
     const exsistingUser = await userModel.findOne({ email: email });
@@ -60,10 +42,15 @@ export const registerContoller = async (req, res) => {
 
     //save
     const user = await new userModel({
-      name,
+      firstname,
+      lastname,
+      address,
+      streetaddress,
+      city,
+      state,
+      postal,
       email,
       phone,
-      address,
       password: hashedPassword,
     }).save();
 
@@ -145,7 +132,12 @@ export const loginController = async (req, res) => {
       message: "Login successful",
       user: {
         _id: user._id,
-        name: user.name,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        streetaddress: user.streetaddress,
+        city: user.city,
+        state: user.state,
+        postal: user.postal,
         email: user.email,
         phone: user.phone,
         address: user.address,
@@ -172,7 +164,7 @@ export const testController = (req, res) => {
 
 export const updateProfileController = async (req, res) => {
   try {
-    const { name, /*password*/ address, phone } = req.body;
+    const { firstname, lastname, /*password*/ address, streetaddress, state, city,postal, phone } = req.body;
     const user = await userModel.findById(req.user._id);
 
     console.log("Request Body:", req.body); // Debugging log
@@ -186,13 +178,18 @@ export const updateProfileController = async (req, res) => {
     }
 
     // Validate incoming data
-    if (name && typeof name !== "string") {
+    if (firstname && typeof firstname !== "string") {
       return res.status(400).json({
         success: false,
         message: "Invalid name format",
       });
     }
-
+    if (lastname && typeof lastname !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid name format",
+      });
+    }
     /*if (password && typeof password !== 'string') {
               return res.status(400).json({
                 success: false,
@@ -206,7 +203,12 @@ export const updateProfileController = async (req, res) => {
         message: "Invalid address format",
       });
     }
-
+    if (streetaddress && typeof streetaddress !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid address format",
+      });
+    }
     // Validate phone format (e.g., allow only digits, optional dashes, and parentheses)
     if (phone && !/^\d{10}$/.test(phone)) {
       return res.status(400).json({
@@ -216,9 +218,14 @@ export const updateProfileController = async (req, res) => {
     }
 
     // Update user properties with the new values
-    user.name = name || user.name;
+    user.firstname = firstname || user.firstname;
+    user.lastname = lastname || user.lastname;
     //user.password = password ? await hashPassword(password) : user.password;
     user.address = address || user.address;
+    user.streetaddress = streetaddress || user.streetaddress;
+    user.city = city || user.city;
+    user.state = state || user.state;
+    user.postal = postal || user.postal;
     user.phone = phone || user.phone;
 
     const updatedUser = await user.save();

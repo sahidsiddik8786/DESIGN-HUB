@@ -82,6 +82,12 @@ const CartPage = () => {
 
   const handlePayment = async () => {
     try {
+
+      if (!auth?.token) {
+        toast.error("Please log in to proceed with the payment");
+        return;
+      }
+
       setLoading(true);
       const { nonce } = await instance.requestPaymentMethod();
       const { data } = await axios.post(
@@ -94,6 +100,8 @@ const CartPage = () => {
       setLoading(false);
       localStorage.removeItem("cart");
       setCart([]);
+
+
       navigate("/Dashboard/UserDashboard/Orders");
       toast.success("Payment Completed Successfully ");
     } catch (error) {
@@ -249,13 +257,47 @@ const CartPage = () => {
             </tbody>
           </table>
 
-          <div className="total-price">
-            <p>
-              Total Price: ₹
-              <span>
-                <h2>{totalPrice}</h2>
-              </span>
-            </p>
+          <div className="col-md-4 text-center">
+            <h2>Cart Summary</h2>
+            <p>Total | Checkout | Payment</p>
+            <hr />
+            <h4>Total : {totalPrice} </h4>
+            {auth?.user?.address ? (
+              <>
+                <div className="mb-3">
+                  <h4>Current Address</h4>
+                  <h5>{auth?.user?.address}</h5>
+                  <button
+                    className="btn btn-outline-warning"
+                    onClick={() => navigate("/Dashboard/UserDashboard/Profile")}
+                  >
+                    Update Address
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="mb-3">
+                {auth?.token ? (
+                  <button
+                    className="btn btn-outline-warning"
+                    onClick={() => navigate("/Dashboard/UserDashboard/Profile")}
+                  >
+                    Update Address
+                  </button>
+                ) : (
+                  <button
+                    className=" btn-outline-warning"
+                    onClick={() =>
+                      navigate("/login", {
+                        state: "/cart",
+                      })
+                    }
+                  >
+                    Plase Login to checkout
+                  </button>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="mt-2">

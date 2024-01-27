@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Card, Divider } from "antd"; // Import Card and Divider components
 import { useAuth } from "../../context/auth";
 import UserMenu from "../../components/layout/UserMenu";
 import Layout from "../../components/layout/Layout";
@@ -8,17 +8,42 @@ const Dashboard = () => {
   const [auth] = useAuth();
   return (
     <Layout title={"Dashboard"}>
-      <div className="container-flui m-3 p-3 dashboard">
+      <div>
         <div className="row">
           <div className="col-md-3">
-            <UserMenu/>
+            <UserMenu />
           </div>
           <div className="col-md-9">
-            <div className="card w-75 p-3">
-              <h3>{auth?.user?.name}</h3>
-              <h3>{auth?.user?.email}</h3>
-              <h3>{auth?.user?.address}</h3>
-            </div>
+          <Card
+              title={<h2 style={{ fontSize: "1.5em" }}>User Information</h2>} // Increase title size
+              style={{ width: "80%", fontSize: "1.2em" }}
+            >
+              <Divider>Personal Details</Divider>
+              <p>
+                <strong>Name:</strong> {auth?.user?.firstname}{" "}
+                {auth?.user?.lastname}
+              </p>
+              <p>
+                <strong>Email:</strong> {auth?.user?.email}
+              </p>
+
+              <Divider>Address</Divider>
+              <p>
+                <strong>Street Address 1:</strong> {auth?.user?.address}
+              </p>
+              <p>
+                <strong>Street Address 2:</strong> {auth?.user?.streetaddress}
+              </p>
+              <p>
+                <strong>City:</strong> {auth?.user?.city}
+              </p>
+              <p>
+                <strong>State:</strong> {auth?.user?.state}
+              </p>
+              <p>
+                <strong>Postal Code:</strong> {auth?.user?.postal}
+              </p>
+            </Card>
           </div>
         </div>
       </div>

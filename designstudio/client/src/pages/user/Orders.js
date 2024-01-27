@@ -83,12 +83,12 @@ const Orders = () => {
 
   return (
     <Layout title={"Your Orders"}>
-    <div className="container-fluid p-3 m-3 dashboard">
+    <div>
       <div className="row">
         <div className="col-md-3">
           <UserMenu />
         </div>
-        <div className="col-md-9">
+        <div>
           <h1 className="text-center mb-4">All Orders</h1>
           {orders?.map((order, index) => (
             <div key={index} className="border shadow mb-3 order-container">

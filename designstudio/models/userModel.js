@@ -1,10 +1,35 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    name:{
+    firstname:{
         type:String,
         require:true,
         trim:true
+    },
+    lastname:{
+        type:String,
+        require:true,
+        trim:true
+    },
+    address:{
+        type:String,
+        require:true,
+    },
+    streetaddress:{
+        type:String,
+        require:true,
+    },
+    city:{
+        type:String,
+        require:true,
+    },
+    state:{
+        type:String,
+        require:true,
+    },
+    postal:{
+        type:String,
+        require:true,
     },
     email:{
         type:String,
@@ -19,10 +44,7 @@ const userSchema = new mongoose.Schema({
         type:String,
         require:true,
     },
-    address:{
-        type:String,
-        require:true,
-    },
+
     role:{
         type:String,
         default:'0'

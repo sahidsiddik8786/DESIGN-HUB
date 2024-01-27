@@ -32,7 +32,7 @@ const Header = () => {
       <div className="container-fluid">
         <Navbar.Toggle aria-controls="navbarTogglerDemo01" />
         <Link to="/" style={{ color: "white", fontSize, textTransform: 'none' }} className="navbar-brand">
-          Design Studio
+          DESIGN STUDIO
         </Link>
         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
           <Navbar.Collapse
@@ -44,6 +44,51 @@ const Header = () => {
               <Nav.Link as={Link} to="/" style={{ color: "white", fontSize, marginRight, textTransform: 'none' }} className="nav-link custom-font">
                 Home
               </Nav.Link>
+
+
+              {auth.user?.role !== "1" && (
+                <>
+                  <Nav.Link
+                    as={Link}
+                    to="/Designs"
+                    style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
+                    className="nav-link custom-font"
+                  >
+                    Designs
+                  </Nav.Link>
+                </>
+              )}
+
+
+
+
+              {auth.user?.role !== "1" && (
+                <>
+                  <Nav.Link
+                    as={Link}
+                    to="/Shop"
+                    style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
+                    className="nav-link custom-font"
+                  >
+                    Products
+                  </Nav.Link>
+                  {auth.user ? (
+                    <div className="nav-item">
+                      <Badge count={cart?.length} showZero>
+                        <Nav.Link
+                          as={Link}
+                          to="/cart"
+                          style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
+                          className="nav-link custom-font"
+                        >
+                          <i className='fas fa-shopping-cart'></i>
+                        </Nav.Link>
+                      </Badge>
+                    </div>
+                  ) : null}
+                </>
+              )}
+
               {!auth.user ? (
                 <>
                   <Nav.Link as={Link} to="/login" style={{ color: "white", fontSize, marginRight, textTransform: 'none' }} className="nav-link custom-font">
@@ -52,7 +97,7 @@ const Header = () => {
                 </>
               ) : (
                 <NavDropdown
-                  title={<span style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}>{auth?.user?.name}</span>}
+                  title={<span style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}>{auth?.user?.firstname} {auth?.user?.lastname}</span>}
                   id="basic-nav-dropdown"
                   className="nav-dropdown"
                 >
@@ -77,32 +122,7 @@ const Header = () => {
                   </NavDropdown.Item>
                 </NavDropdown>
               )}
-              {auth.user?.role !== "1" && (
-                <>
-                  <Nav.Link
-                    as={Link}
-                    to="/Shop"
-                    style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
-                    className="nav-link custom-font"
-                  >
-                    Shop
-                  </Nav.Link>
-                  {auth.user ? (
-                    <div className="nav-item">
-                      <Badge count={cart?.length} showZero>
-                        <Nav.Link
-                          as={Link}
-                          to="/cart"
-                          style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
-                          className="nav-link custom-font"
-                        >
-                          <i className='fas fa-shopping-cart'></i>
-                        </Nav.Link>
-                      </Badge>
-                    </div>
-                  ) : null}
-                </>
-              )}
+          
               {/* Add WhatsApp icon here */}
               <Nav.Link
                 href="https://wa.me/919061592713"  // Replace with your WhatsApp number
