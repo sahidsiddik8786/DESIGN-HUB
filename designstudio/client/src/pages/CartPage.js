@@ -186,7 +186,7 @@ const CartPage = () => {
           <div className="row mb-2 mt-4">
             <div className="col-md-12">
               <h1 className="text-center p-2 mb-1">
-                {`Hello ${auth?.token && auth?.user?.name}`}
+                {`Hello ${auth?.token && auth?.user?.firstname}  ${auth?.token && auth?.user?.lastname}`}
               </h1>
               <h4 className="text-center">
                 {cart?.length
@@ -266,9 +266,14 @@ const CartPage = () => {
               <>
                 <div className="mb-3">
                   <h4>Current Address</h4>
-                  <h5>{auth?.user?.address}</h5>
+                  <h5>{auth?.user?.address} ,
+                  {auth?.user?.streetaddress}</h5>
+                  <h5>{auth?.user?.city} , 
+                  {auth?.user?.state} </h5>
+                  <h5>{auth?.user?.postal}</h5>
+                 
                   <button
-                    className="btn btn-outline-warning"
+                    className="btn-outline-warning"
                     onClick={() => navigate("/Dashboard/UserDashboard/Profile")}
                   >
                     Update Address
