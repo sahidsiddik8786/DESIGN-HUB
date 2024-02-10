@@ -1,11 +1,11 @@
 footer {
-  
-    padding: 2vmax;
-    background-color: rgba(34, 33, 33, 0.993);
-    color: white;
-    display: flex;
-    align-items: center;
-  }
+  padding: 2vmax; /* Increase the padding value to adjust the height */
+  background-color: rgba(34, 33, 33, 0.993);
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
   
   .leftFooter {
     width: 20%;

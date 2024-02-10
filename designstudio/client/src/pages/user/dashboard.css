@@ -1,12 +1,23 @@
-.dashboard-container {
-   
-    background-repeat: no-repeat;
-    background-position: center center;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    /* Add more styles as needed */
-}
+
+.react-pro-sidebar {
+    background-color: #2a2e3b; /* Set background color */
+  }
+  
+  .react-pro-sidebar .pro-sidebar-inner {
+    border-right: 1px solid #3f4254; /* Add border */
+  }
+  
+  .react-pro-sidebar .pro-sidebar-menu .pro-menu-item {
+    color: #fff; /* Set text color */
+  }
+  
+  .react-pro-sidebar .pro-sidebar-menu .pro-menu-item.active {
+    background-color: #3f4254; /* Set background color for active menu item */
+  }
+  
+  .react-pro-sidebar .pro-sidebar-menu .pro-menu-item .pro-inner-item {
+    padding: 12px 20px; /* Adjust padding */
+  }
+  
+  /* Add more custom styles as needed */
+  

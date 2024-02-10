@@ -29,7 +29,7 @@ const AdminDashboard = () => {
                   type="text"
                   className="form-control"
                   id="name"
-                  value={auth?.user?.name}
+                  value={auth?.user?.firstname}
                   readOnly
                 />
               </div>

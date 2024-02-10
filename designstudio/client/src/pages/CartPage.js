@@ -328,9 +328,9 @@ const CartPage = () => {
                   {loading ? "Processing ...." : "Make Payment"}
                 </button>
                 <div>
-                <button onClick={handlepayment} className="btn-primary mb-2">
+                {/*<button onClick={handlepayment} className="btn-primary mb-2">
                   Payment 2
-                </button>
+                </button>*/}
                 </div>
               </>
             )}

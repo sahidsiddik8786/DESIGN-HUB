@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Select, Row, Col, Space, Typography } from "antd";
+import { Table, Select, Row, Col, Space, Typography, Tag } from "antd";
 import AdminMenu from "../../components/layout/AdminMenu";
 import Layout from "../../components/layout/Layout";
 import { useAuth } from "../../context/auth";
 import moment from "moment";
 const { Option } = Select;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const AdminOrders = () => {
   const [status, setStatus] = useState([
     "Not Process",
     "Processing",
     "Shipped",
-    "delivered",
-    "cancel",
+    "Delivered",
+    "Cancel",
   ]);
   const [orders, setOrders] = useState([]);
   const [auth, setAuth] = useAuth();
@@ -45,15 +45,20 @@ const AdminOrders = () => {
 
   const columns = [
     {
-      title: "Order #",
+      title: "Order",
       dataIndex: "orderNumber",
       key: "orderNumber",
       render: (text, record, index) => index + 1,
+      sorter: (a, b) => a.orderNumber - b.orderNumber,
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
+      render: (status) => (
+        <Tag color={status === "Delivered" ? "green" : status === "Cancel" ? "red" : "blue"}>{status}</Tag>
+      ),
+      sorter: (a, b) => a.status.localeCompare(b.status),
     },
     {
       title: "Buyer",
@@ -65,13 +70,16 @@ const AdminOrders = () => {
       title: "Date",
       dataIndex: "createAt",
       key: "createAt",
-      render: (createAt) => moment(createAt).fromNow(),
+      render: (createAt) => moment(createAt).format("YYYY-MM-DD "),
+      sorter: (a, b) => moment(a.createAt).unix() - moment(b.createAt).unix(),
     },
     {
       title: "Payment",
       dataIndex: "payment",
       key: "payment",
-      render: (payment) => (payment.success ? "Success" : "Failed"),
+      render: (payment) => (
+        <span>{payment.success ? <Tag color="green">Success</Tag> : <Tag color="red">Failed</Tag>}</span>
+      ),
     },
     {
       title: "Quantity",
@@ -114,6 +122,11 @@ const AdminOrders = () => {
               columns={columns}
               rowKey={(record) => record._id}
               pagination={false}
+              scroll={{ x: true }}
+              bordered // Add bordered prop to the Table component to apply built-in border styles
+              className="custom-table" // Add a custom class for additional styling
+              style={{ background: "#f5f5f5" }} // Set background color for the entire table
+              headerStyle={{ background: "#1890ff", color: "#fff" }} // Set background and text color for the table header
             />
           </Space>
         </Col>

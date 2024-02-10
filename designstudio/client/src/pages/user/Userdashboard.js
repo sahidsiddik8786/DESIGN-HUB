@@ -29,10 +29,10 @@ const Dashboard = () => {
 
               <Divider>Address</Divider>
               <p>
-                <strong>Street Address 1:</strong> {auth?.user?.address}
+                <strong>Address :</strong> {auth?.user?.address}
               </p>
               <p>
-                <strong>Street Address 2:</strong> {auth?.user?.streetaddress}
+                <strong>Street:</strong> {auth?.user?.streetaddress}
               </p>
               <p>
                 <strong>City:</strong> {auth?.user?.city}

@@ -38,7 +38,6 @@ const Users = () => {
           <div className="col-md-3">
             <AdminMenu />
           </div>
-
           <div className="col-md-9">
             <h1>Users Lists</h1>
             <table className="table table-bordered table-styled">
@@ -54,7 +53,8 @@ const Users = () => {
               <tbody>
                 {users.map((user) => (
                   <tr key={user._id}>
-                    <td>{user.name}</td>
+                    <td>{user.firstname}
+                    {user.lastname}</td>
                     <td>{user.email}</td>
                     <td>{user.phone}</td>
                     <td>{user.address}</td>

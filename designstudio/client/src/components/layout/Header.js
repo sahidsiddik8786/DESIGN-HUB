@@ -40,61 +40,40 @@ const Header = () => {
             className="justify-content-left"
           >
             <Nav className="mb-2 mb-lg-0">
-
-              <Nav.Link as={Link} to="/" style={{ color: "white", fontSize, marginRight, textTransform: 'none' }} className="nav-link custom-font">
-                Home
-              </Nav.Link>
-
-
               {auth.user?.role !== "1" && (
-                <>
-                  <Nav.Link
-                    as={Link}
-                    to="/Designs"
-                    style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
-                    className="nav-link custom-font"
-                  >
-                    Designs
-                  </Nav.Link>
-                </>
+                <Nav.Link as={Link} to="/" style={{ color: "white", fontSize, marginRight, textTransform: 'none' }} className="nav-link custom-font">
+                  Home
+                </Nav.Link>
               )}
 
-
-
-
               {auth.user?.role !== "1" && (
-                <>
+                <Nav.Link
+                  as={Link}
+                  to="/Shop"
+                  style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
+                  className="nav-link custom-font"
+                >
+                  Products
+                </Nav.Link>
+              )}
+              
+              {auth.user?.role !== "1"  && (
+                <div className="nav-item">
                   <Nav.Link
                     as={Link}
-                    to="/Shop"
+                    to="/cart"
                     style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
                     className="nav-link custom-font"
                   >
-                    Products
+                    <i className='fas fa-shopping-cart'></i> Cart
                   </Nav.Link>
-                  {auth.user ? (
-                    <div className="nav-item">
-                      <Badge count={cart?.length} showZero>
-                        <Nav.Link
-                          as={Link}
-                          to="/cart"
-                          style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
-                          className="nav-link custom-font"
-                        >
-                          <i className='fas fa-shopping-cart'></i>
-                        </Nav.Link>
-                      </Badge>
-                    </div>
-                  ) : null}
-                </>
+                </div>
               )}
 
               {!auth.user ? (
-                <>
-                  <Nav.Link as={Link} to="/login" style={{ color: "white", fontSize, marginRight, textTransform: 'none' }} className="nav-link custom-font">
-                    <i className='fas fa-user'></i> SignIn
-                  </Nav.Link>
-                </>
+                <Nav.Link as={Link} to="/login" style={{ color: "white", fontSize, marginRight, textTransform: 'none' }} className="nav-link custom-font">
+                  <i className='fas fa-user'></i> SignIn
+                </Nav.Link>
               ) : (
                 <NavDropdown
                   title={<span style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}>{auth?.user?.firstname} {auth?.user?.lastname}</span>}
@@ -122,17 +101,18 @@ const Header = () => {
                   </NavDropdown.Item>
                 </NavDropdown>
               )}
-          
-              {/* Add WhatsApp icon here */}
-              <Nav.Link
-                href="https://wa.me/919061592713"  // Replace with your WhatsApp number
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
-                className="nav-link custom-font"
-              > 
-                <i className='fab fa-whatsapp'></i> Contact
-              </Nav.Link>
+
+              {auth.user?.role !== "1" && (
+                <Nav.Link
+                  href="https://wa.me/919061592713"  // Replace with your WhatsApp number
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
+                  className="nav-link custom-font"
+                > 
+                  <i className='fab fa-whatsapp'></i> Contact
+                </Nav.Link>
+              )}
             </Nav>
           </Navbar.Collapse>
         </ul>
