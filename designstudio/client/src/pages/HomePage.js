@@ -14,8 +14,6 @@ const HomePage = () => {
     { text1: "Elevate Your Living Experience with",   text2:  "Timeless Design and Modern Elegance" },
     { text1: "Designing Dreams, Crafting Comfort", text2: " Where Style Meets Serenity." },
     
-
-
   ]
 
   const [heroCount, setHeroCount] = useState(0);

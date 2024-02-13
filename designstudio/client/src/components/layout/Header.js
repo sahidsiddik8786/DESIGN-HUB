@@ -42,7 +42,7 @@ const Header = () => {
             <Nav className="mb-2 mb-lg-0">
               {auth.user?.role !== "1" && (
                 <Nav.Link as={Link} to="/" style={{ color: "white", fontSize, marginRight, textTransform: 'none' }} className="nav-link custom-font">
-                  Home
+                  Interior
                 </Nav.Link>
               )}
 
@@ -100,18 +100,6 @@ const Header = () => {
                     Logout
                   </NavDropdown.Item>
                 </NavDropdown>
-              )}
-
-              {auth.user?.role !== "1" && (
-                <Nav.Link
-                  href="https://wa.me/919061592713"  // Replace with your WhatsApp number
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
-                  className="nav-link custom-font"
-                > 
-                  <i className='fab fa-whatsapp'></i> Contact
-                </Nav.Link>
               )}
             </Nav>
           </Navbar.Collapse>

@@ -132,21 +132,7 @@ const CreatesubCategory = () => {
       dataIndex: 'name',
       key: 'name',
     },
-    {
-      title: 'Actions',
-      key: 'actions',
-      render: (text, record) => (
-        <>
-          {/*<Button type="link" onClick={() => handleEditSubcategory(record._id)}>
-            Edit
-          </Button>
-          <Button type="link" onClick={() => handleDisableSubcategory(record._id)}>
-            Disable
-          </Button>
-      */}
-        </>
-      ),
-    },
+ 
   ];
 
   return (

@@ -1,7 +1,7 @@
-// controllers/subcategoryController.js
-import designsubcategoryModel from '../models/designsubcategoryModel.js';
+import Subcategorydesign from '../models/designsubcategoryModel.js';
 import slugify from 'slugify';
 
+import designcategoryModel from '../models/designcategoryModel.js';
 
 
 export const createdesignSubcategoryController = async (req, res) => {
@@ -13,24 +13,23 @@ export const createdesignSubcategoryController = async (req, res) => {
       }
   
       // Validate that the parentCategoryId corresponds to an existing category
-      const existingCategory = await designsubcategoryModel.findById(parentCategorydesignId);
+      const existingCategory = await designcategoryModel.findById(parentCategorydesignId);
       if (!existingCategory) {
         return res.status(400).send({ success: false, message: 'Invalid parentCategoryId.' });
       }
-  
-      const existingSubcategory = await subcategory.findOne({ name, parentCategorydesign: parentCategorydesignId });
+      const existingSubcategory = await Subcategorydesign.findOne({ name , parentCategorydesign: parentCategorydesignId})
   
       if (existingSubcategory) {
         return res.status(200).send({ success: true, message: 'Subcategory already exists for this category.' });
       }
   
-      const subcategorydesign = await new subcategorydesign({
+      const subcategory = await new Subcategorydesign ({
         name,
         slug: slugify(name),
         parentCategorydesign: parentCategorydesignId,
       }).save();
   
-      res.status(201).send({ success: true, message: 'New subcategory created.', subcategorydesign });
+      res.status(201).send({ success: true, message: 'New subcategory created.', subcategory });
     } catch (error) {
       console.log(error);
       res.status(500).send({ success: false, error, message: 'Error creating subcategory.' });
@@ -40,8 +39,8 @@ export const createdesignSubcategoryController = async (req, res) => {
 // Get all subcategories
 export const subcategorydesignController = async (req, res) => {
   try {
-    const subcategorydesign = await subcategorydesign.find({}).populate('parentCategorydesign');
-    res.status(200).send({ success: true, message: 'All Subcategories List', subcategorydesign });
+    const subcategory = await Subcategorydesign.find({}).populate('parentCategorydesign');
+    res.status(200).send({ success: true, message: 'All Subcategories List', subcategory });
   } catch (error) {
     console.log(error);
     res.status(500).send({ success: false, error, message: 'Error while getting all subcategories.' });
@@ -53,7 +52,7 @@ export const updateSubcategorydesignController = async (req, res) => {
   try {
     const { name } = req.body;
     const { id } = req.params;
-    const subcategory = await subcategorydesign.findByIdAndUpdate(
+    const subcategory = await Subcategorydesign.findByIdAndUpdate(
       id,
       { name, slug: slugify(name) },
       { new: true }

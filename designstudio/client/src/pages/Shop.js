@@ -9,8 +9,6 @@ import toast from "react-hot-toast";
 import SearchInput from "../components/Form/SearchInput";
 import "./pages.css";
 import NavigationMenu from "../components/layout/NavigationMenu";
-//import { Checkbox, Radio, Button } from 'antd';
-//import { Button, Checkbox, Radio } from '@mui/material';
 import { Checkbox as AntCheckbox, Radio as AntRadio } from 'antd';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Link } from "react-router-dom";
@@ -26,18 +24,16 @@ const HomePage = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true); // Always show sidebar
   const [wishlist, setWishlist] = useState([]);
   const [isInWishlist, setIsInWishlist] = useState([]);
 
   useEffect(() => {
-    // Load wishlist from local storage on component mount
     const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
     setWishlist(storedWishlist);
 
-// Check if each product is in the wishlist
-const isInWishlistArray = products.map((product) => wishlist.some((item) => item._id === product._id));
-setIsInWishlist(isInWishlistArray);
+    const isInWishlistArray = products.map((product) => wishlist.some((item) => item._id === product._id));
+    setIsInWishlist(isInWishlistArray);
 
   }, [wishlist, products]);
 
@@ -48,31 +44,24 @@ setIsInWishlist(isInWishlistArray);
     if (productIndex !== -1) {
       const product = products[productIndex];
   
-      // Check if the product is already in the wishlist
       const isProductInWishlist = updatedWishlist.some((item) => item._id === productId);
   
       if (!isProductInWishlist) {
-        // If the product is not in the wishlist, add it
         updatedWishlist.push(product);
       } else {
-        // If the product is in the wishlist, remove it
         updatedWishlist.splice(productIndex, 1);
       }
   
-      // Update the wishlist state
       setWishlist(updatedWishlist);
   
-      // Save the updated wishlist to local storage
       localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
     }
   };
 
-  
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  //get all cat
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get("http://localhost:8080/api/v1/category/get-category");
@@ -88,7 +77,7 @@ setIsInWishlist(isInWishlistArray);
     getAllCategory();
     getTotal();
   }, []);
-  //get products
+
   const getAllProducts = async () => {
     try {
       setLoading(true);
@@ -101,7 +90,6 @@ setIsInWishlist(isInWishlistArray);
     }
   };
 
-  //getTOtal COunt
   const getTotal = async () => {
     try {
       const { data } = await axios.get("http://localhost:8080/api/v1/product/product-count");
@@ -115,7 +103,7 @@ setIsInWishlist(isInWishlistArray);
     if (page === 1) return;
     loadMore();
   }, [page]);
-  //load more
+
   const loadMore = async () => {
     try {
       setLoading(true);
@@ -128,7 +116,6 @@ setIsInWishlist(isInWishlistArray);
     }
   };
 
-  // filter by cat
   const handleFilter = (value, id) => {
     let all = [...checked];
     if (value) {
@@ -138,6 +125,7 @@ setIsInWishlist(isInWishlistArray);
     }
     setChecked(all);
   };
+
   useEffect(() => {
     if (!checked.length || !radio.length) getAllProducts();
   }, [checked.length, radio.length]);
@@ -146,7 +134,6 @@ setIsInWishlist(isInWishlistArray);
     if (checked.length || radio.length) filterProduct();
   }, [checked, radio]);
 
-  //get filterd product
   const filterProduct = async () => {
     try {
       const { data } = await axios.post("http://localhost:8080/api/v1/product/product-filters", {
@@ -159,20 +146,20 @@ setIsInWishlist(isInWishlistArray);
     }
   };
 
-    return (
-  <Layout title={"All Products - Best offers "}>
-  <NavigationMenu />
-        <Button
-            variant="outlined"
-            color="primary"
-            onClick={toggleSidebar}
-            className="mt-3"
-          >
-            {sidebarOpen ? "Hide Filters" : "Show Filters"}
-          </Button>
-  <div className="container-fluid row mt-3">
- {/* Sidebar */}
- <div className={`col-md-2 ${sidebarOpen ? "" : " d-none"}`}>
+  return (
+    <Layout title={"All Products - Best offers "}>
+      <NavigationMenu />
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={toggleSidebar}
+        className="mt-3"
+      >
+        {sidebarOpen ? "Hide Filters" : "Show Filters"}
+      </Button>
+      <div className="container-fluid row mt-3">
+        {/* Sidebar */}
+        <div className={`col-md-2 ${sidebarOpen ? "" : " d-none"}`}>
           <h4 className="text-center">Filter By Category</h4>
           <div className="d-flex flex-column">
             {categories?.map((c) => (
@@ -205,11 +192,10 @@ setIsInWishlist(isInWishlistArray);
               RESET FILTERS
             </Button>
           </div>
-          
         </div>
    
         <div className="col-md-9 offset-1">
-          <h1 className="text-center mb-4">SHOP Now </h1>
+         {/* <h1 className="text-center mb-4">SHOP</h1>*/}
           <Grid container spacing={3}>
             {products?.map((p , index) => (
               <Grid item key={p._id} xs={12} sm={6} md={4}>
@@ -232,11 +218,10 @@ setIsInWishlist(isInWishlistArray);
                     </Typography>
 
                     <FavoriteIcon
-                    color={isInWishlist[index] ? "error" : "inherit"}
-                    onClick={() => handleToggleWishlist(p._id)}
-                    style={{ cursor: "pointer" }}
-                  />
-
+                      color={isInWishlist[index] ? "error" : "inherit"}
+                      onClick={() => handleToggleWishlist(p._id)}
+                      style={{ cursor: "pointer" }}
+                    />
 
                     <Button
                       variant="outlined"
@@ -270,7 +255,6 @@ setIsInWishlist(isInWishlistArray);
               <Button
                 variant="contained"
                 color="warning"
-           
                 onClick={(e) => {
                   e.preventDefault();
                   setPage(page + 1);
@@ -281,25 +265,18 @@ setIsInWishlist(isInWishlistArray);
             )}
           </div>
           <Button
-        component={Link}
-        to="/wishlist"
-        variant="contained"
-        color="primary"  // Adjust color as needed
-        className="mt-3"
-      >
-        View Wishlist
-      </Button>
+            component={Link}
+            to="/wishlist"
+            variant="contained"
+            color="primary"  
+            className="mt-3"
+          >
+            View Wishlist
+          </Button>
         </div>
-   
       </div>
     </Layout>
   );
 }
-
-
-
-
-
-  
 
 export default HomePage;

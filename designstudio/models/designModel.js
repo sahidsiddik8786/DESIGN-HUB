@@ -2,29 +2,23 @@ import mongoose from "mongoose";
 
 const designSchema = new mongoose.Schema(
   {
-    name_of_design: {
+    name: {
       type: String,
       required: true,
     },
-    category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category-design', // Reference to Category model
-        required: true
-      },
-      subcategory: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Subcategory-design', // Reference to Subcategory model
-        required: true
-      },
+    slug: {
+      type: String,
+      required: true,
+    },
     description: {
       type: String,
       required: true,
     },
-    price_per_squarefeet: {
+    price: {
       type: Number,
       required: true,
     },
-    image: {
+    photo: {
         data: Buffer,
         contentType: String,
       },
@@ -32,9 +26,19 @@ const designSchema = new mongoose.Schema(
       type: String, 
       required: true,
     },
-    room_dimension: {
-      type: Number,
+    roomDimension: {
+      type: String,
       required: true,
+    },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category-design', // Reference to Category model
+      required: true
+    },
+    subcategory: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Subcategory-design', // Reference to Subcategory model
+      required: true
     },
   },
 );

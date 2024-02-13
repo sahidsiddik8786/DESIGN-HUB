@@ -118,14 +118,11 @@ export const deletedesignCategoryCOntroller = async (req, res) => {
 export const designsubcategoryController = async (req, res) => {
   try {
     const { categorydesignId } = req.params;
-    await designsubcategoryModel.find({ parentCategorydesign: categorydesignId });
-    res.status(200).send({ success: true, message: 'Subcategories for category retrieved successfully.'
-    });
+    // Find subcategories with the correct parent category ID
+    const subcategories = await designsubcategoryModel.find({ category: categorydesignId });
+    res.status(200).send({ success: true, message: 'Subcategories for category retrieved successfully.', subcategories });
   } catch (error) {
     console.log(error);
-    res.status(500).send({ 
-        success: false, 
-        error,
-         message: 'Error while getting subcategories for category.' });
+    res.status(500).send({ success: false, error, message: 'Error while getting subcategories for category.' });
   }
 };

@@ -14,7 +14,7 @@ const Navbar = ({ categories, onSelectCategory, subcategories, onSelectSubcatego
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{ backgroundColor: "" }} sticky="top">
       <Toolbar>
         {categories.map((category) => (
           <div key={category._id} style={{ marginRight: 16 }}>

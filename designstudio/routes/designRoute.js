@@ -41,10 +41,10 @@ router.get("/get-design", getDesignController);
 router.get("/get-design/:slug", getSingleDesignController);
 
 //get photo
-router.get("/design-photo/:did", designPhotoController);
+router.get("/design-photo/:pid", designPhotoController);
 
 //delete rproduct
-router.delete("/delete-design/:did", deleteDesignController);
+router.delete("/delete-design/:pid", deleteDesignController);
 //filter product
 router.post("/design-filters", designFiltersController);
 //product count
@@ -55,5 +55,5 @@ router.get("/design-list/:page", designListController);
 //search
 router.get("/search/:keyword", searchDesignController);
 //similar product
-router.get("/related-design/:did/:cid", realtedDesignController);
+router.get("/related-design/:pid/:cid", realtedDesignController);
 export default router;

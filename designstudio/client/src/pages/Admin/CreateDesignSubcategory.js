@@ -39,7 +39,7 @@ const CreatesubCategoryDesign = () => {
       console.log(error);
       message.error('Error while getting subcategories.');
     }
-  };      
+  };
 
   const handleAddSubcategory = async () => {
     try {
@@ -54,10 +54,11 @@ const CreatesubCategoryDesign = () => {
       });
 
       if (data.success) {
-        message.success(`subcategorydesign"${subcategoryName}" added successfully.`);
+        message.success(`Subcategory "${subcategoryName}" added successfully.`);
         setSubcategoryName('');
         setVisible(false);
-        getAllSubcategories(selectedCategory);
+        // Fetch subcategories after adding a new one
+        await getAllSubcategories(selectedCategory);
       } else {
         message.error(data.message);
       }
@@ -90,7 +91,8 @@ const CreatesubCategoryDesign = () => {
       if (data.success) {
         message.success(`Subcategory "${updatedSubcategoryName}" updated successfully.`);
         setVisible(false);
-        getAllSubcategories(selectedCategory);
+        // Fetch subcategories after updating
+        await getAllSubcategories(selectedCategory);
       } else {
         message.error(data.message);
       }
@@ -124,18 +126,19 @@ const CreatesubCategoryDesign = () => {
           <Button type="link" onClick={() => handleEditSubcategory(record._id)}>
             Edit
           </Button>
-       
+          
         </>
       ),
     },
   ];
 
   return (
+    
     <Layout title={'Dashboard - Manage Subcategories'}>
       <div className="container-fluid m-3 p-3">
         <div className="row">
           <div className="col-md-3">
-            <AdminMenu />
+          <AdminMenu />
           </div>
           <div className="col-md-9">
             <h1>Manage Subcategories</h1>

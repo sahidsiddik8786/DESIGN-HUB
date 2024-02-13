@@ -34,6 +34,7 @@ const CategoryForm = ({ handleSubmit, value, setValue, validated }) => {
         <CFormFeedback invalid>
           {value.trim() === "" ? "Name is required." : "Name should not contain numbers."}
         </CFormFeedback>
+        
       </CCol>
       <CCol md={12}>
         <CButton color="primary" type="submit">

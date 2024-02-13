@@ -27,8 +27,17 @@ const AdminMenu = () => {
         <NavLink to="/Dashboard/AdminDashboard/create-categorydesign" className="list-group-item list-group-item-action">
           Create Category for design
         </NavLink>
+        <NavLink to="/Dashboard/AdminDashboard/designimages" className="list-group-item list-group-item-action">
+          Upload Category Based Images
+        </NavLink>
         <NavLink to="/Dashboard/AdminDashboard/create-subcategorydesign" className="list-group-item list-group-item-action">
           Create SubCategory for design
+        </NavLink>
+        <NavLink to="/Dashboard/AdminDashboard/create-designs" className="list-group-item list-group-item-action">
+          Create Designs
+        </NavLink>
+        <NavLink to="/Dashboard/AdminDashboard/designs" className="list-group-item list-group-item-action">
+          Designs
         </NavLink>
         <NavLink to="/Dashboard/admin/orders" className="list-group-item list-group-item-action">
          Orders

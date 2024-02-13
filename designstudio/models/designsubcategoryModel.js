@@ -5,16 +5,20 @@ const subcategorySchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  category: {
+  slug: {
+    type: String,
+    unique: true,
+    index: true,
+  },
+  parentCategorydesign: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category-design', // Reference to Category model
-    required: true
-  },
-  description: {
-    type: String,
     required: true
   },
 }, { timestamps: true });
 
 
-export default mongoose.model('Subcategory-design', subcategorySchema);
+//export default mongoose.model('Subcategory-design', subcategorySchema);
+const Subcategorydesign = mongoose.model('Subcategory-design', subcategorySchema);
+
+export default Subcategorydesign;

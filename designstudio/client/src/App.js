@@ -16,6 +16,7 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import CreateCategory from "./pages/Admin/CreateCategory";
 import CreatesubCategory from "./pages/Admin/CreatesubCategory";
 import CreateProduct from "./pages/Admin/CreateProduct";
+import Categoryimage from "./pages/Admin/Categoryimage";
 import CreateCategoryDesign from "./pages/Admin/CreateDesignCategory";
 import CreateDesignSubcategory from "./pages/Admin/CreateDesignSubcategory"
 import Orders from "./pages/user/Orders";
@@ -30,14 +31,14 @@ import Users from "./pages/Admin/Users";
 import Products from "./pages/Admin/Products";
 import UpdateProduct from "./pages/Admin/UpdateProduct";
 import Shop from "./pages/Shop";
-import Designs from "./pages/Designs"
+import Exploredesigns from "./pages/Exploredesigns";
 import Search from "./pages/Search";
 import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/CartPage";
 import AdminOrders from "./pages/Admin/AdminOrders";
 import WishlistPage from "./pages/WishlistPage";
-
-
+import CreateDesigns from "./pages/Admin/CreateDesigns"
+import Designs from "./pages/Admin/Designs"
 const RecoveryContext = createContext();
 
 function App() {
@@ -77,9 +78,12 @@ function App() {
   <Route path="AdminDashboard/create-category" element={<CreateCategory />} />
   <Route path="AdminDashboard/create-subcategory" element={< CreatesubCategory/>} />
   <Route path="AdminDashboard/products" element={<Products />} />
+  <Route path="AdminDashboard/designs" element={<Designs />} />
   <Route path="AdminDashboard/create-product" element={<CreateProduct />} />
+  <Route path="AdminDashboard/designimages" element={<Categoryimage />} />
   <Route path="AdminDashboard/create-categorydesign" element={<CreateCategoryDesign />} />
   <Route path="AdminDashboard/create-subcategorydesign" element={<CreateDesignSubcategory/>} />
+  <Route path="AdminDashboard/create-designs" element={<CreateDesigns />} />
   <Route path="AdminDashboard/users" element={<Users />} />
   <Route path="admin/product/:slug" element={<UpdateProduct />} />
   <Route path="admin/orders" element={<AdminOrders />} />
@@ -91,7 +95,7 @@ function App() {
 <Route path="/product/:slug" element={< ProductDetails />} />
 <Route path="/searchInput" element={< searchInput/>} />
 <Route path="/shop" element={<Shop />} />
-<Route path="/designs" element={<Designs />} />
+<Route path="/Explore-Designs" element={<Exploredesigns />} />
 <Route path="/about" element={<About />} />
 <Route path="/Contact" element={<Contact />} />
 <Route path="/Policy" element={<Policy />} />

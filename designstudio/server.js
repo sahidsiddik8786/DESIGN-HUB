@@ -13,6 +13,7 @@ import categoryRoutes from "./routes/categoryRoute.js";
 import designcategoryRoutes  from "./routes/designcategoryRoute.js"
 import productRoutes from "./routes/productRoute.js";
 import designRoutes from "./routes/designRoute.js"
+import imageRoutes from "./routes/imageRoute.js"
 import Payment from     "./routes/payment.js";
 const app = express();
 
@@ -34,6 +35,7 @@ app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/categorydesign", designcategoryRoutes)
 app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/design", designRoutes);
+app.use("/api/v1/image", imageRoutes);
 app.use("/api/v1/payment", Payment);
 
 app.get('/', (req, res) => {

@@ -3,61 +3,55 @@ import AdminMenu from "../../components/layout/AdminMenu";
 import toast from "react-hot-toast";
 import Layout from "../../components/layout/Layout";
 import axios from "axios";
-import { Select } from "antd";
+import { Select, message } from "antd";
 import { useNavigate } from "react-router-dom";
-import {
-  CButton,
-  CCol,
-  CForm,
-  CFormCheck,
-  CFormFeedback,
-  CFormInput,
-  CFormLabel,
-} from "@coreui/react";
-import "./Users.css";
+import { CButton, CForm, CFormInput } from "@coreui/react";
+
 const { Option } = Select;
 
-const CreateProduct = () => {
+const CreateDesign = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
-  const [subcategories, setSubcategories] = useState([]);  // Added state for subcategories
+  const [subcategories, setSubcategories] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
-  const [subcategory, setSubcategory] = useState("");  // Added state for subcategory
-  const [quantity, setQuantity] = useState("");
-  const [shipping, setShipping] = useState("");
+  const [subcategory, setSubcategory] = useState("");
+  const [layout, setLayout] = useState("");
+  const [roomDimension, setRoomDimension] = useState("");
   const [photo, setPhoto] = useState("");
   const [validated, setValidated] = useState(false);
 
-  // get all category
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:8080/api/v1/category/get-category"
+        "http://localhost:8080/api/v1/categorydesign/get-categorydesign"
       );
-      if (data?.success) {
-        setCategories(data?.category);
+      if (data.success) {
+        setCategories(data.categorydesign);
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong in getting category");
+      message.error("Error while getting categories.");
     }
   };
 
-  // get subcategories based on selected category
   const getSubcategories = async (categoryId) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8080/api/v1/category/${categoryId}/subcategories`
+        `http://localhost:8080/api/v1/categorydesign/${categoryId}/subcategorydesign`
       );
       if (data?.success) {
-        setSubcategories(data?.subcategories);
+        setSubcategories(data?.subcategory || []); // Clear subcategories if none are returned
+      } else {
+        console.log("Error: No subcategories found or success flag is missing");
+        setSubcategories([]); // Clear subcategories if the API call was unsuccessful
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong in getting subcategories");
+      message.error("Error while getting subcategories.");
+      setSubcategories([]); // Clear subcategories if there's an exception
     }
   };
 
@@ -65,14 +59,15 @@ const CreateProduct = () => {
     getAllCategory();
   }, []);
 
-  // handle category change
   const handleCategoryChange = (value) => {
     setCategory(value);
-    setSubcategory("");  // Reset subcategory when category changes
-    getSubcategories(value);
+    setSubcategory(""); // Reset subcategory when category changes
+    if (value) {
+      // Only call getSubcategories if a category is actually selected
+      getSubcategories(value);
+    }
   };
 
-  // create product function
   const handleCreate = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -80,25 +75,27 @@ const CreateProduct = () => {
       e.stopPropagation();
     } else {
       try {
-        const productData = new FormData();
-        productData.append("name", name);
-        productData.append("description", description);
-        productData.append("price", price);
-        productData.append("quantity", quantity);
-        productData.append("photo", photo);
-        productData.append("category", category);
-        productData.append("subcategory", subcategory);  // Added subcategory to the form data
+        const designData = new FormData();
+        designData.append("name", name);
+        designData.append("description", description);
+        designData.append("price",price);
+        designData.append("photo", photo);
+        designData.append("layout", layout);
+        designData.append("roomDimension", roomDimension);
+        designData.append("category", category);
+        designData.append("subcategory", subcategory);
+
 
         const { data } = await axios.post(
-          "http://localhost:8080/api/v1/product/create-product",
-          productData
+          "http://localhost:8080/api/v1/design/create-design",
+          designData
         );
-        
+
         if (data?.success) {
-          toast.success("Product Created Successfully");
-          navigate("/Dashboard/AdminDashboard/products");
+          toast.success("Design Created Successfully");
+          navigate("/Dashboard/AdminDashboard/designs");
         } else {
-          toast.success("Product not  Created ");
+          toast.success("Design not Created");
         }
       } catch (error) {
         console.log(error);
@@ -111,133 +108,126 @@ const CreateProduct = () => {
 
   return (
     <Layout>
-    <>
-      <div className="product-form">
-        <div className="container-fluid m-3 p-3">
-          <div className="row">
-            <div className="col-md-3">
-              <AdminMenu />
-            </div>
-            <div className="col-md-9">
-              <h1>Products Upload</h1>
-              <div className="m-1 w-75">
-                <CForm
-                  className="mb-3"
-                  noValidate
-                  validated={validated}
-                  onSubmit={handleCreate}
-                >
-
+      <>
+        <div className="design-form">
+          <div className="container-fluid m-3 p-3">
+            <div className="row">
+              <div className="col-md-3">
+                <AdminMenu />
+              </div>
+              <div className="col-md-9">
+                <h1>Design Upload</h1>
+                <div className="m-1 w-75">
+                  <CForm
+                    className="mb-3"
+                    noValidate
+                    validated={validated}
+                    onSubmit={handleCreate}
+                  >
                     <Select
-                    bordered={false}
-                    placeholder="Select a category"
-                    size="large"
-                    showSearch
-                    className="form-select mb-3"
-                    onChange={handleCategoryChange}
-                    value={category}
-                  >
-                    {categories?.map((c) => (
-                      <Option key={c._id} value={c._id}>
-                        {c.name}
-                      </Option>
-                    ))}
-                  </Select>
-                  <Select
-                    bordered={false}
-                    placeholder="Select a subcategory"
-                    size="large"
-                    showSearch
-                    className="form-select mb-3"
-                    onChange={(value) => setSubcategory(value)}
-                    value={subcategory}
-                  >
-                    {subcategories?.map((s) => (
-                      <Option key={s._id} value={s._id}>
-                        {s.name}
-                      </Option>
-                    ))}
-                  </Select>
+                      bordered={false}
+                      placeholder="Select a category"
+                      size="large"
+                      showSearch
+                      className="form-select mb-3"
+                      onChange={handleCategoryChange}
+                      value={category}
+                    >
+                      {categories?.map((c) => (
+                        <Option key={c._id} value={c._id}>
+                          {c.name}
+                        </Option>
+                      ))}
+                    </Select>
+                    <Select
+                      bordered={false}
+                      placeholder="Select a subcategory"
+                      size="large"
+                      showSearch
+                      className="form-select mb-3"
+                      onChange={(value) => setSubcategory(value)}
+                      value={subcategory}
+                    >
+                      {subcategories?.map((s) => (
+                        <Option key={s._id} value={s._id}>
+                          {s.name}
+                        </Option>
+                      ))}
+                    </Select>
 
-                  <div className="mb-3">
-                    <label className="btn btn-outline-secondary col-md-12">
-                      {photo ? photo.name : "Upload Photo"}
-                      <input
-                        type="file"
-                        name="photo"
-                        accept="image/*"
-                        onChange={(e) => setPhoto(e.target.files[0])}
-                        hidden
-                      />
-                    </label>
-                  </div>
-                  <div className="mb-3">
-                    {photo && (
-                      <div className="text-center">
-                        <img
-                          src={URL.createObjectURL(photo)}
-                          alt="product_photo"
-                          height={"200px"}
-                          className="img img-responsive"
+                    <div className="mb-3">
+                      <label className="btn btn-outline-secondary col-md-12">
+                        {photo ? photo.name : "Upload Photo"}
+                        <input
+                          type="file"
+                          name="photo"
+                          accept="image/*"
+                          onChange={(e) => setPhoto(e.target.files[0])}
+                          hidden
                         />
-                      </div>
-                    )}
-                  </div>
-                  <CFormInput
-                    type="text"
-                    value={name}
-                    placeholder="Write a name"
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                  />
-                  <CFormInput
-                    as="textarea"
-                    rows="3"
-                    value={description}
-                    placeholder="Write a description"
-                    onChange={(e) => setDescription(e.target.value)}
-                    required
-                  />
-                  <CFormInput
-                    type="number"
-                    value={price}
-                    placeholder="Write a price"
-                    onChange={(e) => setPrice(e.target.value)}
-                    required
-                  />
-                  <CFormInput
-                    type="number"
-                    value={quantity}
-                    placeholder="Write a quantity"
-                    onChange={(e) => setQuantity(e.target.value)}
-                    required
-                  />
-                  <Select
-                    bordered={false}
-                    placeholder="Select Shipping"
-                    size="large"
-                    showSearch
-                    className="form-select mb-3"
-                    onChange={(value) => {
-                      setShipping(value);
-                    }}
-                    required
-                  >
-                    <Option value="0">No</Option>
-                    <Option value="1">Yes</Option>
-                  </Select>
-                  <CButton color="primary" type="submit">
-                    Create Product
-                  </CButton>
-                </CForm>
+                      </label>
+                    </div>
+                    <div className="mb-3">
+                      {photo && (
+                        <div className="text-center">
+                          <img
+                            src={URL.createObjectURL(photo)}
+                            alt="product_photo"
+                            height={"200px"}
+                            className="img img-responsive"
+                          />
+                        </div>
+                      )}
+                    </div>
+
+                    <CFormInput
+                      type="text"
+                      value={name}
+                      placeholder="Write a name"
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                    />
+                    <CFormInput
+                      as="textarea"
+                      rows="3"
+                      value={description}
+                      placeholder="Write a description"
+                      onChange={(e) => setDescription(e.target.value)}
+                      required
+                    />
+                    <CFormInput
+                      type="number"
+                      value={price}
+                      placeholder="Write a price per squarefeet"
+                      onChange={(e) => setPrice(e.target.value)}
+                      required
+                    />
+                    <CFormInput
+                      type="text"
+                      value={layout}
+                      placeholder="Write a layout"
+                      onChange={(e) => setLayout(e.target.value)}
+                      required
+                    />
+                    <CFormInput
+                      type="text"
+                      value={roomDimension}
+                      placeholder="Write room dimension"
+                      onChange={(e) => setRoomDimension(e.target.value)}
+                      required
+                    />
+                    <CButton color="primary" type="submit">
+                      Create Design
+                    </CButton>
+                  </CForm>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </>
+      </>
     </Layout>
   );
 };
 
-export default CreateProduct;
+export default CreateDesign;
