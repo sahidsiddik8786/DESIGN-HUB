@@ -9,9 +9,9 @@ import Hero from "../components/Hero/Hero"
 
 const HomePage = () => {
   let heroData = [
-    { text1: "Transforming Spaces, Inspiring Lives Your Dream Home Awaits" },
+    { text1: "Transforming Spaces,Inspiring Lives Your Dream Home Awaits" },
     { text1: "Elevate Your Living Experience with Timeless Design and Modern Elegance" },
-    { text1: "Designing Dreams, Crafting Comfort Where Style Meets Serenity." },
+    { text1: "Designing Dreams,Crafting Comfort Where Style Meets Serenity." },
     
   ]
 
@@ -34,6 +34,7 @@ const HomePage = () => {
         heroCount={heroCount}
         setHeroCount={setHeroCount}
         playStatus={playStatus}
+       
       />
     </Layout>
     
