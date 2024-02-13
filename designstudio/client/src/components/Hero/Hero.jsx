@@ -15,10 +15,7 @@ const Hero = ({
         <p>{heroData.text1}</p>
         <p>{heroData.text2}</p>
       </div>
-      <div className="hero-explore">
-        <p>Explore the features</p>
-        <img src={arrow} alt="" />
-      </div>
+    
       <div className="hero-dot-play">
         <ul className="hero-dots">
           <li

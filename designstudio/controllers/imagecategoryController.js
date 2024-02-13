@@ -59,7 +59,6 @@ export const getDesignimgController = async (req, res) => {
         .find({})
         .populate("category") // Update this line
         .select("-photo")
-        .limit(12)
         .sort({ createdAt: -1 });
       res.status(200).send({
         success: true,

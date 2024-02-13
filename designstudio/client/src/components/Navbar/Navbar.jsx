@@ -12,7 +12,7 @@ const Navbar = () => {
         {auth.user?.role !== "1" && (
           <>
             <Nav.Link as={Link} to="/Shop">
-              <li className="shop">SHOP NOW</li>
+              <li className="nav-contact">SHOP NOW</li>
             </Nav.Link>
 
             <Nav.Link as={Link} to="/Explore-Designs" className="nav-contact">

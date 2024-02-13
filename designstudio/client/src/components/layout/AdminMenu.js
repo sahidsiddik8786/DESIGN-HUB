@@ -5,12 +5,12 @@ import "./HeaderFooter.css";
 const AdminMenu = () => {
   return (
     <div className="admin-menu">
-      <div className="admin-menu-header">
-        <h4>Admin Panel</h4>
-      </div>
       <div className="list-group dashboard-menu">
         <NavLink to="/Dashboard/AdminDashboard" className="list-group-item list-group-item-action">
           Dashboard
+        </NavLink>
+        <NavLink to="/Dashboard/AdminDashboard/adminregister" className="list-group-item list-group-item-action">
+          Registration  
         </NavLink>
         <NavLink to="/Dashboard/AdminDashboard/create-category" className="list-group-item list-group-item-action">
           Create Category

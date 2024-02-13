@@ -1,0 +1,17 @@
+/* App.css */
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .fw-bold {
+    font-weight: bold;
+  }
+  
+  .text-uppercase {
+    text-transform: uppercase;
+  }
+  
+  .bg-dark {
+    background-color: #343a40 !important;
+  }
+  

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Layout from "../components/layout/Layout";
-//import { useAuth } from "../context/auth";
-//import "./pages.css";
+
 
 import { useState } from "react";
 import Background from "../components/Background/Background";
@@ -10,9 +9,9 @@ import Hero from "../components/Hero/Hero"
 
 const HomePage = () => {
   let heroData = [
-    { text1: "Transforming Spaces, Inspiring Lives.", text2:  "Your Dream Home Awaits." },
-    { text1: "Elevate Your Living Experience with",   text2:  "Timeless Design and Modern Elegance" },
-    { text1: "Designing Dreams, Crafting Comfort", text2: " Where Style Meets Serenity." },
+    { text1: "Transforming Spaces, Inspiring Lives Your Dream Home Awaits" },
+    { text1: "Elevate Your Living Experience with Timeless Design and Modern Elegance" },
+    { text1: "Designing Dreams, Crafting Comfort Where Style Meets Serenity." },
     
   ]
 
@@ -27,8 +26,8 @@ const HomePage = () => {
 }, []); 
   return (
     <Layout title={"Design Studio"}>
+            <Navbar />
       <Background playStatus={playStatus} heroCount={heroCount} />
-      <Navbar />
       <Hero
         setPlayStatus={setPlayStatus}
         heroData={heroData[heroCount]}

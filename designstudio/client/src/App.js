@@ -14,6 +14,7 @@ import AdminRoute from "./components/Router/AdminRoute";
 import Userdashboard from "./pages/user/Userdashboard";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import CreateCategory from "./pages/Admin/CreateCategory";
+import AdminRegistration from "./pages/Admin/AdminRegistration"
 import CreatesubCategory from "./pages/Admin/CreatesubCategory";
 import CreateProduct from "./pages/Admin/CreateProduct";
 import Categoryimage from "./pages/Admin/Categoryimage";
@@ -39,6 +40,9 @@ import AdminOrders from "./pages/Admin/AdminOrders";
 import WishlistPage from "./pages/WishlistPage";
 import CreateDesigns from "./pages/Admin/CreateDesigns"
 import Designs from "./pages/Admin/Designs"
+import Registerstaff from "./pages/Admin/RegisterStaff"
+
+
 const RecoveryContext = createContext();
 
 function App() {
@@ -75,6 +79,8 @@ function App() {
 <Route path="/Dashboard" element={<AdminRoute />}>
   <Route path="/Dashboard" element={<Dashboard />} />
   <Route path="AdminDashboard" element={<AdminDashboard />} />
+  <Route path="AdminDashboard/adminregister" element={<AdminRegistration />} />
+  <Route path="AdminDashboard/adminregister/staff" element={<Registerstaff/>} />
   <Route path="AdminDashboard/create-category" element={<CreateCategory />} />
   <Route path="AdminDashboard/create-subcategory" element={< CreatesubCategory/>} />
   <Route path="AdminDashboard/products" element={<Products />} />

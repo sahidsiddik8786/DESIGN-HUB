@@ -23,6 +23,8 @@ const Designs = () => {
     getAllProducts();
   }, []);
 
+  console.log("Designs:", designs);
+
   return (
     <Layout>
       <div className="interior-design">
@@ -34,7 +36,7 @@ const Designs = () => {
         <div className="d-flex flex-wrap">
           {designs?.map((p) => (
             <Link key={p._id} to={`/dashboard/admin/design/${p.slug}`} className="product-link">
-              <div className="card m-3" style={{ width: "23rem" }}>
+              <div className="card m-3" style={{ width: "24rem", height:"19rem" }}>
                 <img
                   src={`http://localhost:8080/api/v1/image/designimg-photo/${p._id}`}
                   className="card-img-top"

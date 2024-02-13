@@ -14,6 +14,7 @@ import designcategoryRoutes  from "./routes/designcategoryRoute.js"
 import productRoutes from "./routes/productRoute.js";
 import designRoutes from "./routes/designRoute.js"
 import imageRoutes from "./routes/imageRoute.js"
+import staffRoutes from './routes/staffRoute.js'
 import Payment from     "./routes/payment.js";
 const app = express();
 
@@ -31,6 +32,7 @@ app.use(morgan('dev'));
 app.use(cors());
 
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/staff', staffRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/categorydesign", designcategoryRoutes)
 app.use("/api/v1/product", productRoutes);
