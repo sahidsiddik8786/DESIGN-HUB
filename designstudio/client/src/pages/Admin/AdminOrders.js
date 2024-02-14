@@ -109,9 +109,9 @@ const AdminOrders = () => {
   return (
     <Layout title={"All Orders Data"}>
       <Row gutter={[16, 16]}>
-        <Col xs={24} md={6}>
-          <AdminMenu />
-        </Col>
+      <div className="col-md-2 pl-0">
+            <AdminMenu />
+          </div>
         <Col xs={24} md={18}>
           <Space direction="vertical" style={{ width: "100%" }}>
             <Title level={2} className="text-center">

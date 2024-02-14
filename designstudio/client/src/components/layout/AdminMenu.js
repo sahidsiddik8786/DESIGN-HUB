@@ -4,7 +4,7 @@ import "./HeaderFooter.css";
 
 const AdminMenu = () => {
   return (
-    <div className="admin-menu">
+    <div className="admin-menu ">
       <div className="list-group dashboard-menu">
         <NavLink to="/Dashboard/AdminDashboard" className="list-group-item list-group-item-action">
           Dashboard

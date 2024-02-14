@@ -110,9 +110,13 @@ const AddStaffMember = () => {
 
   return (
     <Container maxWidth="md">
-      <StyledButton as={Link} to="/">
-        Back
-      </StyledButton>
+      <Grid container justify="flex-start">
+        <Grid item>
+          <StyledButton as={Link} to="/">
+            Back
+          </StyledButton>
+        </Grid>
+      </Grid>
       <ToastContainer />
       <Grid container justify="center" className={classes.formContainer}>
         <Grid item xs={12}>

@@ -94,9 +94,9 @@ const CreateDesignCategory = () => {
 
   return (
     <Layout title={"Dashboard - Create Category"}>
-      <div className="container-fluid m-3 p-3">
+      <div>
         <div className="row">
-          <div className="col-md-3">
+        <div className="col-md-2 pl-0">
             <AdminMenu />
           </div>
           <div className="col-md-9">

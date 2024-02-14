@@ -38,8 +38,10 @@ const Content = styled.div`
 const RegisterOptions = () => {
   return (
     <Layout title={"New Registration"}>
-      <Container>
-        <AdminMenu />
+       <div className="col-md-2 pl-0">
+            <AdminMenu />
+          </div>
+        <Container>
         <Content>
           <div>
             <h1>Welcome Admin!</h1>
