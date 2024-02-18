@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import Layout from "../../components/layout/Layout";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import { useNavigate, useLocation, NavLink } from "react-router-dom";
 import { useAuth } from "../../context/auth";
-import { NavLink } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "popper.js/dist/umd/popper.min.js";
+
+// Import the StaffLogin component
+import StaffLogin from "./LoginStaff";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [auth, setAuth] = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate(); 
+  const location = useLocation(); 
 
   // State for real-time validation
   const [emailError, setEmailError] = useState("");
@@ -50,30 +52,26 @@ const Login = () => {
       console.log("Server Response:", res);
 
       if (res && res.data.success) {
-        // Successful login
-
-        // Display a success toast message
+      
         toast.success(res.data && res.data.message);
 
-        // Update the authentication state with user information and token
         setAuth({
           ...auth,
           user: res.data.user,
           token: res.data.token,
         });
 
-        // Store authentication data in local storage
+    
         localStorage.setItem("auth", JSON.stringify(res.data));
 
-        // Redirect after a short delay
         setTimeout(() => {
- 
-if(res.data.user.role === "1") {
-  navigate(location.state || "/Dashboard/AdminDashboard");
-}   else {
-  navigate(location.state || "/")
-}
-},100);
+        if (res.data.user.role === "1") {
+          navigate(location.state || "/Dashboard/AdminDashboard");
+        } else {
+          navigate(location.state || "/Dashboard/UserDashboard");
+        }
+      },100);
+
 
       } else {
         // Unsuccessful login
@@ -96,7 +94,8 @@ if(res.data.user.role === "1") {
     <Layout title="Login">
       <div className="form-container">
         <form onSubmit={handleSubmit} className="rounded p-5 bg-light w-50">
-          <h4 className="title ">Sign In</h4>
+        <h3 className="title" style={{ color: 'black' }}>Sign In</h3>
+
 
           <div className=" mb-3 w-100">
             <input
@@ -107,7 +106,6 @@ if(res.data.user.role === "1") {
               onChange={(e) => setEmail(e.target.value)}
               className="form-control"
               id="exampleInputEmail1"
-           
               placeholder="Enter Your Email"
               required
             />
@@ -132,15 +130,26 @@ if(res.data.user.role === "1") {
             </NavLink>
           </div>
           <div className="mb-3">
-            <p><h5>Don't have an account?</h5></p>
+            <p>
+              <h5>Don't have an account?</h5>
+            </p>
             <NavLink to="/register" className="btn-default  rounded-p4">
-               <h5>Create new account</h5>
+              <h5>Create new account</h5>
             </NavLink>
           </div>
 
-          <button type="submit"  className=" w-50 btn-primary rounded-pill" name="button1">
+          <button
+            type="submit"
+            className="w-50 btn-primary rounded-pill"
+            name="button1"
+          >
             Sign In
           </button>
+
+          {/* Button to switch to staff login */}
+          <NavLink to="/Login-staff" className="btn btn-link" style={{ color: 'black' }}>
+            Login as Staff
+          </NavLink>
         </form>
       </div>
       <Toaster />

@@ -35,7 +35,7 @@ const Designs = () => {
             living room and more,to help you pick a design that will best<br/> suit your home interior requirements.</p>
         <div className="d-flex flex-wrap">
           {designs?.map((p) => (
-            <Link key={p._id} to={`/dashboard/admin/design/${p.slug}`} className="product-link">
+            <Link key={p._id} to={`http://localhost:8080/api/v1/design/`} className="product-link">
               <div className="card m-3" style={{ width: "24rem", height:"19rem" }}>
                 <img
                   src={`http://localhost:8080/api/v1/image/designimg-photo/${p._id}`}

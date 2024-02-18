@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import Layout from "../components/layout/Layout";
-
+//import Layout from "../components/layout/Layout";
+import Footer from "../components/layout/Footer";
 
 import { useState } from "react";
 import Background from "../components/Background/Background";
@@ -25,7 +25,7 @@ const HomePage = () => {
   return () => clearInterval(intervalId);
 }, []); 
   return (
-    <Layout title={"Design Studio"}>
+<>
             <Navbar />
       <Background playStatus={playStatus} heroCount={heroCount} />
       <Hero
@@ -36,7 +36,9 @@ const HomePage = () => {
         playStatus={playStatus}
        
       />
-    </Layout>
+         <Footer />
+      </>
+   
     
   );
 };

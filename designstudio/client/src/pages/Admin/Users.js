@@ -33,12 +33,12 @@ const Users = () => {
 
   return (
     <Layout title={"Dashboard - All Users"}>
-      <div className="container-fluid m-3 p-3">
+      <div className="">
         <div className="row">
-          <div className="col-md-3">
+        <div className="col-md-2 pl-0">
             <AdminMenu />
           </div>
-          <div className="col-md-9">
+          <div className="col-md-9 text-center ">
             <h1>Users Lists</h1>
             <table className="table table-bordered table-styled">
               <thead>

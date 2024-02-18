@@ -14,7 +14,7 @@ const Footer = () => {
       </div>
 
       <div className="midFooter">
-        <h3>Interior Design</h3>
+        <h3>Design Studio</h3>
     
 
         <p>Copyrights 2023 &copy; Design Studio </p>

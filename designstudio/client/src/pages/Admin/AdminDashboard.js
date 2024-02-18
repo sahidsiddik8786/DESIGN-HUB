@@ -11,10 +11,9 @@ const AdminDashboard = () => {
     <Layout>
       <div>
         <div className="row">
-          <div className="col-md-2 pl-0">
+          <div className="col-md-2  ">
             <AdminMenu />
           </div>
-          <div className="col-md-9 content-area" style={{ backgroundImage: 'url("https://images.pexels.com/photos/1090638/pexels-photo-1090638.jpeg")', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', minHeight: '100vh' }}>
             <div className="card p-5">
               <h2>Admin Dashboard</h2>
               <form>
@@ -58,7 +57,7 @@ const AdminDashboard = () => {
             </div>
           </div>
         </div>
-      </div>
+     
     </Layout>
   );
 };

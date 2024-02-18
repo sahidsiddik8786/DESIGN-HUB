@@ -108,7 +108,7 @@ const AdminOrders = () => {
 
   return (
     <Layout title={"All Orders Data"}>
-      <Row gutter={[16, 16]}>
+    <div className="row">
       <div className="col-md-2 pl-0">
             <AdminMenu />
           </div>
@@ -130,7 +130,7 @@ const AdminOrders = () => {
             />
           </Space>
         </Col>
-      </Row>
+      </div>
     </Layout>
   );
 };

@@ -11,6 +11,7 @@ import Dashboard from "./pages/user/Dashboard";
 //import SidebarComponent from "./pages/user/SidebarComponent";
 import PrivateRoute from "./components/Router/Private";
 import AdminRoute from "./components/Router/AdminRoute";
+import ProtectedRoute from "./components/Router/ProtectedRoute";
 import Userdashboard from "./pages/user/Userdashboard";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import CreateCategory from "./pages/Admin/CreateCategory";
@@ -24,6 +25,11 @@ import Orders from "./pages/user/Orders";
 import Profile from "./pages/user/Profile";
 import { Toaster } from "react-hot-toast";
 import Login from "./pages/Auth/Login";
+
+
+import StaffLogin from "./pages/Auth/LoginStaff";
+import StaffHome from "./pages/Staff/staffDashboard";
+
 import OTPInput from "./pages/Auth/OTPInput";
 import ResetPassword from "./pages/Auth/ResetPassword";
 import Recovered from "./pages/Auth/Recovered";
@@ -47,6 +53,7 @@ const RecoveryContext = createContext();
 
 function App() {
   const [page, setPage] = useState("login");
+  
   const [email, setEmail] = useState();
   const [otp, setOTP] = useState();
 
@@ -95,6 +102,10 @@ function App() {
   <Route path="admin/orders" element={<AdminOrders />} />
 </Route>
 
+<Route path="/Login-staff" element={<StaffLogin/>} />
+<Route path="/staff-dashboard" element={<StaffHome />} />
+
+
 <Route path="/wishlist" element={<WishlistPage />} />
 <Route path="/cart" element={<CartPage />} />
 <Route path="/search" element={< Search />} />
@@ -107,6 +118,8 @@ function App() {
 <Route path="/Policy" element={<Policy />} />
 <Route path="/register" element={<Register />} />
 <Route path="/Login" element={<Login />} />
+
+
 <Route path="/otpinput" element={<OTPInput />} />
 <Route path="/recovered" element={<Recovered />} />
 <Route path="/reset" element={<ResetPassword />} />

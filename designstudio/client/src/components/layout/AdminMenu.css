@@ -1,0 +1,74 @@
+/* AdminMenu.css */
+
+/* Sidebar wrapper */
+.sidebar-wrapper {
+    position: fixed;
+
+    left: 0;
+    z-index: 1000;
+    height: 100%;
+    width: 250px;
+    background-color: #343a40;
+    color: #ffffff;
+    overflow-y: auto;
+    transition: all 0.3s;
+  }
+  
+  /* Sidebar toggled class */
+  .sidebar-wrapper.toggled {
+    width: 80px;
+  }
+  
+  /* Sidebar navigation */
+  .sidebar-nav {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  
+  /* Sidebar navigation items */
+  .sidebar-nav li {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+  
+  /* Sidebar navigation links */
+  .sidebar-nav li a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #ffffff;
+  }
+  
+  /* Active navigation link */
+  .sidebar-nav li.active > a {
+    background-color: #495057;
+  }
+  
+  /* Nested navigation */
+  .sidebar-nav ul {
+    display: none;
+  }
+  
+  .sidebar-nav ul.show {
+    display: block;
+  }
+  
+  /* Toggle button */
+  #menu-toggle {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: #343a40;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  /* Icon inside toggle button */
+  #menu-toggle .glyphicon {
+    font-size: 20px;
+  }
+  

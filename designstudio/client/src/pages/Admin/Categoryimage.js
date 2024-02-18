@@ -91,7 +91,7 @@ const CreateDesign = () => {
             <AdminMenu />
           </div>
               <div className="col-md-9">
-                <h1>Design Upload</h1>
+                <h1>Category Image Upload</h1>
                 <div className="m-1 w-75">
                   <CForm
                     className="mb-3"

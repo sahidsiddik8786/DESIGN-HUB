@@ -5,24 +5,7 @@ import { TextField, Button, Typography, Container, Grid } from '@material-ui/cor
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-
-// Styled buttons
-const StyledButton = styled.button`
-  padding: 10px 20px;
-  margin: 10px;
-  font-size: 18px;
-  border: none;
-  border-radius: 5px;
-  background-color: #007bff;
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
+import GoBackButton from '../../components/layout/goback';
 
 const useStyles = makeStyles((theme) => ({
   formContainer: {
@@ -46,42 +29,9 @@ const AddStaffMember = () => {
     phone: '',
   });
 
-  const validateInput = (inputValue, fieldType) => {
-    let isValid = true;
-    let message = '';
-  
-    switch (fieldType) {
-      case 'email':
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        isValid = emailRegex.test(inputValue);
-        message = isValid ? '' : 'Invalid email format';
-        break;
-      case 'phone':
-        const phoneRegex = /^\+?[1-9]\d{1,14}$/;
-        isValid = phoneRegex.test(inputValue);
-        message = isValid ? '' : 'Invalid phone number format';
-        break;
-      // Add more cases for other fields as needed
-      default:
-        isValid = !!inputValue;
-        message = isValid ? '' : 'This field is required';
-    }
-  
-    if (!isValid) {
-      toast.error(message);
-    } else {
-      toast.dismiss(); // Clear any existing error toasts
-    }
-  
-    return isValid;
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const isValid = validateInput(value, name); // Validate the input
-    if (isValid) {
-      setFormData({ ...formData, [name]: value });
-    }
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -111,11 +61,6 @@ const AddStaffMember = () => {
   return (
     <Container maxWidth="md">
       <Grid container justify="flex-start">
-        <Grid item>
-          <StyledButton as={Link} to="/">
-            Back
-          </StyledButton>
-        </Grid>
       </Grid>
       <ToastContainer />
       <Grid container justify="center" className={classes.formContainer}>
@@ -123,6 +68,7 @@ const AddStaffMember = () => {
           <Typography variant="h4" align="center" gutterBottom>
             Add Staff Member
           </Typography>
+          <GoBackButton/>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>

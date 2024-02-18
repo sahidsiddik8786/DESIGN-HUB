@@ -27,9 +27,9 @@ const Designs = () => {
   return (
     <Layout>
       <div className="row">
-        <div className="col-md-3">
-          <AdminMenu />
-        </div>
+      <div className="col-md-2 pl-0">
+            <AdminMenu />
+          </div>
         <div className="col-md-9">
           <h1 className="text-center">Designs</h1>
           <div className="d-flex flex-wrap">

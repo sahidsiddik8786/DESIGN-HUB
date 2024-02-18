@@ -135,10 +135,10 @@ const CreatesubCategoryDesign = () => {
   return (
     
     <Layout title={'Dashboard - Manage Subcategories'}>
-      <div className="container-fluid m-3 p-3">
+      <div className="">
         <div className="row">
-          <div className="col-md-3">
-          <AdminMenu />
+        <div className="col-md-2 pl-0">
+            <AdminMenu />
           </div>
           <div className="col-md-9">
             <h1>Manage Subcategories</h1>
