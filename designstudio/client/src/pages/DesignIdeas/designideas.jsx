@@ -1,7 +1,9 @@
 // SubcategoriesPage.js
+
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { Card, CardContent, Typography, Grid } from '@mui/material';
 
 const SubcategoriesPage = () => {
   const { categoryId } = useParams();
@@ -24,14 +26,23 @@ const SubcategoriesPage = () => {
   return (
     <div>
       <h1>Subcategories for Category {categoryId}</h1>
-      <div className="subcategory-list">
+      <Grid container spacing={3}>
         {subcategories.map(subcategory => (
-          <div key={subcategory.id} className="subcategory-card">
-            <h3>{subcategory.name}</h3>
-            <p>{subcategory.description}</p>
-          </div>
+          <Grid item xs={12} sm={6} md={4} key={subcategory.id}>
+            <Card>
+              <CardContent>
+                <Typography variant="h5" component="h2">
+                  {subcategory.name}
+                </Typography>
+                <Typography color="textSecondary">
+                  {subcategory.description}
+                </Typography>
+                {/* You can add more details or customize the UI here */}
+              </CardContent>
+            </Card>
+          </Grid>
         ))}
-      </div>
+      </Grid>
     </div>
   );
 };

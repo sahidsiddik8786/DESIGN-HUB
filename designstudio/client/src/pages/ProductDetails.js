@@ -4,6 +4,14 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../context/cart";
 import toast from "react-hot-toast";
+import {
+  Grid,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  Typography,
+} from "@mui/material";
 
 const ProductDetails = () => {
   const [cart, setCart] = useCart();
@@ -49,79 +57,85 @@ const ProductDetails = () => {
 
   return (
     <Layout>
-      <div className="container mt-2">
-        <div className="row">
-          <div className="col-md-6">
+                  <Typography variant="h3" align="center">Product Details</Typography>
+
+      <div className="container mt-5">
+        
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
             <img
               src={`http://localhost:8080/api/v1/product/product-photo/${product._id}`}
-              className="img-fluid"
+              style={{ width: "100%" , height: "100%" }}
               alt={product.name}
             />
-          </div>
-          <div className="col-md-6">
-            <h1 className="text-center">Product Details</h1>
-            <h6>Name: {product.name}</h6>
-            <h6>Description: {product.description}</h6>
-            <h6>Price: {product.price}</h6>
-            <h6>Category: {product?.category?.name}</h6>
-            <button
-              className="btn-secondary ms-1"
-              id="btn"
+          </Grid>
+          
+          <Grid item xs={12} md={6}>
+            <Typography>Name: {product.name}</Typography>
+            <Typography>Description: {product.description}</Typography>
+            <Typography>Price: {product.price}</Typography>
+            <Typography>Category: {product?.category?.name}</Typography>
+            <Button
+              variant="contained"
+              color="secondary"
               onClick={handleAddToCart}
             >
               ADD TO CART
-            </button>
-          </div>
-        </div>
+            </Button>
+          </Grid>
+        </Grid>
       </div>
       <hr />
-      <div className="container">
-        <div className="row container">
-          <h2>Similar Products</h2>
-          {relatedProducts.length < 1 && (
-            <p className="text-center">No Similar Products found</p>
-          )}
-          <div className="row">
-            {relatedProducts?.map((p) => (
-              <div className="col-lg-4 col-md-6 col-sm-12 mb-4" key={p._id}>
-                <div className="card">
-                  <img
-                    src={`http://localhost:8080/api/v1/product/product-photo/${p?._id}`}
-                    className="card-img-top"
-                    alt={p.name}
-                  />
-                  <div className="card-body">
-                    <h5 className="card-title">{p.name}</h5>
-                    <p className="card-text">
-                      {p.description.substring(0, 30)}...
-                    </p>
-                    <p className="card-text"> ₹ {p.price}</p>
-                    <button
-                      className="btn btn-primary ms-1"
-                      onClick={() => navigate(`/product/${p.slug}`)}
-                    >
-                      More Details
-                    </button>
-                    <button
-                      className="btn-secondary ms-1"
-                      onClick={() => {
-                        setCart([...cart, product]);
-                        localStorage.setItem(
-                          "cart",
-                          JSON.stringify([...cart, product])
-                        );
-                        toast.success("Item Added to cart");
-                        navigate("/cart"); // Redirect to cart page
-                      }}
-                    >
-                      ADD TO CART
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+      <div style={{ textAlign: "center" }}>
+        <Typography variant="h4">Similar Products</Typography>
+        {relatedProducts.length < 1 && (
+          <Typography align="center">No Similar Products found</Typography>
+        )}
+        <Grid container spacing={2} justifyContent="center">
+          {relatedProducts?.map((p) => (
+            <Grid item xs={12} sm={6} md={4} key={p._id}>
+              <Card variant="outlined" style={{ height: "100%", width: "65%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+
+                <img
+                  src={`http://localhost:8080/api/v1/product/product-photo/${p?._id}`}
+                  style={{ width: "100%", height: "200px", objectFit: "cover" }}
+                  alt={p.name}
+                />
+                <CardContent>
+                  <Typography variant="h6">{p.name}</Typography>
+                  <Typography>
+                    {p.description.substring(0, 30)}...
+                  </Typography>
+                  <Typography>₹ {p.price}</Typography>
+                </CardContent>
+                <CardActions>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => navigate(`/product/${p.slug}`)}
+                  >
+                    More Details
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => {
+                      setCart([...cart, product]);
+                      localStorage.setItem(
+                        "cart",
+                        JSON.stringify([...cart, product])
+                      );
+                      toast.success("Item Added to cart");
+                      navigate("/cart");
+                    }}
+                  >
+                    ADD TO CART
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       </div>
     </Layout>
   );

@@ -1,3 +1,5 @@
+// Designs.js
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -63,7 +65,7 @@ const Designs = () => {
           {designs?.map((design) => (
             <div key={design._id} className="category-card">
               <Link
-                to={`http://localhost:8080/api/v1/categorydesign/${design._id}/subcategorydesign`}
+                to={`/subcategories/${design._id}`} // Update the link to navigate to subcategories page
               >
                 <div
                   className="card m-3"
@@ -76,25 +78,6 @@ const Designs = () => {
                   />
                   <div className="card-body">
                     <h5 className="card-title">{design.name}</h5>
-                  </div>
-                </div>
-              </Link>
-            </div>
-          ))}
-
-          {categories?.map((category) => (
-            <div key={category._id} className="category-card">
-              <Link
-                to={`http://localhost:8080/api/v1/categorydesign/${category._id}/subcategorydesign`}
-              >
-                <div
-                  className="card m-3"
-                  style={{ width: "24rem", height: "19rem" }}
-                >
-                  {/* If you have an image field in the category data, use it here */}
-                  {/* <img src={category.image} className="card-img-top" alt={category.name} /> */}
-                  <div className="card-body">
-                    <h5 className="card-title">{category.name}</h5>
                   </div>
                 </div>
               </Link>
