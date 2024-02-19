@@ -7,8 +7,9 @@ import {
     singledesignCategoryController,
     updatedesignCategoryController,
     designsubcategoryController,
+  
 } from "./../controllers/designcategoryController.js";
-import { createdesignSubcategoryController, subcategorydesignController  } from "../controllers/designsubcategoryController.js";
+import { createdesignSubcategoryController, subcategorydesignController,   subcategoryiddesignController  } from "../controllers/designsubcategoryController.js";
 import { designsBySubcategoryController} from "../controllers/designController.js";
 
 
@@ -50,6 +51,8 @@ router.delete(
   .get(subcategorydesignController)
   .post(createdesignSubcategoryController);
 
-router.get("/:subcategoryId/products", designsBySubcategoryController);
+  router.get("/:categoryId/subcategories", subcategoryiddesignController);
+
+  router.get("/:subcategoryId/products", designsBySubcategoryController);
 
 export default router;

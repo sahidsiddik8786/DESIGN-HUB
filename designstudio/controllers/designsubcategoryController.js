@@ -47,6 +47,18 @@ export const subcategorydesignController = async (req, res) => {
   }
 };
 
+// Get subcategories by category ID
+export const subcategoryiddesignController = async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+    const subcategories = await Subcategorydesign.find({ parentCategorydesign: categoryId });
+    res.status(200).send({ success: true, message: 'Subcategories by category ID', subcategories });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ success: false, error, message: 'Error while getting subcategories by category ID.' });
+  }
+};
+
 // Update subcategory
 export const updateSubcategorydesignController = async (req, res) => {
   try {

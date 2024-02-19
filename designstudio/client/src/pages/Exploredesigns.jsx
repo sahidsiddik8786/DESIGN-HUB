@@ -3,14 +3,17 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import Layout from "../components/layout/Layout";
-import "./Exploredesigns.css"
+import "./Exploredesigns.css";
+
 const Designs = () => {
   const [designs, setDesigns] = useState([]);
 
   // Get all products
   const getAllProducts = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/v1/image/get-designimg");
+      const { data } = await axios.get(
+        "http://localhost:8080/api/v1/image/get-designimg"
+      );
       setDesigns(data.designs);
     } catch (error) {
       console.log(error);
@@ -29,14 +32,26 @@ const Designs = () => {
     <Layout>
       <div className="interior-design">
         <h1>Home Interior Design</h1>
-        <p>We bring you carefully-curated interior design ideas, to give your home a brand new look.
-            Explore exclusive<br/> interior designs and trends that are every bit inspirational as they are practical.
-            Our team of interior designers<br/> have put together ideas across kitchen, bedroom, 
-            living room and more,to help you pick a design that will best<br/> suit your home interior requirements.</p>
+        <p>
+          We bring you carefully-curated interior design ideas, to give your
+          home a brand new look. Explore exclusive
+          <br /> interior designs and trends that are every bit inspirational as
+          they are practical. Our team of interior designers
+          <br /> have put together ideas across kitchen, bedroom, living room
+          and more,to help you pick a design that will best
+          <br /> suit your home interior requirements.
+        </p>
         <div className="d-flex flex-wrap">
           {designs?.map((p) => (
-            <Link key={p._id} to={`http://localhost:8080/api/v1/design/`} className="product-link">
-              <div className="card m-3" style={{ width: "24rem", height:"19rem" }}>
+            <Link
+              key={p._id}
+              to={"/designideas"}
+              className="product-link"
+            >
+              <div
+                className="card m-3"
+                style={{ width: "24rem", height: "19rem" }}
+              >
                 <img
                   src={`http://localhost:8080/api/v1/image/designimg-photo/${p._id}`}
                   className="card-img-top"

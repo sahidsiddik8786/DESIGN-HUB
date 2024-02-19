@@ -25,7 +25,7 @@ import Orders from "./pages/user/Orders";
 import Profile from "./pages/user/Profile";
 import { Toaster } from "react-hot-toast";
 import Login from "./pages/Auth/Login";
-
+import DesignPage from "./pages/DesignIdeas/designideas";
 
 import StaffLogin from "./pages/Auth/LoginStaff";
 import StaffHome from "./pages/Staff/staffDashboard";
@@ -105,7 +105,7 @@ function App() {
 <Route path="/Login-staff" element={<StaffLogin/>} />
 <Route path="/staff-dashboard" element={<StaffHome />} />
 
-
+<Route path="/designideas" element={<DesignPage />} />
 <Route path="/wishlist" element={<WishlistPage />} />
 <Route path="/cart" element={<CartPage />} />
 <Route path="/search" element={< Search />} />

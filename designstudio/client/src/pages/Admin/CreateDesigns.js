@@ -43,7 +43,7 @@ const CreateDesign = () => {
         `http://localhost:8080/api/v1/categorydesign/${categoryId}/subcategorydesign`
       );
       if (data?.success) {
-        setSubcategories(data?.subcategory || []); // Clear subcategories if none are returned
+        setSubcategories(data?.subcategory); // Clear subcategories if none are returned
       } else {
         console.log("Error: No subcategories found or success flag is missing");
         setSubcategories([]); // Clear subcategories if the API call was unsuccessful
@@ -59,14 +59,28 @@ const CreateDesign = () => {
     getAllCategory();
   }, []);
 
-  const handleCategoryChange = (value) => {
-    setCategory(value);
-    setSubcategory(""); // Reset subcategory when category changes
+ // Inside the handleCategoryChange function, update to filter subcategories based on the selected category
+const handleCategoryChange = async (value) => {
+  setCategory(value);
+  try {
     if (value) {
-      // Only call getSubcategories if a category is actually selected
-      getSubcategories(value);
+      const { data } = await axios.get(`http://localhost:8080/api/v1/categorydesign/${value}/subcategorydesign`);
+      if (data?.success) {
+        setSubcategories(data?.subcategory);
+      } else {
+        console.log("Error: No subcategories found or success flag is missing");
+        setSubcategories([]);
+      }
+    } else {
+      // If no category is selected, clear the subcategories
+      setSubcategories([]);
     }
-  };
+  } catch (error) {
+    console.log(error);
+    message.error("Error while getting subcategories.");
+    setSubcategories([]);
+  }
+};
 
   const handleCreate = async (e) => {
     e.preventDefault();
@@ -139,6 +153,7 @@ const CreateDesign = () => {
                         </Option>
                       ))}
                     </Select>
+                    {category && ( // Only show subcategory dropdown if a category is selected
                     <Select
                       bordered={false}
                       placeholder="Select a subcategory"
@@ -154,6 +169,7 @@ const CreateDesign = () => {
                         </Option>
                       ))}
                     </Select>
+                    )}
 
                     <div className="mb-3">
                       <label className="btn btn-outline-secondary col-md-12">

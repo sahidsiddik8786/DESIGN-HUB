@@ -57,8 +57,7 @@ const CreatesubCategoryDesign = () => {
         message.success(`Subcategory "${subcategoryName}" added successfully.`);
         setSubcategoryName('');
         setVisible(false);
-        // Fetch subcategories after adding a new one
-        await getAllSubcategories(selectedCategory);
+        getAllSubcategories(selectedCategory);
       } else {
         message.error(data.message);
       }
