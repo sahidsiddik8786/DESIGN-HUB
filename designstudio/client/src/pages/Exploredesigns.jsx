@@ -7,6 +7,23 @@ import "./Exploredesigns.css";
 
 const Designs = () => {
   const [designs, setDesigns] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    // Fetch categories from backend upon component mount
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/api/v1/categorydesign/get-categorydesign"
+        );
+        setCategories(response.data.categories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   // Get all products
   const getAllProducts = async () => {
@@ -27,6 +44,7 @@ const Designs = () => {
   }, []);
 
   console.log("Designs:", designs);
+  console.log("Categories:", categories);
 
   return (
     <Layout>
@@ -42,26 +60,45 @@ const Designs = () => {
           <br /> suit your home interior requirements.
         </p>
         <div className="d-flex flex-wrap">
-          {designs?.map((p) => (
-            <Link
-              key={p._id}
-              to={"/designideas"}
-              className="product-link"
-            >
-              <div
-                className="card m-3"
-                style={{ width: "24rem", height: "19rem" }}
+          {designs?.map((design) => (
+            <div key={design._id} className="category-card">
+              <Link
+                to={`http://localhost:8080/api/v1/categorydesign/${design._id}/subcategorydesign`}
               >
-                <img
-                  src={`http://localhost:8080/api/v1/image/designimg-photo/${p._id}`}
-                  className="card-img-top"
-                  alt={p.name}
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{p.name}</h5>
+                <div
+                  className="card m-3"
+                  style={{ width: "24rem", height: "19rem" }}
+                >
+                  <img
+                    src={`http://localhost:8080/api/v1/image/designimg-photo/${design._id}`}
+                    className="card-img-top"
+                    alt={design.name}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{design.name}</h5>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </div>
+          ))}
+
+          {categories?.map((category) => (
+            <div key={category._id} className="category-card">
+              <Link
+                to={`http://localhost:8080/api/v1/categorydesign/${category._id}/subcategorydesign`}
+              >
+                <div
+                  className="card m-3"
+                  style={{ width: "24rem", height: "19rem" }}
+                >
+                  {/* If you have an image field in the category data, use it here */}
+                  {/* <img src={category.image} className="card-img-top" alt={category.name} /> */}
+                  <div className="card-body">
+                    <h5 className="card-title">{category.name}</h5>
+                  </div>
+                </div>
+              </Link>
+            </div>
           ))}
         </div>
       </div>
