@@ -67,9 +67,10 @@ const Login = () => {
         setTimeout(() => {
           if (res.data.user.role === "1") {
             navigate(location.state || "/Dashboard/AdminDashboard");
-          } else if (res.data.user.role === "2") {
+          }  
+          else if (res.data.user.role === "2") {
             navigate(location.state || "/staff-dashboard");
-          } else {
+          }else {
             navigate(location.state || "/Dashboard/UserDashboard");
           }
         }, 100);
@@ -135,9 +136,11 @@ const Login = () => {
             <p>
               <h5>Don't have an account?</h5>
             </p>
-            <NavLink to="/register" className="btn-default  rounded-p4">
-              <h5>Create new account</h5>
-            </NavLink>
+          
+        <NavLink to="/register" className="btn-default rounded-p4 ">
+          <h5><center>Sign up</center></h5>
+        </NavLink>
+
           </div>
 
           <button

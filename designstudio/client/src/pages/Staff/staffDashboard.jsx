@@ -14,14 +14,6 @@ const StaffHome = () => {
         setOpenSidebarToggle(!openSidebarToggle);
     };
 
-    // Render loading indicator while authentication state is being fetched
-   
-    // Check if user is authenticated before rendering
-    if (!auth.user) {
-        // Redirect to login or handle unauthorized access
-        return <Link to="/Login-staff" />;
-    }
-
     return (
         <div className='grid-container'>
             <StaffHeader OpenSidebar={OpenSidebar} />

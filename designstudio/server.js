@@ -15,7 +15,12 @@ import productRoutes from "./routes/productRoute.js";
 import designRoutes from "./routes/designRoute.js"
 import imageRoutes from "./routes/imageRoute.js"
 import staffRoutes from './routes/staffRoute.js'
+import bothRoutes from "./routes/bothRoute.js"
 //import Payment from     "./routes/payment.js";
+
+
+
+
 const app = express();
 
 app.use(
@@ -38,6 +43,8 @@ app.use("/api/v1/categorydesign", designcategoryRoutes)
 app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/design", designRoutes);
 app.use("/api/v1/image", imageRoutes);
+
+app.use("/api/v1/both", bothRoutes);
 //app.use("/api/v1/payment", Payment);
 
 app.get('/', (req, res) => {
@@ -48,7 +55,7 @@ app.get('/users', async (req, res) => {
   try {
     const users = await userModel.find({ role: '0' });
 
-    console.log('Filtered Users:', users); // Add this line for debugging
+    console.log('Filtered Users:', users); 
 
     res.json(users);
   } catch (err) {
@@ -140,6 +147,28 @@ app.put('/users/:userId/activate', async (req, res) => {
 });
 
 
+//----------Appoinment section----------//
+// API endpoint to get available slots for the next 5 days
+app.get('/api/slots', async (req, res) => {
+  const currentDate = new Date();
+  const nextFiveDays = new Date(currentDate.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days from now
+  const availableSlots = await Appointment.find({ date: { $gte: currentDate, $lt: nextFiveDays } });
+  res.json(availableSlots);
+});
+
+// API endpoint to book an appointment
+app.post('/api/book', async (req, res) => {
+  const { date, slot } = req.body;
+  const userId = req.user.id; 
+  try {
+    const appointment = new appointment({ date, slot,  userId });
+    await appointment.save();
+    res.status(201).json(appointment);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+//----------------------------------------------------------//
 
 dotenv.config();
 connectDB();

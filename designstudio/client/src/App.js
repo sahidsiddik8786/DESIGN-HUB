@@ -50,7 +50,7 @@ import WishlistPage from "./pages/WishlistPage";
 import CreateDesigns from "./pages/Admin/CreateDesigns";
 import Designs from "./pages/Admin/Designs";
 import Registerstaff from "./pages/Admin/RegisterStaff";
-
+import AppointmentForm from "./pages/Staff/Addappoinments";
 const RecoveryContext = createContext();
 
 function App() {
@@ -128,7 +128,7 @@ function App() {
 
           <Route path="/Login-staff" element={<StaffLogin />} />
           <Route path="/staff-dashboard" element={<StaffHome />} />
-
+          <Route path="/add-appoinments" element={<AppointmentForm />} />
           {/*designroute*/}
           <Route path="/categorydesign/:categoryId/subcategorydesign/:subcategoryId" element={<DesignPage />} />
         <Route path="/subcategorydesign/:subcategoryId" element={<DesignPage />} />
