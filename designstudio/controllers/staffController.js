@@ -15,18 +15,16 @@ const transporter = nodemailer.createTransport({
 // Create staff member
 export const createStaffMember = async (req, res) => {
   try {
-    const { firstname, lastname, address,  streetaddress, city, state,country, postal, email, password, phone} = req.body;
+    const { firstname, lastname, address, streetaddress, city, state, country, postal, email, password, phone } = req.body;
 
-     //check User
-     const exsistingUser = await StaffModel.findOne({ email: email });
-     //Exsisting user ?
-     if (exsistingUser) {
-       return res.status(200).send({
-         success: false,
-         message: "Alredy Registerd , please login",
-       });
-     }
-
+    // Check if user already exists
+    const existingUser = await StaffModel.findOne({ email: email });
+    if (existingUser) {
+      return res.status(200).send({
+        success: false,
+        message: "Already registered, please login",
+      });
+    }
 
     const hashedPassword = await hashPassword(password);
     if (!hashedPassword) {
@@ -36,20 +34,20 @@ export const createStaffMember = async (req, res) => {
       });
     }
 
-  //save
-  const user = await new StaffModel({
-    firstname,
-    lastname,
-    address,
-    streetaddress,
-    city,
-    state,
-    postal,
-    country,
-    email,
-    phone,
-    password: hashedPassword,
-  }).save();
+    // Save the staff member
+    const user = await new StaffModel({
+      firstname,
+      lastname,
+      address,
+      streetaddress,
+      city,
+      state,
+      postal,
+      country,
+      email,
+      phone,
+      password: hashedPassword,
+    }).save();
 
     const mailOptions = {
       from: "Design_Studio",
@@ -57,13 +55,8 @@ export const createStaffMember = async (req, res) => {
       subject: "Registration Confirmation",
       text: "You have been successfully registered.",
     };
-  
-    res.status(200).send({
-      success: true,
-      message: "Registered Successfully",
-    });
 
-  
+    // Send the registration email
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.log("Email not sent: " + error);
@@ -71,19 +64,21 @@ export const createStaffMember = async (req, res) => {
         console.log("Email sent: " + info.response);
       }
     });
-  } 
-  
-  catch (error) {
-    console.error("Error in registration: ########", error);
-    console.log(error);
+
+    // Send the response after sending the email
+    res.status(200).send({
+      success: true,
+      message: "Registered Successfully",
+    });
+  } catch (error) {
+    console.error("Error in registration:", error);
     res.status(500).send({
       success: false,
-      messsage: "Error in Registration",
+      message: "Error in Registration",
       error,
     });
   }
 };
-
 
 // Login controller
 export const loginController = async (req, res) => {
@@ -153,7 +148,6 @@ export const loginController = async (req, res) => {
     });
   }
 };
-
 
 // Protected route test controller
 export const testController = (req, res) => {

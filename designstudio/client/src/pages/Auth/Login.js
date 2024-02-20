@@ -65,12 +65,14 @@ const Login = () => {
         localStorage.setItem("auth", JSON.stringify(res.data));
 
         setTimeout(() => {
-        if (res.data.user.role === "1") {
-          navigate(location.state || "/Dashboard/AdminDashboard");
-        } else {
-          navigate(location.state || "/Dashboard/UserDashboard");
-        }
-      },100);
+          if (res.data.user.role === "1") {
+            navigate(location.state || "/Dashboard/AdminDashboard");
+          } else if (res.data.user.role === "2") {
+            navigate(location.state || "/staff-dashboard");
+          } else {
+            navigate(location.state || "/Dashboard/UserDashboard");
+          }
+        }, 100);
 
 
       } else {
@@ -146,10 +148,10 @@ const Login = () => {
             Sign In
           </button>
 
-          {/* Button to switch to staff login */}
+          {/* Button to switch to staff login 
           <NavLink to="/Login-staff" className="btn btn-link" style={{ color: 'black' }}>
             Login as Staff
-          </NavLink>
+          </NavLink>*/}
         </form>
       </div>
       <Toaster />

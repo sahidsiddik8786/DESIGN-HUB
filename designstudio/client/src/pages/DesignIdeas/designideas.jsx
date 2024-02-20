@@ -1,50 +1,52 @@
-// SubcategoriesPage.js
-
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Card, CardContent, Typography, Grid } from '@mui/material';
+import Layout from '../../components/layout/Layout';
+import { Card, CardMedia, CardContent, Typography, Grid } from "@mui/material";
 
-const SubcategoriesPage = () => {
-  const { categoryId } = useParams();
-  const [subcategories, setSubcategories] = useState([]);
+const DesignPage = () => {
+  const [subcategoryDesigns, setSubcategoryDesigns] = useState([]);
+  const { categoryId } = useParams(); // Ensure that the correct parameter name is used
 
   useEffect(() => {
-    // Fetch subcategories for the selected category from backend upon component mount
-    const fetchSubcategories = async () => {
+    const fetchSubcategoryDesigns = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/v1/categorydesign/${categoryId}/subcategorydesign`);
-        setSubcategories(response.data.subcategories);
+        setSubcategoryDesigns(response.data.subcategoryDesigns);
       } catch (error) {
-        console.error('Error fetching subcategories:', error);
+        console.error('Error fetching subcategory designs:', error);
       }
     };
 
-    fetchSubcategories();
+    fetchSubcategoryDesigns();
   }, [categoryId]);
 
   return (
-    <div>
-      <h1>Subcategories for Category {categoryId}</h1>
-      <Grid container spacing={3}>
-        {subcategories.map(subcategory => (
-          <Grid item xs={12} sm={6} md={4} key={subcategory.id}>
-            <Card>
-              <CardContent>
-                <Typography variant="h5" component="h2">
-                  {subcategory.name}
-                </Typography>
-                <Typography color="textSecondary">
-                  {subcategory.description}
-                </Typography>
-                {/* You can add more details or customize the UI here */}
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </div>
+    <Layout>
+      <div className="subcategory-designs">
+        <h1>Subcategory Designs</h1>
+        <Grid container spacing={3}>
+          {subcategoryDesigns.map((design) => (
+            <Grid item key={design._id} xs={12} sm={6} md={4}>
+              <Card className="mb-4" sx={{ width: "80%" }}>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={`http://localhost:8080/api/v1/subcategorydesign/design-photo/${design._id}`}
+                  alt={design.name}
+                />
+                <CardContent>
+                  <Typography variant="h6" component="div" className="mb-2">
+                    {design.name}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </div>
+    </Layout>
   );
 };
 
-export default SubcategoriesPage;
+export default DesignPage;

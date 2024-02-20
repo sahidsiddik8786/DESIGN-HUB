@@ -1,5 +1,3 @@
-// Designs.js
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -65,7 +63,7 @@ const Designs = () => {
           {designs?.map((design) => (
             <div key={design._id} className="category-card">
               <Link
-                to={`/subcategories/${design._id}`} // Update the link to navigate to subcategories page
+                to={`/design/${design.slug}`}
               >
                 <div
                   className="card m-3"

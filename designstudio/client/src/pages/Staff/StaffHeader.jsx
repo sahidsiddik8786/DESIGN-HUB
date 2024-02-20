@@ -4,9 +4,6 @@ import { useAuth } from "../../context/auth";
 import { Link, useLocation } from "react-router-dom";
 
 import {
-  BsFillBellFill,
-  BsFillEnvelopeFill,
-  BsPersonCircle,
   BsSearch,
   BsJustify,
 } from "react-icons/bs";
@@ -29,6 +26,7 @@ const StaffHeader = ({ OpenSidebar }) => {
 
   return (
     <header className="header">
+
       <div className="menu-icon">
         <BsJustify className="icon" onClick={OpenSidebar} />
       </div>
@@ -36,14 +34,11 @@ const StaffHeader = ({ OpenSidebar }) => {
         <BsSearch className="icon" />
       </div>
       <div className="header-right">
-        <div className="avatar avatar-xl">
-          <img src="/images/1.jg" alt="" />
-        </div>
         <NavDropdown
         title={
           <span
             style={{
-              color: "white",
+              color: "light",
               fontSize,
               marginRight,
               textTransform: "none",
@@ -58,7 +53,7 @@ const StaffHeader = ({ OpenSidebar }) => {
         <NavDropdown.Item
           onClick={handleLogout}
           as={Link}
-          to="/Login-staff"
+          to="/login"
           style={{
             color: "black",
             fontSize,

@@ -1,10 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 import Layout from "../../components/layout/Layout";
 import AdminMenu from "../../components/layout/AdminMenu";
 import { Table, Select, Row, Col, Space, Typography, Tag } from "antd";
-
 
 // Styled buttons
 const StyledButton = styled.button`
@@ -38,19 +37,19 @@ const Content = styled.div`
 const RegisterOptions = () => {
   return (
     <Layout title={"New Registration"}>
-       <div className="col-md-2 pl-0">
-            <AdminMenu />
-          </div>
-        <Container>
+      <div className="col-md-2 pl-0">
+        <AdminMenu />
+      </div>
+      <Container>
         <Content>
-          <div>
+          <div className="col-md-2 text-center mx-auto">
             <h1>Welcome Admin!</h1>
             <StyledButton as={Link} to="staff">
               Register Staff
             </StyledButton>
-            <StyledButton as={Link} to="/register-worker">
-              Register Worker
-            </StyledButton>
+            {/* <StyledButton as={Link} to="/register-worker">
+    Register Worker
+  </StyledButton> */}
           </div>
         </Content>
       </Container>

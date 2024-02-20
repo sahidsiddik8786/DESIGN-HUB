@@ -15,7 +15,7 @@ import productRoutes from "./routes/productRoute.js";
 import designRoutes from "./routes/designRoute.js"
 import imageRoutes from "./routes/imageRoute.js"
 import staffRoutes from './routes/staffRoute.js'
-import Payment from     "./routes/payment.js";
+//import Payment from     "./routes/payment.js";
 const app = express();
 
 app.use(
@@ -38,7 +38,7 @@ app.use("/api/v1/categorydesign", designcategoryRoutes)
 app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/design", designRoutes);
 app.use("/api/v1/image", imageRoutes);
-app.use("/api/v1/payment", Payment);
+//app.use("/api/v1/payment", Payment);
 
 app.get('/', (req, res) => {
   res.send('<h1>Welcome to MERN stack project</h1>');

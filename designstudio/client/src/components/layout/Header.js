@@ -55,8 +55,23 @@ const Header = () => {
                 >
                   Products
                 </Nav.Link>
+
+                
               )}
               
+              {auth.user?.role !== "1" && (
+                <Nav.Link
+                  as={Link}
+                  to="/Explore-Designs"
+                  style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
+                  className="nav-link custom-font"
+                >
+                  Explore-Designs
+                </Nav.Link>
+
+                
+              )}
+
               {auth.user?.role !== "1"  && (
                 <div className="nav-item">
                   <Nav.Link

@@ -19,7 +19,7 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
       };
     });
     console.log("Auth after logout:", auth);
-    navigate('/Login-staff');
+    navigate('/login');
   };
   
   
@@ -27,9 +27,12 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
     <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive" : ""}>
       <div className='sidebar-title'>
         <div className='sidebar-brand'>
-          <BsCart3 className='icon_header' /> SHOP
-        </div>
-        <span className='icon close_icon' onClick={OpenSidebar}>X</span>
+          STAFF DASHBOARD
+       
+      <div className="sidebar-list">
+      <h4> Welcome: {auth?.user?.firstname}</h4>
+      </div>
+      </div>
       </div>
 
       <ul className='sidebar-list'>
@@ -40,26 +43,26 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
             </Link>
           </li>
         
-        <li className='sidebar-list-item' key="products">
-          <Link to="/products">
-            <BsFillArchiveFill className='icon' /> Products
+        <li className='sidebar-list-item' key="Add-Appoinments">
+          <Link to="/add-appoinments">
+            <BsFillArchiveFill className='icon' /> Add Appoinments
           </Link>
         </li>
-        <li className='sidebar-list-item' key="categories">
+        <li className='sidebar-list-item' key="View-Appoinments">
           <Link to="/categories">
-            <BsFillGrid3X3GapFill className='icon' /> Categories
+            <BsFillGrid3X3GapFill className='icon' /> View Appoinments
           </Link>
         </li>
-        <li className='sidebar-list-item' key="customers">
+       {/* <li className='sidebar-list-item' key="customers">
           <Link to="/customers">
             <BsPeopleFill className='icon' /> Customers
           </Link>
-        </li>
+  </li>
         <li className='sidebar-list-item' key="inventory">
           <Link to="/inventory">
             <BsListCheck className='icon' /> Inventory
           </Link>
-        </li>
+        </li>*/}
         <li className='sidebar-list-item' key="reports">
           <Link to="/reports">
             <BsMenuButtonWideFill className='icon' /> Reports
@@ -71,24 +74,6 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
           </Link>
         </li>
       </ul>
-
-      <div className="ms-3 name">
-      <p> <h3> Welcome    {auth?.user?.firstname} {auth?.user?.lastname}  </h3> </p>
-      
-        <button
-          onClick={handleLogout}
-          className="btn btn-danger"
-          style={{
-            width: "130px",
-            height: "30px",
-            fontSize: "12px",
-            marginTop: "10px",
-            color: "whitesmoke"
-          }}
-        >
-          LogOut
-        </button>
-      </div>
     </aside>
   );
 };

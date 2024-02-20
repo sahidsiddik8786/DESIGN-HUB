@@ -57,19 +57,20 @@ const ProductDetails = () => {
 
   return (
     <Layout>
-                  <Typography variant="h3" align="center">Product Details</Typography>
+      <Typography variant="h3" align="center">
+        Product Details
+      </Typography>
 
       <div className="container mt-5">
-        
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <img
               src={`http://localhost:8080/api/v1/product/product-photo/${product._id}`}
-              style={{ width: "100%" , height: "100%" }}
+              style={{ width: "100%", height: "100%" }}
               alt={product.name}
             />
           </Grid>
-          
+
           <Grid item xs={12} md={6}>
             <Typography>Name: {product.name}</Typography>
             <Typography>Description: {product.description}</Typography>
@@ -94,8 +95,16 @@ const ProductDetails = () => {
         <Grid container spacing={2} justifyContent="center">
           {relatedProducts?.map((p) => (
             <Grid item xs={12} sm={6} md={4} key={p._id}>
-              <Card variant="outlined" style={{ height: "100%", width: "65%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-
+              <Card
+                variant="outlined"
+                style={{
+                  height: "100%",
+                  width: "65%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
+              >
                 <img
                   src={`http://localhost:8080/api/v1/product/product-photo/${p?._id}`}
                   style={{ width: "100%", height: "200px", objectFit: "cover" }}
@@ -103,9 +112,7 @@ const ProductDetails = () => {
                 />
                 <CardContent>
                   <Typography variant="h6">{p.name}</Typography>
-                  <Typography>
-                    {p.description.substring(0, 30)}...
-                  </Typography>
+                  <Typography>{p.description.substring(0, 30)}...</Typography>
                   <Typography>₹ {p.price}</Typography>
                 </CardContent>
                 <CardActions>
