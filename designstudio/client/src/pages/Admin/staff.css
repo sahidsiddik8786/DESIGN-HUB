@@ -1,17 +1,9 @@
-/* App.css */
-.mb-4 {
-    margin-bottom: 1.5rem !important;
+.cascading-right {
+  margin-right: -50px;
+}
+
+@media (max-width: 1000px) {
+  .cascading-right {
+    margin-right: 5;
   }
-  
-  .fw-bold {
-    font-weight: bold;
-  }
-  
-  .text-uppercase {
-    text-transform: uppercase;
-  }
-  
-  .bg-dark {
-    background-color: #343a40 !important;
-  }
-  
+}

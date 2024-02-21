@@ -50,7 +50,7 @@
 #sidebar {
   grid-area: sidebar;
   height: 100%;
-  background-color: #0092fb80;
+  background-color: #000000cf;
   overflow-y: auto;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
@@ -80,21 +80,28 @@
 }
 
 .sidebar-list-item {
-  padding: 40px 10px 40px 20px;
+  padding: 60px 10px 40px 30px;
   font-size: 22px;
   font-weight: 500;
 }
 
 .sidebar-list-item:hover {
-  background-color: rgb(255, 255, 255);
+  background-color: #9f9e9e;
   cursor: pointer;
 }
 
-.sidebar-list-item > a {
+.sidebar-list-item> a {
   text-decoration: none;
   
-  color: #000000;
+  color: #ffffff;
 }
+
+.sidebar-brand {
+  text-decoration: none;
+  
+  color: #ffffff;
+}
+
 
 .sidebar-responsive {
   display: inline !important;
@@ -111,11 +118,7 @@
   
 
  
-  
 
-  
-  
-  /* Medium <= 992px */
     
   @media screen and (max-width: 992px) {
     .grid-container {
@@ -140,3 +143,76 @@
   }
 
     
+
+
+/* ProductDashboard.css */
+
+/* Overall styling */
+.dashboard {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header section */
+.product-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fbfbfb;
+}
+
+/* Metrics section */
+.metrics {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.metric-item {
+    text-align: center;
+}
+.metric-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #007bff;
+}
+.metric-label {
+    font-size: 14px;
+    color: #777;
+}
+
+/* Graphs section */
+.graphs {
+    margin-top: 30px;
+}
+/* Customize your graphs here */
+
+/* Footer section */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #888;
+}
+
+
+
+/* Staff.css */
+
+/* Add background image to the entire dashboard */
+.grid-container {
+  background-color: white; 
+  background-size: cover;
+  background-position: center;
+}
+
+/* Additional styling for other elements in the dashboard can be added below */
+
+/* Add this CSS to your existing CSS file or create a new one */
+.form-containe {
+  margin: auto; /* Center the form horizontally */
+  width: 90%; /* Adjust the width of the form container */
+  padding: 50px; /* Add some padding for spacing */
+}

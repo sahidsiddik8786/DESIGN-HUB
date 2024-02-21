@@ -1,4 +1,4 @@
-// Middleware to verify JWT token for staff
+// staffMiddleware.js
 import JWT from 'jsonwebtoken';
 import StaffModel from '../models/staffModel.js';
 
@@ -23,7 +23,6 @@ export const requireStaffSignIn = async (req, res, next) => {
     }
 };
 
-// Middleware to check if user is admin or staff
 export const isAuthorized = async (req, res, next) => {
     try {
         const { _id, role } = req.staff;

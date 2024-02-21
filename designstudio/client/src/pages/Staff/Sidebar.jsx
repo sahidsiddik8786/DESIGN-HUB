@@ -9,28 +9,20 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
   
   const handleLogout = () => {
     console.log("Logout button clicked");
-    localStorage.removeItem('auth');
-    setAuth(prevAuth => {
-      const { staff, ...rest } = prevAuth; // Destructure staff and the rest of the properties
-      return {
-        ...rest, // Spread the rest of the properties
-        user: null,
-        token: '',
-      };
-    });
+    localStorage.removeItem('token'); // Remove token from local storage
+    setAuth(null); // Update authentication state
     console.log("Auth after logout:", auth);
     navigate('/login');
-  };
-  
+};
+
   
   return (
     <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive" : ""}>
       <div className='sidebar-title'>
         <div className='sidebar-brand'>
           STAFF DASHBOARD
-       
       <div className="sidebar-list">
-      <h4> Welcome: {auth?.user?.firstname}</h4>
+  
       </div>
       </div>
       </div>
@@ -38,7 +30,7 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
       <ul className='sidebar-list'>
   
           <li className='sidebar-list-item' key="dashboard">
-            <Link to="">
+            <Link to="/staff-dashboard">
               <BsGrid1X2Fill className='icon' /> Dashboard
             </Link>
           </li>

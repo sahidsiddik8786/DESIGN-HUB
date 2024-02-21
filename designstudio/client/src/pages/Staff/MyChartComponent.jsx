@@ -1,64 +1,71 @@
-import React from 'react';
-import { ResponsiveContainer, ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
+import React from "react";
+import { Link } from "react-router-dom";
 
-const MyChartComponent = () => {
-    const scatterData = [
-        { x: 100, y: 200 },
-        { x: 200, y: 150 },
-        { x: 300, y: 400 },
-        { x: 400, y: 300 },
-        { x: 500, y: 200 },
-    ];
+function Home() {
 
-    const pieData = [
-        { name: 'A', value: 400 },
-        { name: 'B', value: 300 },
-        { name: 'C', value: 300 },
-        { name: 'D', value: 200 },
-    ];
-
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-
-    return (
-        <main className='main-container'>
-            {/* Scatter Chart */}
-            <div className='charts'>
-                <ResponsiveContainer width="100%" height={300}>
-                    <ScatterChart>
-                        <CartesianGrid />
-                        <XAxis type="number" dataKey="x" name="x" />
-                        <YAxis type="number" dataKey="y" name="y" />
-                        <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-                        <Legend />
-                        <Scatter name="A Scatter" data={scatterData} fill="#8884d8" />
-                    </ScatterChart>
-                </ResponsiveContainer>
+  return (
+    <div className="px-3" >
+      <div className="row gx-3">
+        <div className="col-md-6 my-2">
+          <Link to="" className="text-decoration-none text-dark">
+            <div
+              className="p-5 bg-primary text-white shadow-sm d-flex justify-content-between align-items-center rounded"
+              style={{ width: "100%", height: "200px" }}
+            >
+              <div>
+        
+                <p className="fs-5">View Client</p>
+              </div>
+              <i className="bi bi-cart-plus p-3 fs-1"></i>
             </div>
+          </Link>
+        </div>
 
-            {/* Pie Chart */}
-            <div className='charts'>
-                <ResponsiveContainer width="100%" height={300}>
-                    <PieChart>
-                        <Pie
-                            data={pieData}
-                            cx="50%"
-                            cy="50%"
-                            outerRadius={80}
-                            fill="#8884d8"
-                            dataKey="value"
-                            label
-                        >
-                            {pieData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                        </Pie>
-                        <Tooltip />
-                        <Legend />
-                    </PieChart>
-                </ResponsiveContainer>
+        <div className="col-md-6 my-2">
+          <div
+            className="p-5 bg-success text-white shadow-sm d-flex justify-content-between align-items-center rounded"
+            style={{ width: "100%", height: "200px" }}
+          >
+            <div>
+              <h3 className="fs-3">2450</h3>
+              <p className="fs-5">Sales</p>
             </div>
-        </main>
-    )
+            <i className="bi bi-currency-dollar p-3 fs-1"></i>
+          </div>
+        </div>
+      </div>
+
+      <div className="row gx-3">
+        <div className="col-md-6 my-2">
+          <div
+            className="p-5 bg-secondary text-white shadow-sm d-flex justify-content-between align-items-center rounded"
+            style={{ width: "100%", height: "200px" }}
+          >
+            <div>
+              <h3 className="fs-3">2250</h3>
+              <p className="fs-5">Delivery</p>
+            </div>
+            <i className="bi bi-truck p-3 fs-1"></i>
+          </div>
+        </div>
+
+        <div className="col-md-6 my-2">
+          <div
+            className="p-5 bg-info text-white shadow-sm d-flex justify-content-between align-items-center rounded"
+            style={{ width: "100%", height: "200px" }}
+          >
+            <div>
+              <h3 className="fs-3">20%</h3>
+              <p className="fs-5">Increase</p>
+            </div>
+            <i className="bi bi-graph-up-arrow p-3 fs-1"></i>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+  );
 }
 
-export default MyChartComponent;
+export default Home;

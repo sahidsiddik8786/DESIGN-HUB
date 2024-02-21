@@ -3,38 +3,79 @@ import JWT from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import { comparePassword, hashPassword } from "../helpers/authHelper.js";
 
-// Nodemailer transporter configuration
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
     user: "sahidsiddik0977@gmail.com",
-    pass: "wwet hllo cnhz fdzh",
+    pass: "uhjr osxb cskd szzi",
   },
 });
 
-// Create staff member
+
+
+export const sendRegistrationConfirmationEmail = (email, password) => {
+  const loginLink = "http://localhost:3000/login"; // Replace with your actual login page URL
+  const mailOptions = {
+    from: "Design_Studio",
+    to: email,
+    subject: " Staff Registration"<br>"This is user Credential"<br> "to Login As Staff ",
+    html: `
+      <p>Welcome to Design Studio Family.</p>
+      <p>Your password: ${password}</p>
+      <p>Please <a href="${loginLink}">click here</a> to login.</p>
+    `,
+  };
+
+  return transporter.sendMail(mailOptions);
+};
+
+
 export const createStaffMember = async (req, res) => {
   try {
     const { firstname, lastname, address, streetaddress, city, state, country, postal, email, password, phone } = req.body;
 
+    // Check if any required field is missing or empty
+    if (!firstname || !lastname || !address || !streetaddress || !city || !state || !country || !postal || !email || !password || !phone) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide all required fields",
+      });
+    }
+
+    // Validate email format
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a valid email address",
+      });
+    }
+
+    // Validate password length
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters long",
+      });
+    }
+
     // Check if user already exists
     const existingUser = await StaffModel.findOne({ email: email });
     if (existingUser) {
-      return res.status(200).send({
+      return res.status(409).json({
         success: false,
-        message: "Already registered, please login",
+        message: "Email is already registered",
       });
     }
 
     const hashedPassword = await hashPassword(password);
     if (!hashedPassword) {
-      return res.status(500).send({
+      return res.status(500).json({
         success: false,
         message: "Error in hashing password",
       });
     }
 
-    // Save the staff member
     const user = await new StaffModel({
       firstname,
       lastname,
@@ -49,36 +90,25 @@ export const createStaffMember = async (req, res) => {
       password: hashedPassword,
     }).save();
 
-    const mailOptions = {
-      from: "Design_Studio",
-      to: email,
-      subject: "Registration Confirmation",
-      text: "You have been successfully registered.",
-    };
 
-    // Send the registration email
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log("Email not sent: " + error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
-
-    // Send the response after sending the email
-    res.status(200).send({
+// Send registration confirmation email
+await sendRegistrationConfirmationEmail(email, password);
+    
+  
+    res.status(201).json({
       success: true,
       message: "Registered Successfully",
     });
   } catch (error) {
     console.error("Error in registration:", error);
-    res.status(500).send({
+    res.status(500).json({
       success: false,
       message: "Error in Registration",
       error,
     });
   }
 };
+
 
 // Login controller
 export const loginController = async (req, res) => {

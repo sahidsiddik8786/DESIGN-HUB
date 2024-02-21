@@ -45,6 +45,7 @@ const StaffHeader = ({ OpenSidebar }) => {
             }}
           >
             {auth?.user?.firstname} {auth?.user?.lastname}
+          
           </span>
         }
         id="basic-nav-dropdown"

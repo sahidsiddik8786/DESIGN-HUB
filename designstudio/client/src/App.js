@@ -23,6 +23,7 @@ import CreateCategoryDesign from "./pages/Admin/CreateDesignCategory";
 import CreateDesignSubcategory from "./pages/Admin/CreateDesignSubcategory";
 import Orders from "./pages/user/Orders";
 import Profile from "./pages/user/Profile";
+import Updatestaffprofile from "./pages/Staff/Updatestaffprofile"
 import { Toaster } from "react-hot-toast";
 import Login from "./pages/Auth/Login";
 
@@ -126,6 +127,8 @@ function App() {
             <Route path="admin/orders" element={<AdminOrders />} />
           </Route>
 
+
+          <Route path="/staffprofileup" element={<Updatestaffprofile />} />
           <Route path="/Login-staff" element={<StaffLogin />} />
           <Route path="/staff-dashboard" element={<StaffHome />} />
           <Route path="/add-appoinments" element={<AppointmentForm />} />
