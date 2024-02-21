@@ -15,8 +15,8 @@ const AddAppointment = () => {
 
   const getUserId = async () => {
     try {
-      // Make an API call to fetch user ID after authentication
-      const response = await axios.get(`http://localhost:8080/users/${userId}`); // Adjust the API endpoint as per your implementation
+      // Make an API call to fetch user ID after authentication  
+      const response = await axios.get(`http://localhost:8080/api/v1/auth/${userId}`); // Adjust the API endpoint as per your implementation
       if (response.data && response.data.userId) {
         // Set the user ID in state
         setUserId(response.data.userId);

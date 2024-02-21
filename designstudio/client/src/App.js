@@ -52,6 +52,8 @@ import CreateDesigns from "./pages/Admin/CreateDesigns";
 import Designs from "./pages/Admin/Designs";
 import Registerstaff from "./pages/Admin/RegisterStaff";
 import AppointmentForm from "./pages/Staff/Addappoinments";
+import userStaff from "./pages/Staff/userStaff"
+
 const RecoveryContext = createContext();
 
 function App() {
@@ -127,7 +129,7 @@ function App() {
             <Route path="admin/orders" element={<AdminOrders />} />
           </Route>
 
-
+          <Route path="/userdetails-staff" element={<userStaff />} />
           <Route path="/staffprofileup" element={<Updatestaffprofile />} />
           <Route path="/Login-staff" element={<StaffLogin />} />
           <Route path="/staff-dashboard" element={<StaffHome />} />

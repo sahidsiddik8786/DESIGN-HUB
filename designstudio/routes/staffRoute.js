@@ -4,11 +4,13 @@ import {
     loginController,
     getAllStaffMembers,
     getStaffMemberById,
-    updateStaffMemberById,
+    updateProfileController,
     deleteStaffMemberById,
     sendRegistrationConfirmationEmail,
 } from "../controllers/staffController.js";
-import { requireStaffSignIn, isAuthorized } from "../middlewares/staffMiddleware.js";
+import { requireStaffSignIn, isAuthorized , verifyTokenMiddleware} from "../middlewares/staffMiddleware.js";
+
+
 
 const router = express.Router();
 
@@ -38,7 +40,11 @@ router.post("/send-registration-email", async (req, res) => {
 router.use(requireStaffSignIn);
 router.get("/staff", isAuthorized, getAllStaffMembers);
 router.get("/staff/:id", isAuthorized, getStaffMemberById);
-router.put("/staff/:id", isAuthorized, updateStaffMemberById);
+
+//router.put("/profile-staff", requireStaffSignIn, updateProfileController); 
+router.put('/profile-staff', verifyTokenMiddleware, updateProfileController);
+
+
 router.delete("/staff/:id", isAuthorized, deleteStaffMemberById);
 
 export default router;

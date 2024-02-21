@@ -7,30 +7,24 @@ const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState({
         user: null,
         token: "",
-
-        // console.log(token)
-        //console.log(error)
     });
 
-//default axios
-axios.defaults.headers.common['Authorization'] = auth?.token;
+    // Set default axios headers whenever auth state changes
+    useEffect(() => {
+        axios.defaults.headers.common['Authorization'] = auth?.token;
+    }, [auth.token]);
 
-    useEffect(() => {                                             //print data from local storage
+    useEffect(() => {
         const data = localStorage.getItem('auth')
         if (data) {
             const parseData = JSON.parse(data)
-            {
-                
-                setAuth({
-                    ...auth,
-                    user: parseData.user,
-                    token: parseData.token
-                })
-            }
+            setAuth(prevAuth => ({
+                ...prevAuth,
+                user: parseData.user,
+                token: parseData.token
+            }));
         }    
-    //eslint-disable-next-line
-
-    }, [])
+    }, []);
 
     return (
         <AuthContext.Provider value={[auth, setAuth]}>
@@ -39,7 +33,7 @@ axios.defaults.headers.common['Authorization'] = auth?.token;
     );
 };
 
-// custom hook
+// Custom hook
 const useAuth = () => useContext(AuthContext);
 
 export { useAuth, AuthProvider };

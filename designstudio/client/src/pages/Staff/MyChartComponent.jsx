@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Userstaff from "./userStaff";
 
 function Home() {
 
   return (
-    <div className="px-3" >
+ <>
+ <div className="px-3" >
       <div className="row gx-3">
         <div className="col-md-6 my-2">
           <Link to="" className="text-decoration-none text-dark">
@@ -61,10 +63,13 @@ function Home() {
             <i className="bi bi-graph-up-arrow p-3 fs-1"></i>
           </div>
         </div>
-        
+       
         
       </div>
+   
     </div>
+    
+    </>
   );
 }
 

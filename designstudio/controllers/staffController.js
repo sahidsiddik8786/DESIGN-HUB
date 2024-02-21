@@ -2,6 +2,7 @@ import StaffModel from "../models/staffModel.js";
 import JWT from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import { comparePassword, hashPassword } from "../helpers/authHelper.js";
+import staffModel from "../models/staffModel.js";
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",
@@ -13,19 +14,23 @@ const transporter = nodemailer.createTransport({
 
 
 
+
+
+
 export const sendRegistrationConfirmationEmail = (email, password) => {
   const loginLink = "http://localhost:3000/login"; // Replace with your actual login page URL
   const mailOptions = {
     from: "Design_Studio",
     to: email,
-    subject: " Staff Registration"<br>"This is user Credential"<br> "to Login As Staff ",
+    subject: "Your are Registered as Staff ",
     html: `
-      <p>Welcome to Design Studio Family.</p>
+    <p>Welcome to Design Studio Family.</p>
       <p>Your password: ${password}</p>
       <p>Please <a href="${loginLink}">click here</a> to login.</p>
     `,
   };
 
+  
   return transporter.sendMail(mailOptions);
 };
 
@@ -116,65 +121,48 @@ export const loginController = async (req, res) => {
     const { email, password } = req.body;
     // Validation
     if (!email || !password) {
-      return res.status(404).send({
+      return res.status(400).json({
         success: false,
-        message: "Invalid email or password",
+        message: "Please provide email and password",
       });
     }
     // Check user
     const staff = await StaffModel.findOne({ email });
     if (!staff) {
-      return res.status(404).send({
+      return res.status(404).json({
         success: false,
-        message: "Email is not registered",
+        message: "User not found",
       });
     }
-
-    if (!staff.active) {
-      return res.status(403).json({
-        success: false,
-        message: "User is deactivated and cannot log in",
-      });
-    }
-
-    // Compare hashed password
+    // Compare password
     const match = await comparePassword(password, staff.password);
     if (!match) {
-      return res.status(200).send({
+      return res.status(400).json({
         success: false,
         message: "Invalid password",
       });
     }
-
-    // Token
-    const token = await JWT.sign({ _id: staff._id }, process.env.JWT_SECRET, {
+    // Generate JWT token
+    const token = JWT.sign({ _id: staff._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    res.status(200).send({
+    res.status(200).json({
       success: true,
       message: "Login successful",
-      staff: {
+      token,
+      user: {
         _id: staff._id,
         firstname: staff.firstname,
         lastname: staff.lastname,
-        streetaddress: staff.streetaddress,
-        city: staff.city,
-        state: staff.state,
-        country: staff.country,
-        postal: staff.postal,
         email: staff.email,
-        phone: staff.phone,
-        address: staff.address,
-        role: staff.role,
+        // Add other user properties as needed
       },
-      token,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({
+    console.error("Error in login:", error);
+    res.status(500).json({
       success: false,
-      message: "Error in login",
-      error,
+      message: "Internal server error",
     });
   }
 };
@@ -207,15 +195,6 @@ export const getStaffMemberById = async (req, res) => {
   }
 };
 
-// Update staff member by ID
-export const updateStaffMemberById = async (req, res) => {
-  try {
-    const updatedStaffMember = await StaffModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.status(200).json({ success: true, data: updatedStaffMember });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
 
 // Delete staff member by ID
 export const deleteStaffMemberById = async (req, res) => {
@@ -224,5 +203,95 @@ export const deleteStaffMemberById = async (req, res) => {
     res.status(200).json({ success: true, message: "Staff member deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+
+//--------------------------------------------------------------------------------profile update
+
+export const updateProfileController = async (req, res) => {
+  try {
+    const { firstname, lastname, password, address, streetaddress, state, city, postal, country, phone } = req.body;
+    const userId = req.user?._id;
+    const user = await staffModel.findById(req.user._id);
+
+    console.log("User ID:", userId); // Debugging log
+    console.log("Request Body:", req.body); // Debugging log
+    console.log("Found User:", user); // Debugging log
+
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // Validate incoming data
+    if (firstname && typeof firstname !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid name format",
+      });
+    }
+    if (lastname && typeof lastname !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid name format",
+      });
+    }
+    if (password && typeof password !== 'string') {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid password format',
+      });
+    }
+
+    if (address && typeof address !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid address format",
+      });
+    }
+    if (streetaddress && typeof streetaddress !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid address format",
+      });
+    }
+    // Validate phone format (e.g., allow only digits, optional dashes, and parentheses)
+    if (phone && !/^\d{10}$/.test(phone)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid phone number format",
+      });
+    }
+
+    // Update user properties with the new values
+    user.firstname = firstname || user.firstname;
+    user.lastname = lastname || user.lastname;
+    user.password = password ? await hashPassword(password) : user.password;
+    user.address = address || user.address;
+    user.streetaddress = streetaddress || user.streetaddress;
+    user.city = city || user.city;
+    user.state = state || user.state;
+    user.postal = postal || user.postal;
+    user.country = country || user.country;
+    user.phone = phone || user.phone;
+
+    const updatedUser = await user.save();
+    console.log("Updated User:", updatedUser); // Debugging log
+
+    res.status(200).send({
+      success: true,
+      message: "Profile Updated Successfully",
+      updatedUser,
+    });
+  } catch (error) {
+    console.error("Error:", error); // Debugging log
+    res.status(400).send({
+      success: false,
+      message: "Error While Updating Profile",
+      error: error.message, // Include the error message for better debugging
+    });
   }
 };

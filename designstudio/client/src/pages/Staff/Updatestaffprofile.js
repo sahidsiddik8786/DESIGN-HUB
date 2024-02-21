@@ -7,6 +7,15 @@ import Sidebar from "./Sidebar";
 import './Staff.css';
 import { Link, Navigate, Redirect } from 'react-router-dom';
 const Updatestaffpprofile = () => {
+
+  const backgroundStyle = {
+    backgroundImage:
+      'url("https://images.pexels.com/photos/886023/pexels-photo-886023.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")', // Replace "path/to/your/image.jpg" with the actual path to your image file
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    minHeight: "100vh", // Set minimum height to cover the entire viewport
+  };
+
   // Context
   const [auth, setAuth, loading] = useAuth();
 
@@ -172,11 +181,11 @@ if (!auth) {
 
 
   return (
-    <div className='grid-container'>
+    <div className="grid-container" style={backgroundStyle}>
        <StaffHeader OpenSidebar={OpenSidebar} handleLogout={handleLogout} />
              <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
       
-      <div className="row mb-3">
+      <div className="row mb-5">
         <div className="col-md-20">
           <form className="form-containe  register-form" onSubmit={handleSubmit}>
             <h4 className="title">Profile Update</h4>
@@ -311,20 +320,7 @@ if (!auth) {
               />
             </div>
             </div>
-            <div className="mb-3">
             
-            <div className="col">
-            <input
-              type="text"
-              id="postal"
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-              className="form-control"
-              placeholder="Enter Your Country"
-            />
-          </div>
-          </div>
-
             </div>
             </div>
             {/* End of Additional Fields */}

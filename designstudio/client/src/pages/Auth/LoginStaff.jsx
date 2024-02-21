@@ -37,28 +37,22 @@ const StaffLogin = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch(
-        "http://localhost:8080/api/v1/staff/login-staff",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch("http://localhost:8080/api/v1/staff/login-staff", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
   
       const responseData = await response.json();
   
       if (response.ok) {
-        const { success, token, staff, message } = responseData;
+        const { success, token, user, message } = responseData; // Ensure the response contains the 'user' object
         if (success) {
-          console.log("Logged in user details:", staff); // Log the logged-in user details
-          setAuth({
-            user: staff,
-            token: token, // Set the token received from the backend
-          });
-          // Redirect to staff dashboard upon successful login
+          console.log("Logged in user details:", user); // Log the logged-in user details
+          localStorage.setItem("auth", JSON.stringify({ token, user })); // Store user data in local storage
+          setAuth({ user, token }); // Update auth context with user data and token
           navigate(location.state || "/staff-dashboard");
           toast.success("Login successful as staff");
         } else {
