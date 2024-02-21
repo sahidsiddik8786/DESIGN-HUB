@@ -31,6 +31,8 @@ const Updatestaffpprofile = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   // Validation state
   const [firstnameError, setFirstNameError] = useState("");
   const [lastnameError, setLastNameError] = useState("");
@@ -53,6 +55,7 @@ useEffect(() => {
         country,
         email,
         phone,
+        password,
       } = userData;
       setFirstName(firstname);
       setLastName(lastname);
@@ -64,6 +67,7 @@ useEffect(() => {
       setState(state);
       setPostal(postal);
       setCountry(country);
+      setPassword(password);
     }
   }, [auth?.user]);
   
@@ -134,6 +138,7 @@ useEffect(() => {
           country,
           email,
           phone,
+          password,
         }
       );
 
@@ -180,13 +185,15 @@ if (!auth) {
 
 
 
+
+
   return (
     <div className="grid-container" style={backgroundStyle}>
        <StaffHeader OpenSidebar={OpenSidebar} handleLogout={handleLogout} />
              <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
       
-      <div className="row mb-5">
-        <div className="col-md-20">
+      <div >
+        <div >
           <form className="form-containe  register-form" onSubmit={handleSubmit}>
             <h4 className="title">Profile Update</h4>
             <div className="row mb-3">
@@ -233,6 +240,21 @@ if (!auth) {
                   disabled
                 />
               </div>
+
+              <div className="mb-3">
+    <label htmlFor="password" className="form-label">Password</label>
+    <div className="col">
+        <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="form-control"
+            placeholder="Enter Your Password"
+        />
+        <span className="text-danger">{passwordError}</span>
+    </div>
+</div>
 
               <div className="mb-3">
                 <label htmlFor="phone" className="form-label">

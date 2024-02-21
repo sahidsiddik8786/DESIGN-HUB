@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {
+  TextField,
+  Button,
+  Typography,
+  Container,
+  Box,
+  Grid,
+  MenuItem,
+  Card,
+  CardContent // Import Card and CardContent components
+} from '@mui/material';
 
 const AddAppointment = () => {
   const [date, setDate] = useState('');
@@ -42,23 +53,74 @@ const AddAppointment = () => {
     }
   };
 
+  // Function to calculate available time slots based on the selected date
+  const calculateAvailableTimeSlots = (selectedDate) => {
+    // Add your logic to calculate available time slots based on the selected date
+    // For example, you can fetch available time slots from the server based on the selected date
+    // Here, I'm just returning some dummy data as an example
+    return ['09:00 AM', '10:00 AM', '11:00 AM', '01:00 PM', '02:00 PM', '03:00 PM'];
+  };
+
+  // Automatically select the first available time slot when the date changes
+  useEffect(() => {
+    const availableTimeSlots = calculateAvailableTimeSlots(date);
+    if (availableTimeSlots.length > 0) {
+      setSlot(availableTimeSlots[0]);
+    }
+  }, [date]);
+
   return (
-    <div>
-      <h2>Add Appointment</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Date:</label>
-          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
-        </div>
-        <div>
-          <label>Time Slot:</label>
-          <input type="text" value={slot} onChange={(e) => setSlot(e.target.value)} required />
-        </div>
-        <button type="submit">Add Appointment</button>
-        {errorMessage && <div>{errorMessage}</div>}
-        {successMessage && <div>{successMessage}</div>}
-      </form>
-    </div>
+    <Container maxWidth="md">
+      <Box mt={8} display="flex" justifyContent="center">
+        <Card>
+          <CardContent>
+            <Typography variant="h2" align="center" gutterBottom>Add Appointment</Typography>
+            <form onSubmit={handleSubmit}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    id="date"
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    id="slot"
+                    label="Time Slot"
+                    select
+                    value={slot}
+                    onChange={(e) => setSlot(e.target.value)}
+                    required
+                  >
+                    {calculateAvailableTimeSlots(date).map((timeSlot) => (
+                      <MenuItem key={timeSlot} value={timeSlot}>
+                        {timeSlot}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12}>
+                  <Box display="flex" justifyContent="center">
+                    <Button type="submit" variant="contained" color="primary">
+                      Add Appointment
+                    </Button>
+                  </Box>
+                </Grid>
+              </Grid>
+              <Box mt={2} textAlign="center">
+                {errorMessage && <Typography color="error">{errorMessage}</Typography>}
+                {successMessage && <Typography color="success">{successMessage}</Typography>}
+              </Box>
+            </form>
+          </CardContent>
+        </Card>
+      </Box>
+    </Container>
   );
 };
 

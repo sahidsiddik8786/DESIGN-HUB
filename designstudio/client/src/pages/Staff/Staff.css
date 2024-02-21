@@ -213,6 +213,7 @@
 /* Add this CSS to your existing CSS file or create a new one */
 .form-containe {
   margin: auto; /* Center the form horizontally */
-  width: 90%; /* Adjust the width of the form container */
+  width: 90%; 
+  height: 50%;  /* Adjust the width of the form container */
   padding: 50px; /* Add some padding for spacing */
 }

@@ -14,9 +14,6 @@ const transporter = nodemailer.createTransport({
 
 
 
-
-
-
 export const sendRegistrationConfirmationEmail = (email, password) => {
   const loginLink = "http://localhost:3000/login"; // Replace with your actual login page URL
   const mailOptions = {

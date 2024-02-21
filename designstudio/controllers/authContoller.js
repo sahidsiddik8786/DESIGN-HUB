@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
     user: "sahidsiddik0977@gmail.com",
-    pass: "wwet hllo cnhz fdzh",
+    pass: "uhjr osxb cskd szzi",
   },
 });
 
@@ -164,7 +164,7 @@ export const testController = (req, res) => {
 
 export const updateProfileController = async (req, res) => {
   try {
-    const { firstname, lastname, /*password*/ address, streetaddress, state, city,postal, phone } = req.body;
+    const { firstname, lastname, password, address, streetaddress, state, city,postal, phone } = req.body;
     const user = await userModel.findById(req.user._id);
 
     console.log("Request Body:", req.body); // Debugging log
@@ -190,12 +190,12 @@ export const updateProfileController = async (req, res) => {
         message: "Invalid name format",
       });
     }
-    /*if (password && typeof password !== 'string') {
+    if (password && typeof password !== 'string') {
               return res.status(400).json({
                 success: false,
                 message: 'Invalid password format',
               });
-            }*/
+            }
 
     if (address && typeof address !== "string") {
       return res.status(400).json({
@@ -217,10 +217,23 @@ export const updateProfileController = async (req, res) => {
       });
     }
 
+    // Add validation for password
+if (password && typeof password !== 'string') {
+  return res.status(400).json({
+      success: false,
+      message: 'Invalid password format',
+  });
+}
+
+// Update user's password if provided
+if (password) {
+  user.password = await hashPassword(password);
+}
+
     // Update user properties with the new values
     user.firstname = firstname || user.firstname;
     user.lastname = lastname || user.lastname;
-    //user.password = password ? await hashPassword(password) : user.password;
+    user.password = password ? await hashPassword(password) : user.password;
     user.address = address || user.address;
     user.streetaddress = streetaddress || user.streetaddress;
     user.city = city || user.city;
@@ -229,7 +242,23 @@ export const updateProfileController = async (req, res) => {
     user.phone = phone || user.phone;
 
     const updatedUser = await user.save();
-    // console.log("Updated User:", updatedUser); // Debugging log
+    console.log("Updated User:", updatedUser); // Debugging log
+
+// Send email notification
+const mailOptions = {
+  from: "",
+  to: updatedUser.email,
+  subject: "Password Updated",
+  text: "Your password has been successfully updated.",
+};
+
+transporter.sendMail(mailOptions, (error, info) => {
+  if (error) {
+    console.log("Email not sent: " + error);
+  } else {
+    console.log("Email sent: " + info.response);
+  }
+});
 
     res.status(200).send({
       success: true,
@@ -245,6 +274,7 @@ export const updateProfileController = async (req, res) => {
     });
   }
 };
+
 
 //orders
 export const getOrdersController = async (req, res) => {
