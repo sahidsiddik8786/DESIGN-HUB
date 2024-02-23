@@ -139,7 +139,7 @@ const Login = () => {
           
         <NavLink to="/register" className="btn-default rounded-p4 ">
           <h5><center>Sign up</center></h5>
-        </NavLink>
+        </NavLink>  
 
           </div>
 

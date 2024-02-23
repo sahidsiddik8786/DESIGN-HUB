@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddStaffMember = () => {
+  
   const classes = useStyles();
   const [formData, setFormData] = useState({
     firstname: '',
@@ -88,7 +89,7 @@ const AddStaffMember = () => {
         errorMessage = value.trim() === '' ? 'This field is required.' : '';
         break;
       case 'postal':
-        errorMessage = !value.match(/^\d{5}$/) ? 'Postal code must be 5 digits.' : '';
+        errorMessage = !value.match(/^\d{6}$/) ? 'Postal code must be 6 digits.' : '';
         break;
       case 'email':
         errorMessage = !/\S+@\S+\.\S+/.test(value) ? 'Invalid email address.' : '';
@@ -159,6 +160,8 @@ const AddStaffMember = () => {
         password: '',
         phone: '',
       });
+
+
     } catch (error) {
       console.error('Error adding staff member:', error);
       toast.error('Error adding staff member. Please try again.');
