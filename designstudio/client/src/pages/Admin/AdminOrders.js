@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Select, Row, Col, Space, Typography, Tag } from "antd";
 import AdminMenu from "../../components/layout/AdminMenu";
-import Layout from "../../components/layout/Layout";
 import { useAuth } from "../../context/auth";
 import moment from "moment";
-const { Option } = Select;
-const { Title } = Typography;
 
 const AdminOrders = () => {
   const [status, setStatus] = useState([
@@ -43,95 +39,59 @@ const AdminOrders = () => {
     }
   };
 
-  const columns = [
-    {
-      title: "Order",
-      dataIndex: "orderNumber",
-      key: "orderNumber",
-      render: (text, record, index) => index + 1,
-      sorter: (a, b) => a.orderNumber - b.orderNumber,
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => (
-        <Tag color={status === "Delivered" ? "green" : status === "Cancel" ? "red" : "blue"}>{status}</Tag>
-      ),
-      sorter: (a, b) => a.status.localeCompare(b.status),
-    },
-    {
-      title: "Buyer",
-      dataIndex: "buyer",
-      key: "buyer",
-      render: (buyer) => buyer?.name,
-    },
-    {
-      title: "Date",
-      dataIndex: "createAt",
-      key: "createAt",
-      render: (createAt) => moment(createAt).format("YYYY-MM-DD "),
-      sorter: (a, b) => moment(a.createAt).unix() - moment(b.createAt).unix(),
-    },
-    {
-      title: "Payment",
-      dataIndex: "payment",
-      key: "payment",
-      render: (payment) => (
-        <span>{payment.success ? <Tag color="green">Success</Tag> : <Tag color="red">Failed</Tag>}</span>
-      ),
-    },
-    {
-      title: "Quantity",
-      dataIndex: "products",
-      key: "products",
-      render: (products) => products?.length,
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: (text, record) => (
-        <Select
-          bordered={false}
-          onChange={(value) => handleChange(record._id, value)}
-          defaultValue={record.status}
-        >
-          {status.map((s, i) => (
-            <Option key={i} value={s}>
-              {s}
-            </Option>
-          ))}
-        </Select>
-      ),
-    },
-  ];
-
   return (
-    <Layout title={"All Orders Data"}>
-    <div className="row">
-      <div className="col-md-2 pl-0">
-            <AdminMenu />
-          </div>
-        <Col xs={24} md={18}>
-          <Space direction="vertical" style={{ width: "100%" }}>
-            <Title level={2} className="text-center">
-              All Orders
-            </Title>
-            <Table
-              dataSource={orders}
-              columns={columns}
-              rowKey={(record) => record._id}
-              pagination={false}
-              scroll={{ x: true }}
-              bordered // Add bordered prop to the Table component to apply built-in border styles
-              className="custom-table" // Add a custom class for additional styling
-              style={{ background: "#f5f5f5" }} // Set background color for the entire table
-              headerStyle={{ background: "#1890ff", color: "#fff" }} // Set background and text color for the table header
-            />
-          </Space>
-        </Col>
+    <>
+      <div className="row">
+        <div className="col-md-0">
+          <AdminMenu />
+        </div>
+        <div className="col-xs-12 col-md-9">
+          <table className="table">
+            <thead>
+            <tr>
+                  <th colSpan="8" style={{ textAlign: "center" }}>
+                  Order List
+                  </th>
+                </tr>
+              <tr>
+                <th scope="col">Order</th>
+                <th scope="col">Status</th>
+                <th scope="col">Buyer</th>
+                <th scope="col">Date</th>
+                <th scope="col">Payment</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map((order, index) => (
+                <tr key={order._id}>
+                  <td>{index + 1}</td>
+                  <td>{order.status}</td>
+                  <td>{order.buyer.name}</td>
+                  <td>{moment(order.createAt).format("YYYY-MM-DD")}</td>
+                  <td>{order.payment.success ? "Success" : "Failed"}</td>
+                  <td>{order.products.length}</td>
+                  <td>
+                    <select
+                      className="form-select"
+                      onChange={(e) => handleChange(order._id, e.target.value)}
+                      defaultValue={order.status}
+                    >
+                      {status.map((s, i) => (
+                        <option key={i} value={s}>
+                          {s}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </Layout>
+    </>
   );
 };
 

@@ -51,13 +51,15 @@ export const subcategorydesignController = async (req, res) => {
 export const subcategoryiddesignController = async (req, res) => {
   try {
     const { categoryId } = req.params;
+    console.log("Received category ID:", categoryId);
     const subcategories = await Subcategorydesign.find({ parentCategorydesign: categoryId });
-    res.status(200).send({ success: true, message: 'Subcategories by category ID', subcategories });
+    res.status(200).send({ success: true, message: 'Subcategories by category ID', subcategories }); // Ensure you're sending the subcategories
   } catch (error) {
     console.log(error);
     res.status(500).send({ success: false, error, message: 'Error while getting subcategories by category ID.' });
   }
 };
+ 
 
 // Update subcategory
 export const updateSubcategorydesignController = async (req, res) => {
@@ -88,3 +90,5 @@ export const deleteSubcategorydesignController = async (req, res) => {
     res.status(500).send({ success: false, error, message: 'Error while deleting subcategory.' });
   }
 };
+
+

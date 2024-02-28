@@ -40,10 +40,12 @@ const CreateDesign = () => {
   const getSubcategories = async (categoryId) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8080/api/v1/categorydesign/${categoryId}/subcategorydesign`
+        `http://localhost:8080/api/v1/categorydesign/${categoryId}/subcategories`
       );
+  
       if (data?.success) {
-        setSubcategories(data?.subcategory); // Clear subcategories if none are returned
+        // Assuming the subcategories are provided as an array in the response
+        setSubcategories(data?.subcategories);
       } else {
         console.log("Error: No subcategories found or success flag is missing");
         setSubcategories([]); // Clear subcategories if the API call was unsuccessful
@@ -54,34 +56,19 @@ const CreateDesign = () => {
       setSubcategories([]); // Clear subcategories if there's an exception
     }
   };
-
+  
   useEffect(() => {
     getAllCategory();
   }, []);
 
- // Inside the handleCategoryChange function, update to filter subcategories based on the selected category
-const handleCategoryChange = async (value) => {
-  setCategory(value);
-  try {
-    if (value) {
-      const { data } = await axios.get(`http://localhost:8080/api/v1/categorydesign/${value}/subcategorydesign`);
-      if (data?.success) {
-        setSubcategories(data?.subcategory);
-      } else {
-        console.log("Error: No subcategories found or success flag is missing");
-        setSubcategories([]);
-      }
-    } else {
-      // If no category is selected, clear the subcategories
-      setSubcategories([]);
-    }
-  } catch (error) {
-    console.log(error);
-    message.error("Error while getting subcategories.");
-    setSubcategories([]);
-  }
-};
+  const handleCategoryChange = (value) => {
+    setCategory(value);
+    setSubcategory("");  // Reset subcategory when category changes
+    getSubcategories(value);
+  };
 
+
+ 
   const handleCreate = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -153,7 +140,6 @@ const handleCategoryChange = async (value) => {
                         </Option>
                       ))}
                     </Select>
-                    {category && ( // Only show subcategory dropdown if a category is selected
                     <Select
                       bordered={false}
                       placeholder="Select a subcategory"
@@ -169,7 +155,7 @@ const handleCategoryChange = async (value) => {
                         </Option>
                       ))}
                     </Select>
-                    )}
+                
 
                     <div className="mb-3">
                       <label className="btn btn-outline-secondary col-md-12">

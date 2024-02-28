@@ -11,6 +11,7 @@ import {
   designListController,
   searchDesignController,
   realtedDesignController,
+ getDesignsByCategory,
 } from "../controllers/designController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 import formidable from "express-formidable";
@@ -56,4 +57,7 @@ router.get("/design-list/:page", designListController);
 router.get("/search/:keyword", searchDesignController);
 //similar product
 router.get("/related-design/:pid/:cid", realtedDesignController);
+
+router.get('/category/:categoryId', getDesignsByCategory);
+
 export default router;

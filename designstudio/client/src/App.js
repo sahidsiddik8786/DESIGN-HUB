@@ -134,9 +134,10 @@ function App() {
           <Route path="/Login-staff" element={<StaffLogin />} />
           <Route path="/staff-dashboard" element={<StaffHome />} />
           <Route path="/add-appoinments" element={<AppointmentForm />} />
-          {/*designroute*/}
-          <Route path="/categorydesign/:categoryId/subcategorydesign/:subcategoryId" element={<DesignPage />} />
-        <Route path="/subcategorydesign/:subcategoryId" element={<DesignPage />} />
+      
+
+          <Route path="/subcategory-designs/:categoryId" element={<DesignPage />} />
+    
 
           <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/cart" element={<CartPage />} />

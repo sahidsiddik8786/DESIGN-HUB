@@ -17,7 +17,8 @@ import imageRoutes from "./routes/imageRoute.js"
 import staffRoutes from './routes/staffRoute.js'
 import bothRoutes from "./routes/bothRoute.js"
 //import Payment from     "./routes/payment.js";
-
+import designcategoryModel from './models/designcategoryModel.js';
+import designsubcategoryModel from './models/designsubcategoryModel.js';
 
 
 
@@ -145,6 +146,26 @@ app.put('/users/:userId/activate', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+
+
+
+
+// Define endpoint to handle fetching subcategories based on clicked category
+app.get('/api/subcategories/:categoryId', async (req, res) => {
+  try {
+    const categoryId = req.params.categoryId;
+
+    // Find subcategories associated with the category
+    const subcategories = await Subcategory.find({ parentCategorydesign: categoryId });
+
+    res.json(subcategories);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 
 
 //----------Appoinment section----------//

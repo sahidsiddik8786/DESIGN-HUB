@@ -120,11 +120,22 @@ const CreatesubCategory = () => {
     getAllCategories();
   }, []);
 
+ 
+
   useEffect(() => {
+    console.log("Selected Category:", selectedCategory);
     if (selectedCategory) {
-      getAllSubcategories(selectedCategory);
+      getAllSubcategories(selectedCategory)
+        .then(data => console.log("Data:", data))  // Add this line to check the returned data
+        .catch(error => console.error("Error fetching subcategories:", error));  // Add this line to catch any errors
     }
   }, [selectedCategory]);
+
+
+
+
+
+
 
   const columns = [
     {

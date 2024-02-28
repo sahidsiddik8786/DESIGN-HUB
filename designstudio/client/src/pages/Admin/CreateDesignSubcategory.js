@@ -47,12 +47,12 @@ const CreatesubCategoryDesign = () => {
         message.error('Please select a category and enter a subcategory name.');
         return;
       }
-
+  
       const { data } = await axios.post(`http://localhost:8080/api/v1/categorydesign/${selectedCategory}/subcategorydesign`, {
         name: subcategoryName,
-        parentCategorydesignId: selectedCategory,
+        parentCategorydesignId: selectedCategory, // Update the field name here
       });
-
+  
       if (data.success) {
         message.success(`Subcategory "${subcategoryName}" added successfully.`);
         setSubcategoryName('');
@@ -66,7 +66,7 @@ const CreatesubCategoryDesign = () => {
       message.error('Something went wrong while adding subcategory.');
     }
   };
-
+  
   const handleEditSubcategory = async (subcategoryId) => {
     const subcategory = subcategories.find((sub) => sub._id === subcategoryId);
     if (subcategory) {
@@ -106,10 +106,14 @@ const CreatesubCategoryDesign = () => {
   }, []);
 
   useEffect(() => {
+    console.log("Selected Category:", selectedCategory);
     if (selectedCategory) {
-      getAllSubcategories(selectedCategory);
+      getAllSubcategories(selectedCategory)
+        .then(data => console.log("Data:", data))  // Add this line to check the returned data
+        .catch(error => console.error("Error fetching subcategories:", error));  // Add this line to catch any errors
     }
   }, [selectedCategory]);
+  
 
   const columns = [
     {
@@ -125,7 +129,6 @@ const CreatesubCategoryDesign = () => {
           <Button type="link" onClick={() => handleEditSubcategory(record._id)}>
             Edit
           </Button>
-          
         </>
       ),
     },
@@ -136,7 +139,7 @@ const CreatesubCategoryDesign = () => {
     <Layout title={'Dashboard - Manage Subcategories'}>
       <div className="">
         <div className="row">
-        <div className="col-md-2 pl-0">
+          <div className="col-md-2 pl-0">
             <AdminMenu />
           </div>
           <div className="col-md-9">

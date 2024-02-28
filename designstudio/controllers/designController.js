@@ -1,5 +1,5 @@
   import designModel from "../models/designModel.js";
-  import designcategoryModel from "../models/designcategoryModel.js";
+  import Design from "../models/designcategoryModel.js";
   import designsubcategoryModel from "../models/designsubcategoryModel.js";
   import fs from "fs";
   import dotenv from "dotenv";
@@ -68,7 +68,7 @@ export const getDesignController = async (req, res) => {
       .populate("category") // Update this line
       .populate("subcategory") // Update this line
       .select("-photo")
-      .limit(12)
+      .limit(120)
       .sort({ createdAt: -1 });
     res.status(200).send({
       success: true,
@@ -86,27 +86,29 @@ export const getDesignController = async (req, res) => {
   }
 };
 
-  // get single product
-  export const getSingleDesignController = async (req, res) => {
-    try {
-      const designs = await designModel
-        .findOne({ slug: req.params.slug })
-        .select("-photo")
-        .populate("category");
-      res.status(200).send({
-        success: true,
-        message: "Single Design  Fetched",
-        designs,
-      });
-    } catch (error) {
-      console.log(error);
-      res.status(500).send({
-        success: false,
-        message: "Eror while getitng single design",
-        error,
-      });
-    }
-  };
+// get single product
+export const getSingleDesignController = async (req, res) => {
+  try {
+     const designs = await designModel
+       .findOne({ slug: req.params.slug })
+       .select("-photo")
+       .populate("category") // Corrected: Assuming 'category' is the field name in your schema
+       .populate("subcategory"); // Corrected: Assuming 'subcategory' is the field name in your schema
+     res.status(200).send({
+       success: true,
+       message: "Single Design Fetched",
+       designs,
+     });
+  } catch (error) {
+     console.log(error);
+     res.status(500).send({
+       success: false,
+       message: "Error while getting single design",
+       error,
+     });
+  }
+ };
+ 
 
 // get photo
 export const designPhotoController = async (req, res) => {
@@ -344,3 +346,17 @@ export const designPhotoController = async (req, res) => {
         });
       }
     };
+
+
+
+export const getDesignsByCategory = async (req, res) => {
+  const { categoryId } = req.params;
+
+  try {
+    const designs = await Design.find({ category: categoryId });
+    res.status(200).json({ success: true, designs });
+  } catch (error) {
+    console.error('Error fetching designs:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch designs' });
+  }
+};

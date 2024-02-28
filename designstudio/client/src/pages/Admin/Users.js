@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Layout from "../../components/layout/Layout";
-import AdminMenu from "../../components/layout/AdminMenu";
+
 import axios from "axios";
-import './Users.css';
+import "./Users.css";
 
 const API_URL = "http://localhost:8080";
 
@@ -32,16 +31,17 @@ const Users = () => {
   };
 
   return (
-    <Layout title={"Dashboard - All Users"}>
-      <div className="">
+    <>
+    <div className=""> 
         <div className="row">
-        <div className="col-md-2 pl-0">
-            <AdminMenu />
-          </div>
           <div className="col-md-9 text-center ">
-            <h1>Users Lists</h1>
             <table className="table table-bordered table-styled">
               <thead>
+                <tr>
+                  <th colSpan="5" style={{ textAlign: "center" }}>
+                    Users
+                  </th>
+                </tr>
                 <tr>
                   <th>Name</th>
                   <th>Email</th>
@@ -50,11 +50,14 @@ const Users = () => {
                   <th>Status</th>
                 </tr>
               </thead>
+
               <tbody>
                 {users.map((user) => (
                   <tr key={user._id}>
-                    <td>{user.firstname}
-                    {user.lastname}</td>
+                    <td>
+                      {user.firstname}
+                      {user.lastname}
+                    </td>
                     <td>{user.email}</td>
                     <td>{user.phone}</td>
                     <td>{user.address}</td>
@@ -62,9 +65,7 @@ const Users = () => {
                       <button
                         onClick={() => toggleUserActivation(user._id)}
                         className={
-                          user.active
-                            ? "active-button"
-                            : "deactive-button"
+                          user.active ? "active-button" : "deactive-button"
                         }
                       >
                         {user.active ? "Deactivate" : "Activate"}
@@ -77,7 +78,7 @@ const Users = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 

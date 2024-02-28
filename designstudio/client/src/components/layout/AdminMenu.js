@@ -13,6 +13,12 @@ const AdminMenu = () => {
     <div id="wrapper" className={`toggled-${isToggled ? '2' : ''}`}>
     <div className="admin-menu">
       <div className="list-group dashboard-menu">
+      <NavLink to="/Dashboard/AdminDashboard/adminregister" className="list-group-item list-group-item-action">
+          Registration  
+        </NavLink>
+        <NavLink to="/Dashboard/AdminDashboard/create-category" className="list-group-item list-group-item-action">
+          Create Category
+        </NavLink>
       <ul className="sidebar-nav nav-pills nav-stacked" id="menu">
       <li className="active">
             <a href="/Dashboard/AdminDashboard"><span className="fa-stack fa-lg pull-left"><i className="fa fa-dashboard fa-stack-1x "></i></span> Dashboard</a>
@@ -53,12 +59,7 @@ const AdminMenu = () => {
         <NavLink to="/Dashboard/AdminDashboard/designs" className="list-group-item list-group-item-action">
           Designs
         </NavLink>
-        <NavLink to="/Dashboard/admin/orders" className="list-group-item list-group-item-action">
-         Orders
-        </NavLink>
-        <NavLink to="/Dashboard/AdminDashboard/Users" className="list-group-item list-group-item-action">
-          Users
-        </NavLink>
+     
       </div>
     </div>
     </div>
