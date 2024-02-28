@@ -312,7 +312,7 @@ export const designPhotoController = async (req, res) => {
 
   export const designCategoryController = async (req, res) => {
     try {
-      const categorydesign = await designcategoryModel.findOne({ slug: req.params.slug });
+      const categorydesign = await Design.findOne({ slug: req.params.slug });
       const designs = await designModel.find({ categorydesign }).populate("Category-design");
       res.status(200).send({
         success: true,
@@ -348,15 +348,16 @@ export const designPhotoController = async (req, res) => {
     };
 
 
-
-export const getDesignsByCategory = async (req, res) => {
-  const { categoryId } = req.params;
+// In your designController.js
+export const getDesignsBySubcategory = async (req, res) => {
+  const { subcategoryId } = req.params;
 
   try {
-    const designs = await Design.find({ category: categoryId });
+    const designs = await designModel.find({ subcategory: subcategoryId }).populate("category").populate("subcategory").select("-photo");
     res.status(200).json({ success: true, designs });
   } catch (error) {
     console.error('Error fetching designs:', error);
     res.status(500).json({ success: false, message: 'Failed to fetch designs' });
   }
 };
+

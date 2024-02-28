@@ -19,7 +19,7 @@ import bothRoutes from "./routes/bothRoute.js"
 //import Payment from     "./routes/payment.js";
 import designcategoryModel from './models/designcategoryModel.js';
 import designsubcategoryModel from './models/designsubcategoryModel.js';
-
+import Design from "./models/designModel.js"
 
 
 const app = express();
@@ -190,6 +190,35 @@ app.post('/api/book', async (req, res) => {
   }
 });
 //----------------------------------------------------------//
+
+// ...
+
+// Endpoint to get designs by category
+app.get('/api/v1/design/by-category/:categoryId', async (req, res) => {
+  try {
+    const designs = await Design.find({ category: req.params.categoryId });
+    res.json({ success: true, designs });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+// Endpoint to get designs by subcategory
+app.get('/api/v1/design/by-subcategory/:subcategoryId', async (req, res) => {
+  try {
+    const designs = await Design.find({ subcategory: req.params.subcategoryId });
+    res.json({ success: true, designs });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+// ...
+
+
+
+
+
 
 dotenv.config();
 connectDB();
