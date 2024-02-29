@@ -11,7 +11,7 @@ import {
   designListController,
   searchDesignController,
   realtedDesignController,
-  getDesignsBySubcategory,
+ 
 } from "../controllers/designController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 import formidable from "express-formidable";
@@ -58,8 +58,7 @@ router.get("/search/:keyword", searchDesignController);
 //similar product
 router.get("/related-design/:pid/:cid", realtedDesignController);
 
-// In your router file
-router.get('/subcategory/:subcategoryId', getDesignsBySubcategory);
+
 
 
 export default router;

@@ -6,15 +6,29 @@ import Layout from "../../components/layout/Layout";
 import { Link } from "react-router-dom";
 
 const DesignPage = () => {
+  const [category, setCategory] = useState({});
   const [designs, setDesigns] = useState([]);
   const { categoryId } = useParams();
 
   useEffect(() => {
+    const getCategoryDetails = async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:8080/api/v1/categorydesign/single-categorydesign/${categoryId}`);
+        if (data.success) {
+          setCategory(data.categorydesign);
+        } else {
+          toast.error("Category details not found");
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Error fetching category details");
+      }
+    };
+
+    
     const getDesignsByCategory = async () => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:8080/api/v1/design/by-category/${categoryId}`
-        );
+        const { data } = await axios.get(`http://localhost:8080/api/v1/design/by-category/${categoryId}`);
         if (data.success) {
           setDesigns(data.designs);
         } else {
@@ -27,6 +41,7 @@ const DesignPage = () => {
     };
 
     if (categoryId) {
+      getCategoryDetails();
       getDesignsByCategory();
     }
   }, [categoryId]);
@@ -34,8 +49,9 @@ const DesignPage = () => {
   return (
     <Layout>
       <div className="interior-design">
-        {/* Display the page heading here
-        {designs.length > 0 && <h1>{designs[0].name}</h1>}  */}
+    
+        <h1>{category.name}</h1>
+        <p>{category.description}</p>
 
         <div className="d-flex flex-wrap">
           {designs.map((design) => (

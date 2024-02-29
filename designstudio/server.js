@@ -213,12 +213,6 @@ app.get('/api/v1/design/by-subcategory/:subcategoryId', async (req, res) => {
   }
 });
 
-// ...
-
-
-
-
-
 
 dotenv.config();
 connectDB();

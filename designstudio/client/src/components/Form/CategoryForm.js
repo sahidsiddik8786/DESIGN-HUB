@@ -7,9 +7,13 @@ import {
   CButton,
 } from "@coreui/react";
 
-const CategoryForm = ({ handleSubmit, value, setValue, validated }) => {
-  const handleChange = (e) => {
-    setValue(e.target.value);
+const CategoryForm = ({ handleSubmit, nameValue, setName, descriptionValue, setDescription, validated }) => {
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
   };
 
   return (
@@ -22,8 +26,8 @@ const CategoryForm = ({ handleSubmit, value, setValue, validated }) => {
       <CCol md={12}>
         <CFormInput
           type="text"
-          value={value}
-          onChange={handleChange}
+          value={nameValue}
+          onChange={handleNameChange}
           name="name"
           feedbackValid="Looks good!"
           id="validationCustom01"
@@ -32,9 +36,21 @@ const CategoryForm = ({ handleSubmit, value, setValue, validated }) => {
           pattern="^[a-zA-Z\s]*$"
         />
         <CFormFeedback invalid>
-          {value.trim() === "" ? "Name is required." : "Name should not contain numbers."}
+          {nameValue.trim() === "" ? "Name is required." : "Name should not contain numbers."}
         </CFormFeedback>
-        
+      </CCol>
+      <CCol md={12}>
+        <textarea
+          value={descriptionValue}
+          onChange={handleDescriptionChange}
+          name="description"
+          className="form-control"
+          placeholder="Enter category description"
+          required
+        />
+        <CFormFeedback invalid>
+          Description is required.
+        </CFormFeedback>
       </CCol>
       <CCol md={12}>
         <CButton color="primary" type="submit">

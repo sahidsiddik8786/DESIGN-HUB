@@ -1,26 +1,29 @@
 import designcategoryModel from '../models/designcategoryModel.js';
 import designsubcategoryModel from '../models/designsubcategoryModel.js';
 import slugify from "slugify";
+
+// Create category
 export const createdesignCategoryController = async (req, res) => {
   try {
-    const { name } = req.body;
-    if (!name) {
-      return res.status(401).send({ message: "Name is required" });
+    const { name, description } = req.body;
+    if (!name || !description) {
+      return res.status(400).send({ message: "Name and Description are required" });
     }
     const existingCategory = await designcategoryModel.findOne({ name });
     if (existingCategory) {
-      return res.status(200).send({
-        success: true,
-        message: "Category Already Exisits",
+      return res.status(409).send({
+        success: false,
+        message: "Category already exists",
       });
     }
     const categorydesign = await new designcategoryModel({
       name,
+      description,
       slug: slugify(name),
     }).save();
     res.status(201).send({
       success: true,
-      message: "new design-category created",
+      message: "New design-category created",
       categorydesign,
     });
   } catch (error) {
@@ -28,24 +31,24 @@ export const createdesignCategoryController = async (req, res) => {
     res.status(500).send({
       success: false,
       error,
-      message: "Error in Category",
+      message: "Error in creating category",
     });
   }
 };
 
-//update category
+// Update category
 export const updatedesignCategoryController = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, description } = req.body;
     const { id } = req.params;
     const categorydesign = await designcategoryModel.findByIdAndUpdate(
       id,
-      { name, slug: slugify(name) },
+      { name, description, slug: slugify(name) },
       { new: true }
     );
     res.status(200).send({
       success: true,
-      messsage: "Category Updated Successfully",
+      message: "Category updated successfully",
       categorydesign,
     });
   } catch (error) {
@@ -58,7 +61,7 @@ export const updatedesignCategoryController = async (req, res) => {
   }
 };
 
-// get all cat
+// Get all categories
 export const designcategoryController = async (req, res) => {
   try {
     const categorydesign = await designcategoryModel.find({});
@@ -77,13 +80,20 @@ export const designcategoryController = async (req, res) => {
   }
 };
 
-// single category
+// Get single category by ID
 export const singledesignCategoryController = async (req, res) => {
   try {
-    const categorydesign = await designcategoryModel.findOne({ slug: req.params.slug });
+    const categoryId = req.params.categoryId; // Assuming parameter name is categoryId
+    const categorydesign = await designcategoryModel.findById(categoryId);
+    if (!categorydesign) {
+      return res.status(404).send({
+        success: false,
+        message: "Category not found",
+      });
+    }
     res.status(200).send({
       success: true,
-      message: "Get SIngle Category SUccessfully",
+      message: "Get Single Category Successfully",
       categorydesign,
     });
   } catch (error) {
@@ -91,34 +101,35 @@ export const singledesignCategoryController = async (req, res) => {
     res.status(500).send({
       success: false,
       error,
-      message: "Error While getting Single Category",
+      message: "Error while getting single category",
     });
   }
 };
 
-//delete category
+
+// Delete category
 export const deletedesignCategoryCOntroller = async (req, res) => {
   try {
     const { id } = req.params;
     await designcategoryModel.findByIdAndDelete(id);
     res.status(200).send({
       success: true,
-      message: "designCategry Deleted Successfully",
+      message: "Design Category Deleted Successfully",
     });
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "error while deleting designcategory",
+      message: "Error while deleting design category",
       error,
     });
   }
 };
 
+// Get subcategories by parent category ID
 export const designsubcategoryController = async (req, res) => {
   try {
     const { categorydesignId } = req.params;
-    // Find subcategories with the correct parent category ID
     const subcategories = await designsubcategoryModel.find({ category: categorydesignId });
     res.status(200).send({ success: true, message: 'Subcategories for category retrieved successfully.', subcategories });
   } catch (error) {

@@ -35,8 +35,10 @@ router.put(
 //getALl category
 router.get("/get-categorydesign",designcategoryController );
 
-//single category
-router.get("/single-categorydesign/:slug",singledesignCategoryController );
+// single category by ID
+router.get("/single-categorydesign/:categoryId",singledesignCategoryController);
+
+
 
 //delete category
 router.delete(

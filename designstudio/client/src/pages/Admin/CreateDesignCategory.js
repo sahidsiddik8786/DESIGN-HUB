@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
 import AdminMenu from "../../components/layout/AdminMenu";
 import toast from "react-hot-toast";
@@ -9,6 +9,7 @@ import { Modal } from "antd";
 const CreateDesignCategory = () => {
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
+  const [descriptions, setDescriptions] = useState({}); // Use an object to store descriptions for each category
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState(null);
   const [updatedName, setUpdatedName] = useState("");
@@ -17,9 +18,9 @@ const CreateDesignCategory = () => {
   // handle Form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name.trim()) {
+    if (!name.trim() || !descriptions[selected?._id]?.trim()) {
       setValidated(true);
-      toast.error("Name is required.");
+      toast.error("Name and Description are required.");
       return;
     }
 
@@ -28,19 +29,21 @@ const CreateDesignCategory = () => {
         "http://localhost:8080/api/v1/categorydesign/create-categorydesign",
         {
           name,
+          description: descriptions[selected?._id], // Use the description from state
         }
       );
       if (data?.success) {
         toast.success(`${name} is created`);
         getAllCategory();
-        // Reset the 'name' state to clear the input field
+        // Reset the 'name' and 'description' states to clear the input fields
         setName("");
+        setDescriptions({}); // Clear the description for the newly created category
       } else {
         toast.error(data.message);
       }
     } catch (error) {
       console.log(error);
-      toast.error("something went wrong in the input form");
+      toast.error("Something went wrong in the input form");
     }
   };
 
@@ -52,6 +55,12 @@ const CreateDesignCategory = () => {
       );
       if (data.success) {
         setCategories(data.categorydesign);
+        // Store descriptions in state for each category
+        const descriptionsObj = {};
+        data.categorydesign.forEach(category => {
+          descriptionsObj[category._id] = category.description || ""; // Use empty string if description is null/undefined
+        });
+        setDescriptions(descriptionsObj);
       }
     } catch (error) {
       console.log(error);
@@ -90,13 +99,11 @@ const CreateDesignCategory = () => {
     }
   };
 
-
-
   return (
     <Layout title={"Dashboard - Create Category"}>
       <div>
         <div className="row">
-        <div className="col-md-2 pl-0">
+          <div className="col-md-2 pl-0">
             <AdminMenu />
           </div>
           <div className="col-md-9">
@@ -104,8 +111,13 @@ const CreateDesignCategory = () => {
             <div className="p-3 w-50">
               <CategoryForm
                 handleSubmit={handleSubmit}
-                value={name}
-                setValue={setName}
+                nameValue={name}
+                setName={setName}
+                descriptionValue={descriptions[selected?._id] || ""} // Use the description for the selected category
+                setDescription={(description) => setDescriptions(prevState => ({
+                  ...prevState,
+                  [selected?._id]: description // Update the description for the selected category
+                }))}
                 validated={validated}
               />
             </div>
@@ -132,14 +144,6 @@ const CreateDesignCategory = () => {
                         >
                           Edit
                         </button>
-                      {/*}  <button
-                          className="btn btn-warning ms-2"
-                          onClick={() => {
-                            handleDisable(c._id);
-                          }}
-                        >
-                          Disable
-                        </button>*/}
                       </td>
                     </tr>
                   ))}
@@ -152,9 +156,14 @@ const CreateDesignCategory = () => {
               visible={visible}
             >
               <CategoryForm
-                value={updatedName}
-                setValue={setUpdatedName}
                 handleSubmit={handleUpdate}
+                nameValue={updatedName}
+                setName={setUpdatedName}
+                descriptionValue={descriptions[selected?._id] || ""} // Use the description for the selected category
+                setDescription={(description) => setDescriptions(prevState => ({
+                  ...prevState,
+                  [selected?._id]: description // Update the description for the selected category
+                }))}
                 validated={validated}
               />
             </Modal>
