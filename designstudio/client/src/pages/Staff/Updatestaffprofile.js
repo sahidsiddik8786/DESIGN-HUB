@@ -5,7 +5,9 @@ import { useAuth } from "../../context/auth";
 import StaffHeader from "./StaffHeader";
 import Sidebar from "./Sidebar";
 import './Staff.css';
-import { Link, Navigate, Redirect } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { AuthProvider } from "../../context/auth";
+
 const Updatestaffpprofile = () => {
 
   const backgroundStyle = {
@@ -18,7 +20,7 @@ const Updatestaffpprofile = () => {
 
   // Context
   const [auth, setAuth, loading] = useAuth();
-
+  const navigate = useNavigate(); // Hook for programmatic navigation
   // State
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
@@ -155,6 +157,7 @@ useEffect(() => {
         localStorage.setItem("auth", JSON.stringify(ls));
 
         toast.success("Profile Updated Successfully");
+        navigate('/staff-dashboard');
       }
     } catch (error) {
       console.error("Error:", error);
@@ -189,12 +192,13 @@ if (!auth) {
 
   return (
     <div className="grid-container" style={backgroundStyle}>
+      <AuthProvider>
        <StaffHeader OpenSidebar={OpenSidebar} handleLogout={handleLogout} />
              <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
       
       <div >
         <div >
-          <form className="form-containe  register-form" onSubmit={handleSubmit}>
+          <form className="form-containe register-form" onSubmit={handleSubmit}>
             <h4 className="title">Profile Update</h4>
             <div className="row mb-3">
               <label htmlFor="firstname" className="form-label">
@@ -345,14 +349,14 @@ if (!auth) {
             
             </div>
             </div>
-            {/* End of Additional Fields */}
-
+         
             <button type="submit" className="btn btn-primary">
               Update
             </button>
           </form>
         </div>
       </div>
+      </AuthProvider>
       </div>
   );
 };

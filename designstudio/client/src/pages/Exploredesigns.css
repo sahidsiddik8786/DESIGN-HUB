@@ -1,18 +1,25 @@
 
 .card {
-    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.3);
-    transition: 200ms;
-    background: #fff;
-    height: auto;
-    max-height: 550px; 
-    overflow: hidden; 
-    width: 20%;
-  }
-  
-  .card__title {
-    align-items: center;
-    padding: 30px 40px;
-  }
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.3);
+  transition: 200ms;
+  background: #fff;
+  height: auto;
+  max-height: 550px;
+  overflow: hidden;
+  width: 20%; /* Adjust as necessary */
+  position: relative; /* Added to position the title at the bottom */
+  display: flex; /* Added for internal flex layout */
+  flex-direction: column; /* Added for internal flex layout */
+  justify-content: space-between; /* Added to push content to top and bottom */
+}
+
+.card__title {
+  position: absolute;
+  bottom: 0; /* Align title to the bottom */
+  width: 100%; /* Ensure it spans the whole card width */
+  background: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+  padding: 10px; /* Adjust as necessary */
+}
   
   .card__title h3 {
     text-align: right;
@@ -229,9 +236,10 @@
   }
   
   .card-img-top {
-    width: auto;
-    height: 100%;
-    object-fit: cover; /* Ensure the image fills the entire space */
+    width: 100%; /* Cover the width */
+    height: 100%; /* Cover the height */
+    object-fit: cover; /* Cover the area without stretching */
+    flex-grow: 1; /* Allow image to grow to available space */
   }
 
 h1 {

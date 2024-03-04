@@ -68,8 +68,9 @@ export const getDesignController = async (req, res) => {
       .populate("category") // Update this line
       .populate("subcategory") // Update this line
       .select("-photo")
-      .limit(12)
+      .limit(120)
       .sort({ createdAt: -1 });
+
     res.status(200).send({
       success: true,
       counTotal: designs.length,
@@ -86,27 +87,28 @@ export const getDesignController = async (req, res) => {
   }
 };
 
-  // get single product
-  export const getSingleDesignController = async (req, res) => {
-    try {
-      const designs = await designModel
-        .findOne({ slug: req.params.slug })
-        .select("-photo")
-        .populate("category");
-      res.status(200).send({
-        success: true,
-        message: "Single Design  Fetched",
-        designs,
-      });
-    } catch (error) {
-      console.log(error);
-      res.status(500).send({
-        success: false,
-        message: "Eror while getitng single design",
-        error,
-      });
-    }
-  };
+// get single product
+export const getSingleDesignController = async (req, res) => {
+  try {
+    const design = await designModel
+      .findOne({ slug: req.params.slug })
+      .select("-photo")
+      .populate("category");
+    res.status(200).send({
+      success: true,
+      message: "Single Design Fetched",
+      design,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error occurred",
+      error,
+    });
+  }
+};
+
 
 // get photo
 export const designPhotoController = async (req, res) => {

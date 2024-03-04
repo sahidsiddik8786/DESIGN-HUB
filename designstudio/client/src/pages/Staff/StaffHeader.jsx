@@ -2,6 +2,7 @@ import React from "react";
 import { NavDropdown, Navbar, Nav } from "react-bootstrap";
 import { useAuth } from "../../context/auth";
 import { Link, useLocation } from "react-router-dom";
+import { AuthProvider } from "../../context/auth";
 
 import {
   BsSearch,
@@ -25,13 +26,14 @@ const StaffHeader = ({ OpenSidebar }) => {
 
 
   return (
+    <>
+    <AuthProvider>
     <header className="header">
 
       <div className="menu-icon">
         <BsJustify className="icon" onClick={OpenSidebar} />
       </div>
       <div className="header-left">
-        <BsSearch className="icon" />
       </div>
       <div className="header-right">
         <NavDropdown
@@ -68,6 +70,8 @@ const StaffHeader = ({ OpenSidebar }) => {
       </NavDropdown>
       </div>
     </header>
+    </AuthProvider>
+    </>
   );
 };
 

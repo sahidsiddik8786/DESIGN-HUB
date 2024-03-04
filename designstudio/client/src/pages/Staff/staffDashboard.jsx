@@ -5,8 +5,7 @@ import Sidebar from "./Sidebar";
 import MyChartComponent from "./MyChartComponent";
 import { useAuth } from "../../context/auth";
 import { Link, Navigate, Redirect } from "react-router-dom";
-import UserCard from "./UserCard"; // Import UserCard component
-import Userstaff from "./userStaff";
+import { AuthProvider } from "../../context/auth";
 
 const StaffHome = () => {
   const backgroundStyle = {
@@ -51,6 +50,7 @@ const StaffHome = () => {
 
   return (
     <>
+    <AuthProvider>
     <div className="grid-container" style={backgroundStyle}>
         
       <div className="col p-2">
@@ -90,7 +90,7 @@ const StaffHome = () => {
       </div>
       
     </div>
- 
+    </AuthProvider>
      </>
   );
 };

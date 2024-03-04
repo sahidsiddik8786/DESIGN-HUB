@@ -2,36 +2,27 @@ import { useState, useEffect, useContext, createContext } from "react";
 import { json } from "react-router-dom";
 import axios from "axios";
 
-const AuthContext = createContext();
-const AuthProvider = ({ children }) => {
-    const [auth, setAuth] = useState({
-        user: null,
-        token: "",
+const AuthContext = createContext(null);
 
-        // console.log(token)
-        //console.log(error)
-    });
+const AuthProvider = ({ children }) => {
+  const [auth, setAuth] = useState(null);
 
 //default axios
 axios.defaults.headers.common['Authorization'] = auth?.token;
+useEffect(() => {
+    const data = localStorage.getItem('auth');
+    if (data) {
+        const parsedData = JSON.parse(data);
+        setAuth({
+            ...auth,
+            user: parsedData.user,
+            token: parsedData.token
+        });
+        console.log('Auth updated:', parsedData); // Debugging line
+    }
+}, []);
 
-    useEffect(() => {                                             //print data from local storage
-        const data = localStorage.getItem('auth')
-        if (data) {
-            const parseData = JSON.parse(data)
-            {
-                
-                setAuth({
-                    ...auth,
-                    user: parseData.user,
-                    token: parseData.token
-                })
-            }
-        }    
-    //eslint-disable-next-line
-
-    }, [])
-
+console.log('Providing auth:', auth);
     return (
         <AuthContext.Provider value={[auth, setAuth]}>
             {children}
@@ -41,5 +32,5 @@ axios.defaults.headers.common['Authorization'] = auth?.token;
 
 // custom hook
 const useAuth = () => useContext(AuthContext);
-
 export { useAuth, AuthProvider };
+

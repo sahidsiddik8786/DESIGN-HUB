@@ -23,11 +23,17 @@ import CreateCategoryDesign from "./pages/Admin/CreateDesignCategory";
 import CreateDesignSubcategory from "./pages/Admin/CreateDesignSubcategory";
 import Orders from "./pages/user/Orders";
 import Profile from "./pages/user/Profile";
-import Updatestaffprofile from "./pages/Staff/Updatestaffprofile"
+import Updatestaffprofile from "./pages/Staff/Updatestaffprofile";
 import { Toaster } from "react-hot-toast";
 import Login from "./pages/Auth/Login";
 
+//design
+import Exploredesigns from "./pages/Exploredesigns";
+import CreateDesignbystaff from "./pages/Staff/CreateDesigns";
+import Designs from "./pages/Admin/Designs";
 import DesignPage from "./pages/DesignIdeas/designideas";
+import DesignDetailPage from "./pages/DesignIdeas/designdetails";
+
 //staff
 import StaffLogin from "./pages/Auth/LoginStaff";
 import StaffHome from "./pages/Staff/staffDashboard";
@@ -41,18 +47,14 @@ import Products from "./pages/Admin/Products";
 import UpdateProduct from "./pages/Admin/UpdateProduct";
 import Shop from "./pages/Shop";
 
-import Exploredesigns from "./pages/Exploredesigns";
-
 import Search from "./pages/Search";
 import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/CartPage";
 import AdminOrders from "./pages/Admin/AdminOrders";
 import WishlistPage from "./pages/WishlistPage";
-import CreateDesigns from "./pages/Admin/CreateDesigns";
-import Designs from "./pages/Admin/Designs";
 import Registerstaff from "./pages/Admin/RegisterStaff";
 import AppointmentForm from "./pages/Staff/Addappoinments";
-import userStaff from "./pages/Staff/userStaff"
+import userStaff from "./pages/Staff/userStaff";
 
 const RecoveryContext = createContext();
 
@@ -120,10 +122,13 @@ function App() {
               path="AdminDashboard/create-subcategorydesign"
               element={<CreateDesignSubcategory />}
             />
+           
             <Route
-              path="AdminDashboard/create-designs"
-              element={<CreateDesigns />}
+              path="staff-dashboard/create-designs"
+              element={<CreateDesignbystaff/>}
             />
+
+
             <Route path="AdminDashboard/users" element={<Users />} />
             <Route path="admin/product/:slug" element={<UpdateProduct />} />
             <Route path="admin/orders" element={<AdminOrders />} />
@@ -134,10 +139,18 @@ function App() {
           <Route path="/Login-staff" element={<StaffLogin />} />
           <Route path="/staff-dashboard" element={<StaffHome />} />
           <Route path="/add-appoinments" element={<AppointmentForm />} />
-      
+          <Route path="staff-dashboard/create-designs" element={<CreateDesignbystaff/>}
+            />
 
-          <Route path="/subcategory-designs/:categoryId" element={<DesignPage />} />
-    
+          {/* Route for subcategory designs */}
+          <Route path="/subcategory-designs/:categoryId"element={<DesignPage />}/>
+
+          {/* Route for general designs */}
+          <Route path="/designs/:categoryId" element={<DesignPage />} />
+
+          {/* Route for individual design details */}
+          <Route path="/design-details/:slug" element={<DesignDetailPage />} />
+
 
           <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/cart" element={<CartPage />} />

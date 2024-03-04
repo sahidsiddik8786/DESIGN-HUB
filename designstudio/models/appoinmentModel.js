@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 
 const appointmentSchema = new mongoose.Schema({
-    date: { type: Date, required: true },
-    slot: { type: String, required: true },
-   
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
-  },
-  { timestamps: true }
-  
-  );
+  staffId: { type: mongoose.Schema.Types.ObjectId, ref: 'staff' },
+  date: Date,
+  slots: [{
+      startTime: String,
+      endTime: String,
+      isBooked: Boolean,
+      bookedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'users', default: null } 
+  }]
+});
 
-export default mongoose.model("Appointment", appointmentSchema);
-
+export default mongoose.model("appointments", appointmentSchema);

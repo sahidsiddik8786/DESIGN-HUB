@@ -17,11 +17,12 @@ import imageRoutes from "./routes/imageRoute.js"
 import staffRoutes from './routes/staffRoute.js'
 import bothRoutes from "./routes/bothRoute.js"
 //import Payment from     "./routes/payment.js";
-import designcategoryModel from './models/designcategoryModel.js';
-import designsubcategoryModel from './models/designsubcategoryModel.js';
 import Design from "./models/designModel.js"
+import appointments from './models/appoinmentModel.js';
+import jwt from 'jsonwebtoken';
 
 
+const router = express.Router();
 const app = express();
 
 app.use(
@@ -37,7 +38,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
 
-app.use('/api/v1/auth', authRoutes ,staffRoutes);
+app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/staff', staffRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/categorydesign", designcategoryRoutes)
@@ -169,29 +170,56 @@ app.get('/api/subcategories/:categoryId', async (req, res) => {
 
 
 //----------Appoinment section----------//
-// API endpoint to get available slots for the next 5 days
-app.get('/api/slots', async (req, res) => {
-  const currentDate = new Date();
-  const nextFiveDays = new Date(currentDate.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days from now
-  const availableSlots = await Appointment.find({ date: { $gte: currentDate, $lt: nextFiveDays } });
-  res.json(availableSlots);
-});
+app.post('/api/appointment', async (req, res) => {
+  const { staffId, date, slots } = req.body;
 
-// API endpoint to book an appointment
-app.post('/api/book', async (req, res) => {
-  const { date, slot } = req.body;
-  const userId = req.user.id; 
   try {
-    const appointment = new appointment({ date, slot,  userId });
-    await appointment.save();
-    res.status(201).json(appointment);
+    const newAppointment = new appointments({ staffId, date, slots });
+    await newAppointment.save();
+    res.status(201).json(newAppointment);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
+
+app.get('/api/slots', async (req, res) => {
+  const currentDate = new Date();
+  const nextFiveDays = new Date(currentDate.getTime() + 5 * 24 * 60 * 60 * 1000);
+
+  try {
+    const appointments = await appointments.find({
+      date: { $gte: currentDate, $lt: nextFiveDays },
+      'slots.isBooked': false
+    });
+    res.json(appointments);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.post('/api/book', async (req, res) => {
+  const { appointmentId, slotIndex } = req.body; // slotIndex is the index of the slot in the slots array
+  const userId = req.user.id; // Assuming you're getting the user's ID from the session
+
+  try {
+    const appointment = await appointments.findById(appointmentId);
+
+    if (appointment.slots[slotIndex].isBooked) {
+      return res.status(400).json({ message: 'This slot is already booked.' });
+    }
+
+    appointment.slots[slotIndex].isBooked = true;
+    appointment.slots[slotIndex].bookedBy = userId;
+
+    await appointment.save();
+    res.status(201).json(appointment);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 //----------------------------------------------------------//
 
-// ...
+
 
 // Endpoint to get designs by category
 app.get('/api/v1/design/by-category/:categoryId', async (req, res) => {
@@ -212,6 +240,8 @@ app.get('/api/v1/design/by-subcategory/:subcategoryId', async (req, res) => {
     res.status(500).json({ success: false, message: 'Internal server error' });
   }
 });
+
+
 
 
 dotenv.config();

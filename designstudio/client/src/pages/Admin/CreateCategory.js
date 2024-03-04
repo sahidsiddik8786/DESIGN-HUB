@@ -108,20 +108,19 @@ const CreateCategory = () => {
   };
 
   return (
-    
     <Layout title={"Dashboard - Create Category"}>
-      <div>
+      <div className="container-fluid m-3 p-3">
         <div className="row">
-          <div className="col-md-2 pl-0">
+          <div className="col-md-3">
             <AdminMenu />
           </div>
-          <div className="col-md-10 d-flex flex-column ">
-            <h1 className="mt-3">Manage Category</h1>
+          <div className="col-md-9">
+            <h1>Manage Category</h1>
             <div className="p-3 w-50">
               <CategoryForm
                 handleSubmit={handleSubmit}
-                value={name}
-                setValue={setName}
+                nameValue={name} // Pass nameValue here
+                setName={setName}
                 validated={validated}
               />
             </div>
@@ -148,14 +147,14 @@ const CreateCategory = () => {
                         >
                           Edit
                         </button>
-                        {/*}  <button
-                        className="btn btn-warning ms-2"
-                        onClick={() => {
-                          handleDisable(c._id);
-                        }}
-                      >
-                        Disable
-                      </button>*/}
+                        {/* <button
+                          className="btn btn-warning ms-2"
+                          onClick={() => {
+                            handleDisable(c._id);
+                          }}
+                        >
+                          Disable
+                        </button> */}
                       </td>
                     </tr>
                   ))}
@@ -168,9 +167,9 @@ const CreateCategory = () => {
               visible={visible}
             >
               <CategoryForm
-                value={updatedName}
-                setValue={setUpdatedName}
                 handleSubmit={handleUpdate}
+                nameValue={updatedName} // Pass nameValue here
+                setName={setUpdatedName}
                 validated={validated}
               />
             </Modal>

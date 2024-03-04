@@ -1,137 +1,165 @@
 import React, { useState } from "react";
 import Layout from "../../components/layout/Layout";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import { styled } from "@mui/system";
-import Background from "../../components/Background/Background";
+import axios from "axios";
+import { useNavigate, useLocation, NavLink } from "react-router-dom";
+import { useAuth } from "../../context/auth";
 import toast, { Toaster } from "react-hot-toast";
-import GoBackButton from "../../components/layout/goback";
-import { useAuth } from "../../context/auth"; // Import useAuth hook
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
+import "popper.js/dist/umd/popper.min.js";
 
-const CenteredBox = styled(Box)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-`;
+// Import the StaffLogin component
+import StaffLogin from "./LoginStaff";
 
-const StaffLogin = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [heroCount, setHeroCount] = useState(0);
-  const [playStatus, setPlayStatus] = useState(false);
-  const [auth, setAuth] = useAuth(); // Destructure setAuth from useAuth
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [auth, setAuth] = useAuth();
+  const navigate = useNavigate(); 
+  const location = useLocation(); 
 
-  const onSubmit = async (data) => {
+  // State for real-time validation
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  // Function to handle login
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Reset previous validation errors
+    setEmailError("");
+    setPasswordError("");
+
+    // Validate email
+    if (!email) {
+      setEmailError("Email is required");
+      toast.error("Email is required");
+      return;
+    }
+
+    // Validate password
+    if (!password) {
+      setPasswordError("Password is required");
+      return;
+    }
+
     try {
-      const response = await fetch("http://localhost:8080/api/v1/staff/login-staff", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+      const res = await axios.post("http://localhost:8080/api/v1/auth/login", {
+        email,
+        password,
       });
-  
-      const responseData = await response.json();
-  
-      if (response.ok) {
-        const { success, token, user, message } = responseData; // Ensure the response contains the 'user' object
-        if (success) {
-          console.log("Logged in user details:", user); // Log the logged-in user details
-          localStorage.setItem("auth", JSON.stringify({ token, user })); // Store user data in local storage
-          setAuth({ user, token }); // Update auth context with user data and token
-          navigate(location.state || "/staff-dashboard");
-          toast.success("Login successful as staff");
-        } else {
-          setError(message || "Failed to login");
-          toast.error("Failed to login");
-        }
+
+      console.log("Server Response:", res);
+
+      if (res && res.data.success) {
+      
+        toast.success(res.data && res.data.message);
+
+        setAuth({
+          ...auth,
+          user: res.data.user,
+          token: res.data.token,
+        });
+
+    
+        localStorage.setItem("auth", JSON.stringify(res.data));
+
+        setTimeout(() => {
+          if (res.data.user.role === "1") {
+            navigate(location.state || "/Dashboard/AdminDashboard");
+          }  
+          else if (res.data.user.role === "2") {
+            navigate(location.state || "/staff-dashboard");
+          }else {
+            navigate(location.state || "/Dashboard/UserDashboard");
+          }
+        }, 100);
+
+
       } else {
-        setError(responseData.message || "Failed to login");
-        toast.error("Failed to login");
+        // Unsuccessful login
+        if (res.status === "User is deactivated") {
+          // User is deactivated, show an error message
+          toast.error("User is deactivated");
+        } else {
+          // Other login errors
+          toast.error(res.data.message);
+        }
       }
     } catch (error) {
-      console.error("Login failed", error);
-      setError("Failed to login");
-      toast.error("Failed to login");
+      // Something went wrong with the request
+      console.log(error);
+      toast.error("Contact Admin");
     }
   };
-  
+
   return (
-    <>
-      <Background playStatus={playStatus} heroCount={heroCount} />
-      <GoBackButton />
-      <CenteredBox>
-        <div className="col-md-2">
-          <div className="card-header text-center " style={{ color: "white" }}>
-            <h2>Staff Login Page </h2>
+    <Layout title="Login">
+      <div className="form-container">
+        <form onSubmit={handleSubmit} className="rounded p-5 bg-light w-50">
+        <h3 className="title" style={{ color: 'black' }}>Sign In</h3>
+
+
+          <div className=" mb-3 w-100">
+            <input
+              name="email"
+              type="email"
+              autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="form-control"
+              id="exampleInputEmail1"
+              placeholder="Enter Your Email"
+              required
+            />
+            {emailError && <p className="error-text">{emailError}</p>}
           </div>
-          <Card>
-            <CardHeader title="Login" align="center" />
-            <CardContent>
-              <form onSubmit={handleSubmit(onSubmit)} className="rounded w-100">
-                <div className="mb-3 w-100">
-                  <TextField
-                    {...register("email", { required: true })}
-                    type="email"
-                    label="Email"
-                    fullWidth
-                    error={!!errors.email}
-                    helperText={errors.email && "Email is required"}
-                  />
-                </div>
-                <div className="mb-3 w-100">
-                  <TextField
-                    {...register("password", { required: true })}
-                    type="password"
-                    label="Password"
-                    fullWidth
-                    error={!!errors.password}
-                    helperText={errors.password && "Password is required"}
-                  />
-                </div>
-                <div className="text-center">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    sx={{
-                      bgcolor: "#007bff",
-                      "&:hover": { bgcolor: "#0056b3" },
-                    }}
-                  >
-                    Login
-                  </Button>
-                </div>
-                <p>
-                  <Link to="/forgotpwd">
-                    <a className="font-bold">Forgot password?</a>
-                  </Link>
-                </p>
-              </form>
-              {error && (
-                <Typography color="error" variant="body1" mt={3}>
-                  {error}
-                </Typography>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      </CenteredBox>
-    </>
+          <div className="mb-3 w-100">
+            <input
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="form-control"
+              id="exampleInputPassword1"
+              type="password"
+              placeholder="Enter Your Password"
+              required
+            />
+            {passwordError && <p className="error-text">{passwordError}</p>}
+          </div>
+          <div className="mb-3 w-100">
+            <NavLink to="/forgotpassword" className="forgot-link">
+              <h5>Forgot Password</h5>
+            </NavLink>
+          </div>
+          <div className="mb-3">
+            <p>
+              <h5>Don't have an account?</h5>
+            </p>
+          
+        <NavLink to="/register" className="btn-default rounded-p4 ">
+          <h5><center>Sign up</center></h5>
+        </NavLink>  
+
+          </div>
+
+          <button
+            type="submit"
+            className="w-50 btn-primary rounded-pill"
+            name="button1"
+          >
+            Sign In
+          </button>
+
+          {/* Button to switch to staff login 
+          <NavLink to="/Login-staff" className="btn btn-link" style={{ color: 'black' }}>
+            Login as Staff
+          </NavLink>*/}
+        </form>
+      </div>
+      <Toaster />
+    </Layout>
   );
 };
 
-export default StaffLogin;
+export default Login;

@@ -8,7 +8,6 @@ import {
     deleteStaffMemberById,
     sendRegistrationConfirmationEmail,
 } from "../controllers/staffController.js";
-import { requireStaffSignIn, isAuthorized , verifyTokenMiddleware} from "../middlewares/staffMiddleware.js";
 
 
 
@@ -18,7 +17,7 @@ const router = express.Router();
 router.post("/create-staff", createStaffMember);
 
 // Route for staff member login
-router.post("/login-staff", loginController);
+//router.post("/login-staff", loginController);
 
 // Route to send registration confirmation email
 router.post("/send-registration-email", async (req, res) => {
@@ -37,14 +36,14 @@ router.post("/send-registration-email", async (req, res) => {
   
 
 // Protected routes - require sign in and authorization
-router.use(requireStaffSignIn);
-router.get("/staff", isAuthorized, getAllStaffMembers);
-router.get("/staff/:id", isAuthorized, getStaffMemberById);
+//router.use(requireStaffSignIn);
+router.get("/staff",  getAllStaffMembers);
+router.get("/staff/:id", getStaffMemberById);
 
 //router.put("/profile-staff", requireStaffSignIn, updateProfileController); 
-router.put('/profile-staff', verifyTokenMiddleware, updateProfileController);
+router.put('/profile-staff',  updateProfileController);
 
 
-router.delete("/staff/:id", isAuthorized, deleteStaffMemberById);
+router.delete("/staff/:id", deleteStaffMemberById);
 
 export default router;

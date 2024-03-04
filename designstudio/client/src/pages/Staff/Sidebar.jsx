@@ -49,12 +49,12 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
           <Link to="/customers">
             <BsPeopleFill className='icon' /> Customers
           </Link>
-  </li>
+  </li>*/}
         <li className='sidebar-list-item' key="inventory">
-          <Link to="/inventory">
-            <BsListCheck className='icon' /> Inventory
+          <Link to="/staff-dashboard/create-designs">
+            <BsListCheck className='icon' /> Create Design
           </Link>
-        </li>*/}
+        </li>
         <li className='sidebar-list-item' key="reports">
           <Link to="/reports">
             <BsMenuButtonWideFill className='icon' /> Reports

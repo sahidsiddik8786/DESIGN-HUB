@@ -36,7 +36,7 @@ const SubcategoryForm = ({ handleSubmit, value, setValue, validated }) => {
         </CFormFeedback>
       </CCol>
       <CCol md={12}>
-        <CButton color="primary" type="submit">
+        <CButton color="success" type="submit">
           Submit
         </CButton>
       </CCol>

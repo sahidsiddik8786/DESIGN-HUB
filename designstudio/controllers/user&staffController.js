@@ -1,85 +1,77 @@
-// Import necessary dependencies and helper functions
+// authController.js
 import { comparePassword, hashPassword } from "../helpers/authHelper.js";
-import userModel from "../models/userModel.js";
-import StaffModel from "../models/staffModel.js";
-import JWT from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
+import userModel from '../models/userModel.js';
+import staffModel from '../models/staffModel.js';
 
-// Login controller for both users and staff members
 export const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
-    // Validation
     if (!email || !password) {
-      return res.status(404).send({
+      return res.status(400).json({
         success: false,
-        message: "Invalid email or password",
+        message: "Please provide email and password",
       });
     }
-    // Check if the email exists in either user or staff database
-    const user = await userModel.findOne({ email });
-    const staff = await StaffModel.findOne({ email });
+    
+    // Check user in both user and staff models
+    let user = await userModel.findOne({ email });
+    if (!user) {
+      user = await staffModel.findOne({ email });
+    }
 
-    if (!user && !staff) {
-      return res.status(404).send({
+    if (!user) {
+      return res.status(404).json({
         success: false,
-        message: "Email is not registered",
+        message: "User not found",
       });
     }
 
-    // Determine the user role
-    const role = user ? "user" : "staff";
-    const entity = user || staff;
-
-    if (!entity.active) {
+    if (!user.active) {
       return res.status(403).json({
         success: false,
-        message: `${role.capitalize()} is deactivated and cannot log in`,
+        message: "User is deactivated and cannot log in",
       });
     }
 
-    // Compare hashed password
-    const match = await comparePassword(password, entity.password);
+    // Compare password
+    const match = await comparePassword(password, user.password);
     if (!match) {
-      return res.status(200).send({
+      return res.status(400).json({
         success: false,
         message: "Invalid password",
       });
     }
 
-    // Token
-    const token = await JWT.sign({ _id: entity._id }, process.env.JWT_SECRET, {
+    // Generate JWT token
+    const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
 
-    res.status(200).send({
+    res.status(200).json({
       success: true,
       message: "Login successful",
-      [role]: {
-        _id: entity._id,
-        firstname: entity.firstname,
-        lastname: entity.lastname,
-        streetaddress: entity.streetaddress,
-        city: entity.city,
-        state: entity.state,
-        postal: entity.postal,
-        email: entity.email,
-        phone: entity.phone,
-        address: entity.address,
-        role: entity.role,
+      user: {
+        _id: user._id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        address: user.address,
+        streetaddress: user.streetaddress,
+        city: user.city,
+        state: user.state,
+        country: user.country,
+        postal: user.postal,
+        phone: user.phone,
+        role: user.role,
       },
       token,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({
+    console.error("Error in login:", error);
+    res.status(500).json({
       success: false,
-      message: "Error in login",
-      error,
+      message: "Internal server error",
     });
   }
-};
-
-// Helper function to capitalize the first letter of a string
-String.prototype.capitalize = function () {
-  return this.charAt(0).toUpperCase() + this.slice(1);
 };

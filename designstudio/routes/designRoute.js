@@ -13,7 +13,7 @@ import {
   realtedDesignController,
  
 } from "../controllers/designController.js";
-import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
+import { isStaff , requireSignIn } from "../middlewares/authMiddleware.js";
 import formidable from "express-formidable";
 
 const router = express.Router();
@@ -22,7 +22,7 @@ const router = express.Router();
 router.post(
   "/create-design",
   requireSignIn,
-  isAdmin,
+  isStaff,
   formidable(),
   createDesignController
 );
@@ -30,7 +30,7 @@ router.post(
 router.put(
   "/update-design/:did",
   requireSignIn,
-  isAdmin,
+  isStaff,
   formidable(),
   updateDesignController
 );
@@ -40,6 +40,7 @@ router.get("/get-design", getDesignController);
 
 //single product
 router.get("/get-design/:slug", getSingleDesignController);
+
 
 //get photo
 router.get("/design-photo/:pid", designPhotoController);

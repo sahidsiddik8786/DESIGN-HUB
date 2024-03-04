@@ -53,7 +53,7 @@ const CategoryForm = ({ handleSubmit, nameValue, setName, descriptionValue, setD
         </CFormFeedback>
       </CCol>
       <CCol md={12}>
-        <CButton color="primary" type="submit">
+        <CButton color="success" type="submit">
           Submit
         </CButton>
       </CCol>

@@ -15,7 +15,6 @@ const CreateDesignCategory = () => {
   const [updatedName, setUpdatedName] = useState("");
   const [validated, setValidated] = useState(false);
 
-  // handle Form
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name.trim() || !descriptions[selected?._id]?.trim()) {
@@ -23,7 +22,7 @@ const CreateDesignCategory = () => {
       toast.error("Name and Description are required.");
       return;
     }
-
+  
     try {
       const { data } = await axios.post(
         "http://localhost:8080/api/v1/categorydesign/create-categorydesign",
@@ -38,6 +37,7 @@ const CreateDesignCategory = () => {
         // Reset the 'name' and 'description' states to clear the input fields
         setName("");
         setDescriptions({}); // Clear the description for the newly created category
+        setSelected(null); // Reset selected category
       } else {
         toast.error(data.message);
       }
@@ -46,6 +46,7 @@ const CreateDesignCategory = () => {
       toast.error("Something went wrong in the input form");
     }
   };
+  
 
   // get all cat
   const getAllCategory = async () => {
@@ -135,7 +136,7 @@ const CreateDesignCategory = () => {
                       <td>{c.name}</td>
                       <td>
                         <button
-                          className="btn btn-primary ms-2"
+                           className="btn btn-danger ms-2"
                           onClick={() => {
                             setVisible(true);
                             setUpdatedName(c.name);

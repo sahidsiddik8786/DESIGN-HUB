@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import toast from "react-hot-toast";
 import axios from 'axios';
 import {
   TextField,
@@ -9,118 +10,112 @@ import {
   Grid,
   MenuItem,
   Card,
-  CardContent // Import Card and CardContent components
+  CardContent
 } from '@mui/material';
+import { useAuth } from "../../context/auth";
+import StaffHeader from "./StaffHeader";
+import Sidebar from "./Sidebar";
+
 
 const AddAppointment = () => {
+  const [auth, setAuth] = useAuth();
+
+  console.log('Auth in component:', auth);
   const [date, setDate] = useState('');
-  const [slot, setSlot] = useState('');
+  const [slots, setSlots] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [userId, setUserId] = useState('');
-
-  useEffect(() => {
-    // Fetch user ID after component mounts
-    getUserId();
-  }, []);
-
-  const getUserId = async () => {
-    try {
-      // Make an API call to fetch user ID after authentication  
-      const response = await axios.get(`http://localhost:8080/api/v1/auth/${userId}`); // Adjust the API endpoint as per your implementation
-      if (response.data && response.data.userId) {
-        // Set the user ID in state
-        setUserId(response.data.userId);
-      } else {
-        setErrorMessage('User ID not found');
-      }
-    } catch (error) {
-      setErrorMessage('Failed to fetch user ID');
-      console.error('Error fetching user ID: ', error);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const schedule = {
+      staffId: auth.user.id, // Assuming this is how you get the logged in staff's ID
+      date,
+      slots: slots.map(slot => ({ startTime: slot, endTime: calculateEndTime(slot), isBooked: false }))
+    };
+
     try {
-      const response = await axios.post('/api/book', { date, slot, userId });
-      setSuccessMessage('Appointment booked successfully!');
+      await axios.post('http://localhost:8080/api/appointment', schedule);
+      setSuccessMessage('Schedule created successfully!');
+      toast.success(setSuccessMessage);
       setDate('');
-      setSlot('');
+      setSlots([]);
     } catch (error) {
-      setErrorMessage('Failed to book appointment');
-      console.error('Error booking appointment: ', error);
+      setErrorMessage('Failed to create schedule');
+      console.error('Error creating schedule: ', error);
     }
   };
 
-  // Function to calculate available time slots based on the selected date
-  const calculateAvailableTimeSlots = (selectedDate) => {
-    // Add your logic to calculate available time slots based on the selected date
-    // For example, you can fetch available time slots from the server based on the selected date
-    // Here, I'm just returning some dummy data as an example
-    return ['09:00 AM', '10:00 AM', '11:00 AM', '01:00 PM', '02:00 PM', '03:00 PM'];
+  const handleSlotChange = (e) => {
+    // Convert the comma-separated string to an array
+    setSlots(e.target.value.split(',').map(s => s.trim()));
   };
 
-  // Automatically select the first available time slot when the date changes
-  useEffect(() => {
-    const availableTimeSlots = calculateAvailableTimeSlots(date);
-    if (availableTimeSlots.length > 0) {
-      setSlot(availableTimeSlots[0]);
-    }
-  }, [date]);
+  const calculateEndTime = (startTime) => {
+    // Logic to calculate the end time based on the start time
+    // This is a placeholder, you'll need to implement the actual logic
+    return startTime; // Replace this with actual end time calculation
+  };
+
+  // ... other component code ...
+  const backgroundStyle = {
+    backgroundImage:
+      'url("https://images.pexels.com/photos/886023/pexels-photo-886023.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")',
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    position: 'fixed', 
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+  };
 
   return (
-    <Container maxWidth="md">
-      <Box mt={8} display="flex" justifyContent="center">
-        <Card>
-          <CardContent>
-            <Typography variant="h2" align="center" gutterBottom>Add Appointment</Typography>
-            <form onSubmit={handleSubmit}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    id="date"
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    id="slot"
-                    label="Time Slot"
-                    select
-                    value={slot}
-                    onChange={(e) => setSlot(e.target.value)}
-                    required
-                  >
-                    {calculateAvailableTimeSlots(date).map((timeSlot) => (
-                      <MenuItem key={timeSlot} value={timeSlot}>
-                        {timeSlot}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid>
-                <Grid item xs={12}>
-                  <Box display="flex" justifyContent="center">
-                    <Button type="submit" variant="contained" color="primary">
-                      Add Appointment
-                    </Button>
-                  </Box>
-                </Grid>
-              </Grid>
-              <Box mt={2} textAlign="center">
-                {errorMessage && <Typography color="error">{errorMessage}</Typography>}
-                {successMessage && <Typography color="success">{successMessage}</Typography>}
-              </Box>
-            </form>
-          </CardContent>
-        </Card>
-      </Box>
-    </Container>
+    <div style={backgroundStyle}>
+        <StaffHeader />
+        <Container maxWidth="md">
+          <Box mt={8} display="flex" justifyContent="center">
+            <Card>
+              <CardContent>
+                <Typography variant="h2" align="center" gutterBottom>Add Schedule</Typography>
+                <form onSubmit={handleSubmit}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <TextField
+                        fullWidth
+                        id="date"
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        fullWidth
+                        id="slots"
+                        label="Time Slots (comma-separated)"
+                        value={slots.join(', ')}
+                        onChange={handleSlotChange}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Button type="submit" variant="contained" color="primary">
+                        Create Schedule
+                      </Button>
+                    </Grid>
+                  </Grid>
+                  {errorMessage && <Typography color="error">{errorMessage}</Typography>}
+                  {successMessage && <Typography color="success">{successMessage}</Typography>}
+                </form>
+              </CardContent>
+            </Card>
+          </Box>
+        </Container>
+
+    </div> 
   );
 };
 
