@@ -40,11 +40,6 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
             <BsFillArchiveFill className='icon' /> Add Appoinments
           </Link>
         </li>
-        <li className='sidebar-list-item' key="View-Appoinments">
-          <Link to="/categories">
-            <BsFillGrid3X3GapFill className='icon' /> View Appoinments
-          </Link>
-        </li>
        {/* <li className='sidebar-list-item' key="customers">
           <Link to="/customers">
             <BsPeopleFill className='icon' /> Customers

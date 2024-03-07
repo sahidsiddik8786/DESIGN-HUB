@@ -4,7 +4,7 @@ import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [auth, setAuth] = useAuth();
+  const [auth , setAuth] = useAuth();
   return (
     <div className="nav">
       <div className="nav-logo">Design Studio</div>

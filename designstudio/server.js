@@ -45,8 +45,8 @@ app.use("/api/v1/categorydesign", designcategoryRoutes)
 app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/design", designRoutes);
 app.use("/api/v1/image", imageRoutes);
-
 app.use("/api/v1/both", bothRoutes);
+
 //app.use("/api/v1/payment", Payment);
 
 app.get('/', (req, res) => {
@@ -182,20 +182,38 @@ app.post('/api/appointment', async (req, res) => {
   }
 });
 
+import Appointment from "./models/appoinmentModel.js";
+
 app.get('/api/slots', async (req, res) => {
   const currentDate = new Date();
   const nextFiveDays = new Date(currentDate.getTime() + 5 * 24 * 60 * 60 * 1000);
 
   try {
-    const appointments = await appointments.find({
+    const appointments = await Appointment.find({
       date: { $gte: currentDate, $lt: nextFiveDays },
       'slots.isBooked': false
     });
-    res.json(appointments);
+
+    // Extract and return only the available slots
+    const availableSlots = appointments.reduce((acc, appointment) => {
+      appointment.slots.forEach(slot => {
+        if (!slot.isBooked) {
+          acc.push({
+            date: appointment.date,
+            startTime: slot.startTime,
+            endTime: slot.endTime
+          });
+        }
+      });
+      return acc;
+    }, []);
+
+    res.json(availableSlots);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 app.post('/api/book', async (req, res) => {
   const { appointmentId, slotIndex } = req.body; // slotIndex is the index of the slot in the slots array

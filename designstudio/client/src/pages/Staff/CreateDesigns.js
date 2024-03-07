@@ -171,7 +171,7 @@ const [auth, setAuth, loading] = useAuth();
 
   return (
 
-    <div style={backgroundStyle}>
+    <div>
       <AuthProvider>
     <StaffHeader OpenSidebar={OpenSidebar} handleLogout={handleLogout} />
     <div style={sidebarStyle}>
