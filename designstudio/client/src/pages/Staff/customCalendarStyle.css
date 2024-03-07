@@ -26,8 +26,8 @@
 }
 
 .calendar-header::before {
-    content: 'TODAY';
-    font-size: 14px;
+    
+    font-size: 7px;
     background: rgba(0, 0, 0, 0.5);
     padding: 5px 10px;
     border-radius: 5px;
@@ -42,10 +42,9 @@
 
 .month-display {
     background: rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 10px;
-    margin-bottom: 5px; /* Spacing between month and day */
-    align-self: flex-start; /* Align to the left */
+    margin-bottom: 5px; 
 }
 
 .current-month {

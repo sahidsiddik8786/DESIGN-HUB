@@ -25,11 +25,12 @@ import {
 import Sidebar from "./Sidebar";
 import StaffHeader from "./StaffHeader";
 import Calendar from "./Calendar";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const AddAppointment = () => {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
   const OpenSidebar = () => {
-      setOpenSidebarToggle(!openSidebarToggle);
+    setOpenSidebarToggle(!openSidebarToggle);
   };
 
   const [date, setDate] = useState("");
@@ -105,113 +106,120 @@ const AddAppointment = () => {
   };
 
   const sidebarStyle = {
-    width: '260px', 
-    height: '100vh',
-    position: 'fixed',
+    width: "260px",
+    height: "100vh",
+    position: "fixed",
     left: 0,
     top: 0,
     bottom: 0,
-    overflowY: 'auto', 
-    background: '#333',
-    zIndex: 1, 
-  }
+    overflowY: "auto",
+    background: "#333",
+    zIndex: 1,
+  };
 
   return (
     <div>
-       <div style={sidebarStyle}>
-    <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
+      <div style={sidebarStyle}>
+        <Sidebar
+          openSidebarToggle={openSidebarToggle}
+          OpenSidebar={OpenSidebar}
+        />
       </div>
       <StaffHeader />
       <Container>
-      <Grid container spacing={0}>
-          <Grid item xs={0} md={6}> {/* Adjust the size as needed */}
+        <Grid container spacing={0}>
+          <Grid item xs={0} md={6}>
             <Calendar handleSelectDate={handleSelectDate} />
           </Grid>
 
           <Grid item xs={12} md={6}>
-        <Dialog open={openDialog} onClose={handleCloseDialog}>
-          <DialogTitle>Add New Appointment</DialogTitle>
-          <DialogContent>
-            <form onSubmit={handleSubmit}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    id="date"
-                    label="Date"
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    required
-                    disabled
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl fullWidth>
-                    <InputLabel id="time-slot-label">Time Slot</InputLabel>
-                    <Select
-                      labelId="time-slot-label"
-                      id="time-slot"
-                      value={slots.length > 0 ? slots[0].startTime : ""}
-                      label="Time Slot"
-                      onChange={handleTimeChange}
-                      required
-                    >
-                      {slots.map((slot, index) => (
-                        <MenuItem key={index} value={slot.startTime}>
-                          {slot.startTime} - {slot.endTime}
-                        </MenuItem>
+            <Dialog open={openDialog} onClose={handleCloseDialog}>
+              <DialogTitle>Add New Appointment</DialogTitle>
+              <DialogContent>
+                <form onSubmit={handleSubmit}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <TextField
+                        fullWidth
+                        id="date"
+                        label="Date"
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        required
+                        disabled
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <FormControl fullWidth>
+                        <InputLabel id="time-slot-label">Time Slot</InputLabel>
+                        <Select
+                          labelId="time-slot-label"
+                          id="time-slot"
+                          value={slots.length > 0 ? slots[0].startTime : ""}
+                          label="Time Slot"
+                          onChange={handleTimeChange}
+                          required
+                        >
+                          {slots.map((slot, index) => (
+                            <MenuItem key={index} value={slot.startTime}>
+                              {slot.startTime} - {slot.endTime}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Button type="submit" variant="contained" color="primary">
+                        Create Schedule
+                      </Button>
+                    </Grid>
+                  </Grid>
+                  {errorMessage && (
+                    <Typography color="error">{errorMessage}</Typography>
+                  )}
+                  {successMessage && (
+                    <Typography color="success">{successMessage}</Typography>
+                  )}
+                </form>
+              </DialogContent>
+            </Dialog>
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <Box
+                width="100%"
+                maxWidth={800}
+                bgcolor="white"
+                borderRadius={2}
+                p={2}
+              >
+                <Typography variant="h5" style={{ color: "black" }}>
+                  Scheduled Slots
+                </Typography>
+                <div className="table-responsive">
+                  <table className="table table-bordered table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Booked By</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {events.map((event, index) => (
+                        <tr key={index}>
+                          <td>{moment(event.date).format("DD-MM-YYYY")}</td>
+                          <td>{event.startTime}</td>
+                          <td>{event.endTime}</td>
+                          <td>{event.bookedBy ? event.bookedBy : "None"}</td>
+                        </tr>
                       ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <Button type="submit" variant="contained" color="primary">
-                    Create Schedule
-                  </Button>
-                </Grid>
-              </Grid>
-              {errorMessage && (
-                <Typography color="error">{errorMessage}</Typography>
-              )}
-              {successMessage && (
-                <Typography color="success">{successMessage}</Typography>
-              )}
-            </form>
-          </DialogContent>
-        </Dialog>
-        <Box display="flex" justifyContent="center" alignItems="center">
-          <Box width="100%" maxWidth={800} bgcolor="white" borderRadius={2} p={2}>
-          <Typography variant="h5" style={{ color: "black" }}>
-            Scheduled Slots
-          </Typography>
-          <Table style={{ backgroundColor: "white" }}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Date</TableCell>
-                <TableCell>Start Time</TableCell>
-                <TableCell>End Time</TableCell>
-                <TableCell>Booked By</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {events.map((event, index) => (
-                <TableRow key={index}>
-                  <TableCell>
-                    {moment(event.date).format("DD-MM-YYYY")}
-                  </TableCell>
-                  <TableCell>{event.startTime}</TableCell>
-                  <TableCell>{event.endTime}</TableCell>
-                  <TableCell>
-                    {event.bookedBy ? event.bookedBy : "None"}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Box>
-        </Box>
-        </Grid>
+                    </tbody>
+                  </table>
+                </div>
+              </Box>
+            </Box>
+          </Grid>
         </Grid>
       </Container>
     </div>
