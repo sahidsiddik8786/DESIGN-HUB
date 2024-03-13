@@ -1,22 +1,21 @@
 .button-group {
   display: flex; /* Use flexbox to align items in a row */
   justify-content: space-between; /* Distribute space between the buttons */
-  
   flex-wrap: nowrap; /* Prevent wrapping of items to the next line */
 }
 
 .button-group .button {
-  padding: 10px 9px; /* Adjust padding to match the button size in the image */
-  font-size: 1rem; /* Adjust font size as needed */
-  font-weight: bold; /* Makes text bold */
-  color: white; /* Text color */
-  background-color: #ff0000ad; /* Background color, replace with the color you need */
-  border: none; /* No border */
-  border-radius: 20px; /* Rounded corners, adjust as needed */
-  cursor: pointer; /* Hand cursor on hover */
-  transition: background-color 0.3s ease; /* Smooth background color transition on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle depth effect */
-  flex: 0 1 auto; /* Allow button to grow and shrink but not wrap */
+  padding: 10px 9px; 
+  font-size: 1rem; 
+  font-weight: bold; 
+  color: white; 
+  background-color: #ff0000ad; 
+  border: none; 
+  border-radius: 20px; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  flex: 0 1 auto; 
 }
 
 /* Optional: Add responsiveness to buttons */

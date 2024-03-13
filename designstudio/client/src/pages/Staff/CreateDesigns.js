@@ -123,10 +123,11 @@ const [auth, setAuth, loading] = useAuth();
   };
 
   const pageContainerStyle = {
-    display: 'flex',
-    minHeight: '100vh',
+    
+    minHeight: '93vh',
+    backgroundColor: '#f0f2f5', // Set your desired background color here
   };
-
+  
   const sidebarStyle = {
     width: '260px', // Adjust width as needed
     height: '100vh',
@@ -157,27 +158,16 @@ const [auth, setAuth, loading] = useAuth();
  
   };
 
-  const backgroundStyle = {
-    backgroundImage:
-      'url("https://images.pexels.com/photos/886023/pexels-photo-886023.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")',
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    position: 'fixed', 
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-  };
-
   return (
 
-    <div>
+    <div >
       <AuthProvider>
     <StaffHeader OpenSidebar={OpenSidebar} handleLogout={handleLogout} />
     <div style={sidebarStyle}>
     <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
       </div>
-      <div style={contentContainerStyle}>
+      <div style={pageContainerStyle} >
+      <div style={contentContainerStyle} >
         <div style={formContainerStyle}>
         <CForm
           className="mb-3"
@@ -286,6 +276,7 @@ const [auth, setAuth, loading] = useAuth();
                     </CButton>
                   </CForm>
                 </div>
+            </div>
             </div>
             </AuthProvider>
           </div>  

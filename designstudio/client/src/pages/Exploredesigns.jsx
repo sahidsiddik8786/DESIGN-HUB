@@ -1,5 +1,3 @@
-// Designs.js
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -73,6 +71,7 @@ const Designs = () => {
                   src={`http://localhost:8080/api/v1/image/designimg-photo/${design._id}`}
                   className="card-img-top"
                   alt={design.name}
+                  style={{ objectFit: "cover", height: "100%" }} // Ensure the image fills the card header
                 />
                 <div className="card-body">
                   <h5 className="card-title">{design.name}</h5>

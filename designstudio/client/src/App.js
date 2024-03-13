@@ -142,14 +142,11 @@ function App() {
           <Route path="staff-dashboard/create-designs" element={<CreateDesignbystaff/>}
             />
 
-          {/* Route for subcategory designs */}
+          {/* Route designs */}
           <Route path="/subcategory-designs/:categoryId"element={<DesignPage />}/>
-
-          {/* Route for general designs */}
+          <Route path="/designs" element={<DesignPage />} />
           <Route path="/designs/:categoryId" element={<DesignPage />} />
-
-          {/* Route for individual design details */}
-          <Route path="/design-details/:slug" element={<DesignDetailPage />} />
+          <Route path="/design-details/:designSlug" element={<DesignDetailPage />} />
 
 
           <Route path="/wishlist" element={<WishlistPage />} />

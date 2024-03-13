@@ -19,11 +19,12 @@ import bothRoutes from "./routes/bothRoute.js"
 //import Payment from     "./routes/payment.js";
 import Design from "./models/designModel.js"
 import appointments from './models/appoinmentModel.js';
-import jwt from 'jsonwebtoken';
+import Appointment from "./models/appoinmentModel.js";
 
 
 const router = express.Router();
 const app = express();
+
 
 app.use(
   session({
@@ -169,7 +170,7 @@ app.get('/api/subcategories/:categoryId', async (req, res) => {
 
 
 
-//----------Appoinment section----------//
+//----------Appointment section----------//
 app.post('/api/appointment', async (req, res) => {
   const { staffId, date, slots } = req.body;
 
@@ -182,15 +183,42 @@ app.post('/api/appointment', async (req, res) => {
   }
 });
 
-import Appointment from "./models/appoinmentModel.js";
+app.put('/api/appointment/:appointmentId/reschedule', async (req, res) => {
+  const { appointmentId } = req.params;
+  const { date, slots } = req.body;
+
+  if (!appointmentId.match(/^[0-9a-fA-F]{24}$/)) {
+    return res.status(400).json({ message: 'Invalid appointment ID' });
+  }
+
+  try {
+    // Find the appointment
+    const appointment = await appointments.findById(appointmentId);
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment not found' });
+    }
+
+    // Update date and slots
+    appointment.date = date;
+    appointment.slots = slots;
+
+    // Save the updated appointment
+    await appointment.save();
+
+    res.json(appointment);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
 
 app.get('/api/slots', async (req, res) => {
   const currentDate = new Date();
-  const nextFiveDays = new Date(currentDate.getTime() + 5 * 24 * 60 * 60 * 1000);
 
   try {
     const appointments = await Appointment.find({
-      date: { $gte: currentDate, $lt: nextFiveDays },
+      date: { $gte: currentDate},
       'slots.isBooked': false
     });
 

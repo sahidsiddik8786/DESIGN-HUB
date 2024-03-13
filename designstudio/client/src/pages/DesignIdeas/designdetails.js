@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
-import "./designideas.css";
+import "./design.css";
 
 const DesignDetailPage = () => {
   const [design, setDesign] = useState({});
@@ -19,7 +19,9 @@ const DesignDetailPage = () => {
 
   const fetchDesignDetails = async () => {
     try {
-      const { data } = await axios.get(`http://localhost:8080/api/v1/design/get-design/${designSlug}`);
+      const { data } = await axios.get(
+        `http://localhost:8080/api/v1/design/get-design/${designSlug}`
+      );
       setDesign(data?.design);
       setLoading(false);
     } catch (error) {
@@ -28,27 +30,43 @@ const DesignDetailPage = () => {
       setLoading(false);
     }
   };
-  
+
+  if (loading) return <Layout>Loading...</Layout>;
+  if (error) return <Layout>Error: {error}</Layout>;
 
   return (
     <Layout>
-      <div className="design-detail">
-
-      <img
-  src={design._id ? `http://localhost:8080/api/v1/design/design-photo/${design._id}` : ""}
-  style={{ width: "100%", height: "100%" }}
-  alt={design.name}
-/>
-
-             
-           
-            <div className="design-info">
-              <h2>{design.name}</h2>
-              <p>{design.description}</p>
-              {/* Display other design details here */}
-            </div>
-     
-        {error && <p>Error: {error}</p>}
+      <div className="design-detail-container">
+        <div className="design-image">
+          <img
+            src={`http://localhost:8080/api/v1/design/design-photo/${design._id}`}
+            alt={design.name}
+          />
+        </div>
+        <div className="design-info">
+          <h1>{design.name}</h1>
+          <div className="design-features">
+            {/* Icons and feature highlights here */}
+          </div>
+          <div className="design-details">
+            <h3>Kitchen Design Details:</h3>
+            <p><strong>Room Dimension:</strong> {design.roomDimension}</p>
+            <p><strong>Style:</strong> {design.style}</p>
+            <p><strong>Color:</strong> {design.color}</p>
+            <p><strong>Shutter Finish:</strong> {design.shutterFinish}</p>
+            <p><strong>Countertop Material:</strong> {design.countertopMaterial}</p>
+            <p><strong>Storage Features:</strong> {design.storageFeatures}</p>
+            <p><strong>Special Features:</strong> {design.specialFeatures}</p>
+            <p><strong>Ideal for:</strong> {design.idealFor}</p>
+            {/* Additional details as needed */}
+          </div>
+          <div className="button-groups">
+            <button className="button">
+              Book Free Consultation
+            </button>
+    
+          </div>
+        </div>
       </div>
     </Layout>
   );

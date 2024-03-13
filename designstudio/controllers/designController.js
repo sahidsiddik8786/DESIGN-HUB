@@ -90,10 +90,8 @@ export const getDesignController = async (req, res) => {
 // get single product
 export const getSingleDesignController = async (req, res) => {
   try {
-    const design = await designModel
-      .findOne({ slug: req.params.slug })
-      .select("-photo")
-      .populate("category");
+    const design = await designModel.findOne({ slug: req.params.slug })
+      
     res.status(200).send({
       success: true,
       message: "Single Design Fetched",
@@ -346,3 +344,4 @@ export const designPhotoController = async (req, res) => {
         });
       }
     };
+/*-----------------------------------*/

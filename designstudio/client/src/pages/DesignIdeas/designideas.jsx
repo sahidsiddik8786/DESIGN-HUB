@@ -82,6 +82,7 @@ const DesignPage = () => {
                     src={`http://localhost:8080/api/v1/design/design-photo/${design._id}`}
                     className="card-img-top"
                     alt={design.name}
+                    style={{ objectFit: "cover", height: "100%" }}
                   />
                   <div className="card-body">
                     <h6 className="card-title">{design.name}</h6>

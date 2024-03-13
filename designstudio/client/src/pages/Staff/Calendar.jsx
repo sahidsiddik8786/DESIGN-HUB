@@ -21,7 +21,7 @@ const Calendar = ({ handleSelectDate }) => {
     if (clickedDate > new Date()) {
         handleSelectDate(clickedDate);
       } else {
-        toast.error("Cannot select past dates");
+        toast.error("Cannot select this dates");
       }
     };
 
@@ -55,7 +55,7 @@ const Calendar = ({ handleSelectDate }) => {
 
   return (
     <>
-      <div className="calendar mt-5">
+      <div className="calendar mt-2">
         <div className="calendar-header">
           <div className="header-content">
             <div className="month-display">
