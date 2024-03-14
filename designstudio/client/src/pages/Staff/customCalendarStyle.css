@@ -140,3 +140,55 @@
     background-color: #f2f2f2;
   }
   
+
+  /*--------------------------------------------------*/
+
+  /* Apply base styles to the entire component */
+.mt-2 {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  max-width: 1400px;
+  margin: auto;
+  overflow-x: auto; /* Ensure table is scrollable on small screens */
+}
+
+/* Style the table headers */
+.mt-2 h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Style the table itself */
+.mt-2 table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.mt-2 th, .mt-2 td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #ddd; /* Light gray border for rows */
+}
+
+.mt-2 th {
+  background-color: #000; /* Black background for headers */
+  color: #fff; /* White text for headers */
+}
+
+/* Zebra striping for rows */
+.mt-5 tbody tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+
+/* Responsive layout adjustments */
+@media (max-width: 768px) {
+  .mt-5 h1 {
+    font-size: 18px; /* Smaller font size on smaller screens */
+  }
+
+  .mt-5 th, .mt-5 td {
+    padding: 8px; /* Smaller padding on smaller screens */
+  }
+}

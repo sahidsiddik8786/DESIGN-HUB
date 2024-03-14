@@ -1,5 +1,5 @@
 import React from "react";
-import { NavDropdown, Navbar, Nav, Button } from "react-bootstrap";
+import { NavDropdown, Navbar, Nav } from "react-bootstrap";
 import { useAuth } from "../../context/auth";
 import { Link, useLocation } from "react-router-dom";
 import "./HeaderFooter.css"; // Import your custom CSS file
@@ -83,7 +83,7 @@ const Header = () => {
                   </Nav.Link>
                 </div>
               )}
-
+              
               {!auth.user ? (
                 <Nav.Link as={Link} to="/login" style={{ color: "white", fontSize, marginRight, textTransform: 'none' }} className="nav-link custom-font">
                   <i className='fas fa-user'></i> SignIn
@@ -92,9 +92,19 @@ const Header = () => {
                 <NavDropdown
                   title={<span style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}>{auth?.user?.firstname} {auth?.user?.lastname}</span>}
                   id="basic-nav-dropdown"
-                  className="nav-dropdown">
-
-                  <Button
+                  className="nav-dropdown"
+                >
+                  <NavDropdown.Item
+                    as={Link}
+                    to={`/Dashboard/${
+                      auth?.user?.role === "1" ? "AdminDashboard" : "UserDashboard"
+                    }`}
+                    style={{ color: "black", fontSize, marginRight, textTransform: 'none' }}
+                    className="dropdown-item custom-font"
+                  >
+                    Dashboard
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
                     onClick={handleLogout}
                     as={Link}
                     to="/login"
@@ -102,7 +112,7 @@ const Header = () => {
                     className="dropdown-item custom-font"
                   >
                     Logout
-                  </Button>
+                  </NavDropdown.Item>
                 </NavDropdown>
               )}
             </Nav>

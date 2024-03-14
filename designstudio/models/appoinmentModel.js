@@ -1,7 +1,13 @@
 import mongoose from "mongoose";
 
-const appointmentSchema = new mongoose.Schema({
-  staffId: { type: mongoose.Schema.Types.ObjectId, ref: "staff" },
+const appointmentSchema = new mongoose.Schema(
+  {
+  staffId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "staff"
+   },
+
+   
   date: Date,
   slots: [
     {
@@ -18,3 +24,4 @@ const appointmentSchema = new mongoose.Schema({
 });
 
 export default mongoose.model("appointments", appointmentSchema);
+

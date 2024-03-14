@@ -53,7 +53,8 @@ const DesignPage = () => {
   }, [categoryId]);
 
   const handleConsultationClick = () => {
-    // Handle consultation click logic here
+    // Navigate to SlotDetailsPage
+    navigate("/slot-details");
   };
 
   const handleQuoteClick = () => {
@@ -75,9 +76,15 @@ const DesignPage = () => {
         <div className="d-flex flex-wrap">
           {designs.map((design) => (
             <div key={design._id} className="category-card">
-             <Link key={design._id} to={`/design-details/${design.slug}`} className="product-link">
-              
-                <div className="card m-3" style={{ width: "23rem", height: "25rem" }}>
+              <Link
+                key={design._id}
+                to={`/design-details/${design.slug}`}
+                className="product-link"
+              >
+                <div
+                  className="card m-3"
+                  style={{ width: "23rem", height: "25rem" }}
+                >
                   <img
                     src={`http://localhost:8080/api/v1/design/design-photo/${design._id}`}
                     className="card-img-top"
@@ -88,11 +95,11 @@ const DesignPage = () => {
                     <h6 className="card-title">{design.name}</h6>
                   </div>
                   <div className="button-group m-3">
-                    <button className="button" onClick={handleConsultationClick}>
+                    <button
+                      className="button"
+                      onClick={handleConsultationClick}
+                    >
                       Book Free Consultation
-                    </button>
-                    <button className="button" onClick={() => navigate(`/design-details/${design.slug}`)}>
-                      Get Quote
                     </button>
                   </div>
                 </div>
@@ -106,3 +113,9 @@ const DesignPage = () => {
 };
 
 export default DesignPage;
+
+{
+  /* <button className="button" onClick={() => navigate(`/design-details/${design.slug}`)}>
+                      Get Quote
+          </button> */
+}

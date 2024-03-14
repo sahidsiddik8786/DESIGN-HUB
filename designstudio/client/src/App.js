@@ -33,6 +33,8 @@ import CreateDesignbystaff from "./pages/Staff/CreateDesigns";
 import Designs from "./pages/Admin/Designs";
 import DesignPage from "./pages/DesignIdeas/designideas";
 import DesignDetailPage from "./pages/DesignIdeas/designdetails";
+import Bookdesigns from "./pages/DesignIdeas/bookdesigns";
+
 
 //staff
 import StaffLogin from "./pages/Auth/LoginStaff";
@@ -147,7 +149,7 @@ function App() {
           <Route path="/designs" element={<DesignPage />} />
           <Route path="/designs/:categoryId" element={<DesignPage />} />
           <Route path="/design-details/:designSlug" element={<DesignDetailPage />} />
-
+          <Route path="/slot-details" element = {<Bookdesigns />} />
 
           <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/cart" element={<CartPage />} />

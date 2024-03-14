@@ -55,7 +55,7 @@ const Calendar = ({ handleSelectDate }) => {
 
   return (
     <>
-      <div className="calendar mt-2">
+      <div className="calendar mt-3">
         <div className="calendar-header">
           <div className="header-content">
             <div className="month-display">

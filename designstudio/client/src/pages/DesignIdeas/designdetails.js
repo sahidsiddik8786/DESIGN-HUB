@@ -1,7 +1,7 @@
 // DesignDetailPage.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams , useNavigate } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
 import "./design.css";
 
@@ -10,6 +10,7 @@ const DesignDetailPage = () => {
   const { designSlug } = useParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (designSlug) {
@@ -31,6 +32,11 @@ const DesignDetailPage = () => {
     }
   };
 
+  const handleConsultationClick = () => {
+    // Navigate to SlotDetailsPage
+    navigate("/slot-details");
+  };
+
   if (loading) return <Layout>Loading...</Layout>;
   if (error) return <Layout>Error: {error}</Layout>;
 
@@ -48,20 +54,16 @@ const DesignDetailPage = () => {
           <div className="design-features">
             {/* Icons and feature highlights here */}
           </div>
-          <div className="design-details">
-            <h3>Kitchen Design Details:</h3>
-            <p><strong>Room Dimension:</strong> {design.roomDimension}</p>
-            <p><strong>Style:</strong> {design.style}</p>
-            <p><strong>Color:</strong> {design.color}</p>
-            <p><strong>Shutter Finish:</strong> {design.shutterFinish}</p>
-            <p><strong>Countertop Material:</strong> {design.countertopMaterial}</p>
-            <p><strong>Storage Features:</strong> {design.storageFeatures}</p>
-            <p><strong>Special Features:</strong> {design.specialFeatures}</p>
-            <p><strong>Ideal for:</strong> {design.idealFor}</p>
-            {/* Additional details as needed */}
+          <div className="design-details mt-2">
+            <h3>Design Details</h3>
+            <p><strong>Room Dimension:</strong> {design.roomDimension}</p> <br/>
+            <p><strong>Squarefeet price :</strong> {design.price}</p><br/>
+            <p><strong>Layout of the space:</strong> {design.layout}</p><br/>
+            <p><strong>Description:</strong> {design.description}</p><br/>
           </div>
+         
           <div className="button-groups">
-            <button className="button">
+            <button className="button" onClick={handleConsultationClick}>
               Book Free Consultation
             </button>
     

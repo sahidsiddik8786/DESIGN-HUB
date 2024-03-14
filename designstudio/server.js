@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 import express from 'express';
 import colors from 'colors';
 import dotenv from 'dotenv';
@@ -20,6 +22,8 @@ import bothRoutes from "./routes/bothRoute.js"
 import Design from "./models/designModel.js"
 import appointments from './models/appoinmentModel.js';
 import Appointment from "./models/appoinmentModel.js";
+import staffModel from './models/staffModel.js';
+import appoinmentModel from './models/appoinmentModel.js';
 
 
 const router = express.Router();
@@ -174,12 +178,24 @@ app.get('/api/subcategories/:categoryId', async (req, res) => {
 app.post('/api/appointment', async (req, res) => {
   const { staffId, date, slots } = req.body;
 
+  // Validate if staffId is a valid MongoDB ObjectId
+  if (!mongoose.Types.ObjectId.isValid(staffId)) {
+    return res.status(400).json({ message: "Invalid staff ID." });
+  }
+
   try {
+    // Check if staffId corresponds to an existing staff member
+    const staffExists = await staffModel.findById(staffId);
+    if (!staffExists) {
+      return res.status(404).json({ message: "Staff member not found." });
+    }
+
+    // If staff exists, create the appointment
     const newAppointment = new appointments({ staffId, date, slots });
     await newAppointment.save();
     res.status(201).json(newAppointment);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -218,7 +234,7 @@ app.get('/api/slots', async (req, res) => {
 
   try {
     const appointments = await Appointment.find({
-      date: { $gte: currentDate},
+      date: { $gte: currentDate },
       'slots.isBooked': false
     });
 
@@ -227,6 +243,8 @@ app.get('/api/slots', async (req, res) => {
       appointment.slots.forEach(slot => {
         if (!slot.isBooked) {
           acc.push({
+            appointmentId: appointment._id,  // Renamed from id to appointmentId
+            slotId: slot._id,               // Renamed from id to slotId
             date: appointment.date,
             startTime: slot.startTime,
             endTime: slot.endTime
@@ -243,26 +261,39 @@ app.get('/api/slots', async (req, res) => {
 });
 
 
-app.post('/api/book', async (req, res) => {
-  const { appointmentId, slotIndex } = req.body; // slotIndex is the index of the slot in the slots array
-  const userId = req.user.id; // Assuming you're getting the user's ID from the session
+
+
+app.post("/api/book", async (req, res) => {
+  const { appointmentId, slotId } = req.body;
 
   try {
-    const appointment = await appointments.findById(appointmentId);
-
-    if (appointment.slots[slotIndex].isBooked) {
-      return res.status(400).json({ message: 'This slot is already booked.' });
+    const appointment = await Appointment.findById(appointmentId);
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found." });
     }
 
-    appointment.slots[slotIndex].isBooked = true;
-    appointment.slots[slotIndex].bookedBy = userId;
+    const slot = appointment.slots.find((slot) => slot._id.toString() === slotId);
+    if (!slot) {
+      return res.status(404).json({ message: "Slot not found." });
+    }
 
+    if (slot.isBooked) {
+      return res.status(400).json({ message: "This slot is already booked." });
+    }
+
+    // Mark the slot as booked
+    slot.isBooked = true;
     await appointment.save();
-    res.status(201).json(appointment);
+
+    res.status(201).json({ message: "Slot booked successfully." });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
+
+
+
+
 //----------------------------------------------------------//
 
 

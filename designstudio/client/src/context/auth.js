@@ -4,42 +4,35 @@ import axios from "axios";
 
 const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
-    const [auth, setAuth] = useState({
-        user: null,
-        token: "",
+  const [auth, setAuth] = useState({
+    user: null,
+    token: "",
+  });
 
-        // console.log(token)
-        //console.log(error)
-    });
+  // Set default Axios headers
+  axios.defaults.headers.common["Authorization"] = auth.token;
 
-//default axios
-axios.defaults.headers.common['Authorization'] = auth?.token;
+  useEffect(() => {
+    const data = localStorage.getItem("auth");
+    if (data) {
+      const parseData = JSON.parse(data);
+      setAuth({
+        ...auth,
+        user: parseData.user,
+        token: parseData.token,
+      });
+    }
+    // eslint-disable-next-line
+  }, []);
 
-    useEffect(() => {                                             //print data from local storage
-        const data = localStorage.getItem('auth')
-        if (data) {
-            const parseData = JSON.parse(data)
-            {
-                
-                setAuth({
-                    ...auth,
-                    user: parseData.user,
-                    token: parseData.token
-                })
-            }
-        }    
-    //eslint-disable-next-line
-
-    }, [])
-
-    return (
-        <AuthContext.Provider value={[auth, setAuth]}>
-            {children}
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider value={[auth, setAuth]}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-// custom hook
+// Custom hook to use auth context
 const useAuth = () => useContext(AuthContext);
 
 export { useAuth, AuthProvider };

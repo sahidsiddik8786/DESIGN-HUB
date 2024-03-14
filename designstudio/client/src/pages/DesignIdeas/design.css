@@ -109,3 +109,78 @@
       margin-bottom: 1rem;
     }
   }
+
+  /*----------------------------------------------------------------------------------*/
+
+  .slot-details-container {
+    font-family: 'Arial', sans-serif; /* Use a modern sans-serif font */
+    max-width: 1200px; /* Set a max width for the container */
+    margin: 0 auto; /* Center the container */
+    background: #fff; /* Set a white background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Apply subtle shadow */
+    padding: 20px;
+    border-radius: 5px; /* Optional: rounded corners */
+  }
+  
+  .slot-details-container h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .slot-details-container table {
+    width: 100%;
+    border-collapse: collapse; /* Collapse borders */
+    margin-top: 20px; /* Space from header */
+  }
+  
+  .slot-details-container th,
+  .slot-details-container td {
+    text-align: left;
+    padding: 12px 15px; /* Padding for table cells */
+    border-bottom: 1px solid #ccc; /* Light border for rows */
+  }
+  
+  .slot-details-container th {
+    background-color: #000; /* Dark background for header */
+    color: #fff;
+  }
+  
+  .slot-details-container tr:nth-child(even) {
+    background-color: #f2f2f2; /* Zebra striping for rows */
+  }
+  
+  .slot-details-container button {
+    padding: 10px 15px; /* Padding inside buttons */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners for buttons */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin-right: 5px; /* Space between buttons */
+  }
+  
+  .slot-details-container .book-button {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+  }
+  
+  .slot-details-container .book-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  
+  .slot-details-container .detail-button {
+    background-color: #00BFFF; /* Blue background */
+    color: white; /* White text */
+  }
+  
+  .slot-details-container .detail-button:hover {
+    background-color: #009ACD; /* Darker blue on hover */
+  }
+  
+
+  .booked-label {
+    padding: 10px 15px;
+    background-color: #fa0606; /* Grey background for booked slots */
+    color: white;
+    border-radius: 5px; /* Rounded corners for consistency */
+    display: inline-block; /* To apply padding and centering */
+  }
+  

@@ -7,7 +7,6 @@ import {
   Button,
   Typography,
   Container,
-  Box,
   Grid,
   Dialog,
   DialogContent,
@@ -15,7 +14,6 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputLabel,
   DialogActions,
 } from "@mui/material";
 import Sidebar from "./Sidebar";
@@ -23,13 +21,11 @@ import StaffHeader from "./StaffHeader";
 import Calendar from "./Calendar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./customCalendarStyle.css";
+import { useAuth } from "../../context/auth";
 
 const AddAppointment = () => {
+  const [auth, setAuth] = useAuth();
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
-  const OpenSidebar = () => {
-    setOpenSidebarToggle(!openSidebarToggle);
-  };
-
   const [date, setDate] = useState("");
   const [slots, setSlots] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
@@ -68,17 +64,44 @@ const AddAppointment = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const selectedSlot = slots[0];
+
+    // Validate if the same time slot is already booked for the selected date
+    const existingSlot = events.find(
+      (event) =>
+        moment(event.date).format("YYYY-MM-DD") === date &&
+        event.startTime === slots[0].startTime
+    );
+
+    if (existingSlot) {
+      setErrorMessage(
+        "This time slot is already booked for the selected date."
+      );
+      return;
+    }
+
+    // Validate if more than 3 appointments are scheduled for the selected date
+    const appointmentsForSelectedDate = events.filter(
+      (event) => moment(event.date).format("YYYY-MM-DD") === date
+    );
+
+    if (appointmentsForSelectedDate.length >= 3) {
+      setErrorMessage("Only 3 appointments can be scheduled for this date.");
+      return;
+    }
+
+    // In handleSubmit method
     const schedule = {
+      staffId: auth.user._id, // Changed from auth.user.staffId to auth.user._id
       date,
       slots: [
         {
-          startTime: selectedSlot.startTime,
-          endTime: selectedSlot.endTime,
+          startTime: slots[0].startTime,
+          endTime: slots[0].endTime,
           isBooked: false,
         },
       ],
     };
+
     try {
       await axios.post("http://localhost:8080/api/appointment", schedule);
       setSuccessMessage("Schedule created successfully!");
@@ -107,9 +130,8 @@ const AddAppointment = () => {
     );
     setSlots([selectedSlot]);
   };
-
   const handleReschedule = (eventId) => {
-    console.log("Rescheduling event with ID:", eventId); // Debugging line
+    console.log("Rescheduling event with ID:", eventId);
     setRescheduleEventId(eventId);
     setRescheduleDialogOpen(true);
   };
@@ -164,18 +186,25 @@ const AddAppointment = () => {
     zIndex: 1,
   };
 
+  // Group events by date for display in the table
+  const groupedEvents = events.reduce((acc, event) => {
+    const dateKey = moment(event.date).format("DD-MM-YYYY");
+    if (!acc[dateKey]) {
+      acc[dateKey] = [];
+    }
+    acc[dateKey].push({ startTime: event.startTime, endTime: event.endTime });
+    return acc;
+  }, {});
 
   return (
     <div>
       <div style={sidebarStyle}>
         <Sidebar
           openSidebarToggle={openSidebarToggle}
-          OpenSidebar={OpenSidebar}
+          OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)}
         />
       </div>
- 
       <StaffHeader />
- 
       <Container>
         <Grid container spacing={0}>
           <Grid item xs={0} md={6}>
@@ -269,44 +298,55 @@ const AddAppointment = () => {
                 <Button onClick={handleRescheduleConfirm}>Confirm</Button>
               </DialogActions>
             </Dialog>
-            </Grid>
+          </Grid>
         </Grid>
-    
-         <div className="mt-5">
-            <h1 style={{ color: "black" }}>
-              Scheduled Slots
-            </h1>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Actions</th>
+
+        <div className="mt-2">
+          <h1>Scheduled Slots</h1>
+          <table>
+            <thead>
+              <tr>
+                <th style={{ textAlign: "center" }}>Date</th>
+                <th style={{ textAlign: "center" }}>Start Time</th>
+                <th style={{ textAlign: "center" }}>End Time</th>
+                <th style={{ textAlign: "center" }}>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {Object.entries(groupedEvents).map(
+                ([date, eventsOnDate], dateIndex) => (
+                  <tr key={dateIndex}>
+                    <td style={{ textAlign: "center" }}>{date}</td>
+                    <td style={{ textAlign: "center" }}>
+                      {eventsOnDate.map((event, eventIndex) => (
+                        <div key={eventIndex}>{event.startTime}</div>
+                      ))}
+                    </td>
+                    <td style={{ textAlign: "center" }}>
+                      {eventsOnDate.map((event, eventIndex) => (
+                        <div key={eventIndex}>{event.endTime}</div>
+                      ))}
+                    </td>
+                    <td style={{ textAlign: "center" }}>
+                      {eventsOnDate.map((event, eventIndex) => (
+                        <div key={eventIndex}>
+                          <Button className="mt-1"
+                            onClick={() => handleReschedule(event._id)}
+                            style={{ backgroundColor: "green", color: "white" }}
+                          >
+                            Reschedule
+                          </Button>
+                        </div>
+                      ))}
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {events.map((event, index) => (
-                    <tr key={index}>
-                      <td>{moment(event.date).format("DD-MM-YYYY")}</td>
-                      <td>{event.startTime}</td>
-                      <td>{event.endTime}</td>
-                      <td>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => handleReschedule(event._id)} // Ensure event._id is defined
-                        >
-                          Reschedule
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          
-            </Container>
+                )
+              )}
+            </tbody>
+          </table>
+        </div>
+      </Container>
     </div>
   );
 };
