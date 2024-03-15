@@ -60,19 +60,17 @@ const DesignDetailPage = () => {
           </div>
           <div className="design-details mt-2">
             <h3>Design Details</h3>
-            <h6>
+            <h5>
             <p><strong>Room Dimension:</strong> {design.roomDimension}</p> <br/>
-            <p><strong>Squarefeet price :</strong> {design.price}</p><br/>
+            <p><strong>Squarefeet price :</strong>₹{design.price}</p><br/>
             <p><strong>Layout of the space:</strong> {design.layout}</p><br/>
-            <p><strong>Description:</strong> {design.description}</p><br/>
-            </h6>
+            <p><strong>Description:</strong> {design.description}</p>
+            </h5>
           </div>
-         
           <div className="button-groups">
             <button className="button" onClick={handleConsultationClick}>
               Book Free Consultation
             </button>
-    
           </div>
         </div>
         

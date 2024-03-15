@@ -58,7 +58,7 @@ const AddAppointment = () => {
       console.log(response.data);
       setEvents(response.data);
       // Update slots state after fetching scheduled slots
-    setSlots(generateTimeSlots());
+      setSlots(generateTimeSlots());
     } catch (error) {
       console.error("Error fetching scheduled slots: ", error);
     }
@@ -195,16 +195,6 @@ const AddAppointment = () => {
     zIndex: 1,
   };
 
-  // Group events by date for display in the table
-  const groupedEvents = events.reduce((acc, event) => {
-    const dateKey = moment(event.date).format("DD-MM-YYYY");
-    if (!acc[dateKey]) {
-      acc[dateKey] = [];
-    }
-    acc[dateKey].push({ startTime: event.startTime, endTime: event.endTime });
-    return acc;
-  }, {});
-
   return (
     <div>
       <div style={sidebarStyle}>
@@ -215,12 +205,11 @@ const AddAppointment = () => {
       </div>
       <StaffHeader />
       <Container>
-        <Grid container spacing={0}>
+      
           <Grid item xs={0} md={6}>
             <Calendar handleSelectDate={handleSelectDate} />
           </Grid>
 
-          <Grid item xs={12} md={6}>
             <Dialog open={openDialog} onClose={handleCloseDialog}>
               <DialogTitle>Add New Appointment</DialogTitle>
               <DialogContent>
@@ -307,8 +296,8 @@ const AddAppointment = () => {
                 <Button onClick={handleRescheduleConfirm}>Confirm</Button>
               </DialogActions>
             </Dialog>
-          </Grid>
-        </Grid>
+      
+      
 
         <div className="mt-0">
           <h1>Scheduled Slots</h1>
@@ -319,39 +308,38 @@ const AddAppointment = () => {
                 <th style={{ textAlign: "center" }}>Start Time</th>
                 <th style={{ textAlign: "center" }}>End Time</th>
                 <th style={{ textAlign: "center" }}>Actions</th>
+                <th style={{ textAlign: "center" }}>Booked user details</th>
               </tr>
             </thead>
 
             <tbody>
-              {Object.entries(groupedEvents).map(
-                ([date, eventsOnDate], dateIndex) => (
-                  <tr key={dateIndex}>
-                    <td style={{ textAlign: "center" }}>{date}</td>
-                    <td style={{ textAlign: "center" }}>
-                      {eventsOnDate.map((event, eventIndex) => (
-                        <div key={eventIndex}>{event.startTime}</div>
-                      ))}
-                    </td>
-                    <td style={{ textAlign: "center" }}>
-                      {eventsOnDate.map((event, eventIndex) => (
-                        <div key={eventIndex}>{event.endTime}</div>
-                      ))}
-                    </td>
-                    <td style={{ textAlign: "center" }}>
-                      {eventsOnDate.map((event, eventIndex) => (
-                        <div key={eventIndex}>
-                          <Button className="mt-1"
-                            onClick={() => handleReschedule(event._id)}
-                            style={{ backgroundColor: "green", color: "white" }}
-                          >
-                            Reschedule
-                          </Button>
-                        </div>
-                      ))}
-                    </td>
-                  </tr>
-                )
-              )}
+              {events.map((event, index) => (
+                <tr key={index}>
+                  <td style={{ textAlign: "center" }}>{event.date}</td>
+                  <td style={{ textAlign: "center" }}>{event.startTime}</td>
+                  <td style={{ textAlign: "center" }}>{event.endTime}</td>
+                  <td style={{ textAlign: "center" }}>
+                  {event.isBooked ? (
+        <div>Booked</div>
+      ) : (
+        <Button className="mt-1" onClick={() => handleReschedule(event.slotId)} style={{ backgroundColor: "green", color: "white" }}>
+          Reschedule
+        </Button>
+      )}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {event.isBooked ? (
+                      <>
+                        <div>{event.bookedBy.firstname} {event.bookedBy.lastname}</div>
+                        <div>Email: {event.bookedBy.email}</div>
+                        <div>Phone: {event.bookedBy.phone}</div>
+                      </>
+                    ) : (
+                      <div>Not Booked</div>
+                    )}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

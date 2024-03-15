@@ -255,27 +255,27 @@ app.get('/api/slots', async (req, res) => {
 
   try {
     const appointments = await Appointment.find({
-      date: { $gte: currentDate },
-      'slots.isBooked': false
-    });
+      date: { $gte: currentDate }
+    }).populate('slots.bookedBy', 'firstname lastname email phone');
+    // Populate bookedBy field with user details
 
-    // Extract and return only the available slots
-    const availableSlots = appointments.reduce((acc, appointment) => {
+    // Extract and return both available and booked slots
+    const allSlots = appointments.reduce((acc, appointment) => {
       appointment.slots.forEach(slot => {
-        if (!slot.isBooked) {
-          acc.push({
-            appointmentId: appointment._id,  // Renamed from id to appointmentId
-            slotId: slot._id,               // Renamed from id to slotId
-            date: appointment.date,
-            startTime: slot.startTime,
-            endTime: slot.endTime
-          });
-        }
+        acc.push({
+          appointmentId: appointment._id,
+          slotId: slot._id,
+          date: appointment.date,
+          startTime: slot.startTime,
+          endTime: slot.endTime,
+          isBooked: slot.isBooked,
+          bookedBy: slot.bookedBy
+        });
       });
       return acc;
     }, []);
 
-    res.json(availableSlots);
+    res.json(allSlots);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

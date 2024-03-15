@@ -35,14 +35,19 @@ const Bookdesigns = () => {
 
   const bookSlot = async (appointmentId, slotId) => {
     try {
+      if (!auth.token) {
+        toast.error("Login then only book the slot");
+        return;
+      }
+  
       const response = await axios.post("http://localhost:8080/api/book", {
         appointmentId,
         slotId,
       });
       console.log("Slot booked:", response.data);
-
+  
       toast.success("Slot booked successfully");
-
+  
       // Update the slots state after successful booking
       const updatedSlots = slots.map((slot) => {
         if (slot.appointmentId === appointmentId && slot.slotId === slotId) {
@@ -50,14 +55,15 @@ const Bookdesigns = () => {
         }
         return slot;
       });
-
+  
       setSlots(updatedSlots);
     } catch (error) {
       console.error("Error booking slot", error);
-      setError(error.response.data.message); // Update error state with server message
+      setError(error.response?.data?.message || "An error occurred");
       // Handle error, show an error message, etc.
     }
   };
+  
 
   if (loading) return <Layout>Loading...</Layout>;
   if (error) return <Layout>Error: {error}</Layout>;
