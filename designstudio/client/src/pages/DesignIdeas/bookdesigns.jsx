@@ -4,6 +4,7 @@ import Layout from "../../components/layout/Layout";
 import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
 import "./design.css";
+import GoBackButton from "../../components/layout/goback";
 
 const Bookdesigns = () => {
   const [auth] = useAuth();
@@ -64,6 +65,7 @@ const Bookdesigns = () => {
   return (
     <Layout>
       <div className="slot-details-container">
+      <GoBackButton />
         <h1>Book your appointment </h1>
         <h4>
           <p>

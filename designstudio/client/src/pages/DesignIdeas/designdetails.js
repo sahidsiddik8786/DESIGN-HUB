@@ -4,6 +4,7 @@ import axios from "axios";
 import { useParams , useNavigate } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
 import "./design.css";
+import GoBackButton from "../../components/layout/goback";
 
 const DesignDetailPage = () => {
   const [design, setDesign] = useState({});
@@ -42,6 +43,7 @@ const DesignDetailPage = () => {
 
   return (
     <Layout>
+      
       <div className="design-detail-container">
         <div className="design-image">
           <img
@@ -49,17 +51,21 @@ const DesignDetailPage = () => {
             alt={design.name}
           />
         </div>
+        
         <div className="design-info">
+        <GoBackButton />
           <h1>{design.name}</h1>
           <div className="design-features">
             {/* Icons and feature highlights here */}
           </div>
           <div className="design-details mt-2">
             <h3>Design Details</h3>
+            <h6>
             <p><strong>Room Dimension:</strong> {design.roomDimension}</p> <br/>
             <p><strong>Squarefeet price :</strong> {design.price}</p><br/>
             <p><strong>Layout of the space:</strong> {design.layout}</p><br/>
             <p><strong>Description:</strong> {design.description}</p><br/>
+            </h6>
           </div>
          
           <div className="button-groups">
@@ -69,6 +75,7 @@ const DesignDetailPage = () => {
     
           </div>
         </div>
+        
       </div>
     </Layout>
   );

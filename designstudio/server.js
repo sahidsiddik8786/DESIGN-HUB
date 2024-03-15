@@ -190,7 +190,27 @@ app.post('/api/appointment', async (req, res) => {
       return res.status(404).json({ message: "Staff member not found." });
     }
 
-    // If staff exists, create the appointment
+    // Check if there is any booked appointment for the same date
+    const existingBookedAppointment = await appointments.findOne({
+      staffId,
+      date,
+      'slots.isBooked': true,
+    });
+    if (existingBookedAppointment) {
+      return res.status(400).json({ message: "A booked appointment already exists for this date." });
+    }
+
+    // Check if the appointment already exists for the given staffId and date
+    const existingAppointment = await appointments.findOne({ staffId, date });
+    if (existingAppointment) {
+      // Check if any slot in the existing appointment is already booked
+      const isAnySlotBooked = existingAppointment.slots.some(slot => slot.isBooked);
+      if (isAnySlotBooked) {
+        return res.status(400).json({ message: "Cannot create a new appointment with booked slots." });
+      }
+    }
+
+    // If staff exists and no booked appointment exists for this date, create the appointment
     const newAppointment = new appointments({ staffId, date, slots });
     await newAppointment.save();
     res.status(201).json(newAppointment);
@@ -198,6 +218,7 @@ app.post('/api/appointment', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 app.put('/api/appointment/:appointmentId/reschedule', async (req, res) => {
   const { appointmentId } = req.params;

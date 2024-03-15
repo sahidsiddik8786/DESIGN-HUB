@@ -6,7 +6,7 @@ function GoBackButton() {
 
   return (
     <div style={{padding:"10px"}}>
- <button className="btn btn-primary" onClick={() => navigate(-1)}>
+ <button className="btn btn-warning" onClick={() => navigate(-1)}>
       <i class="bi bi-caret-left-fill"></i> Go back
     </button>
     </div>

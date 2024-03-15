@@ -52,7 +52,8 @@ const DesignPage = () => {
     }
   }, [categoryId]);
 
-  const handleConsultationClick = () => {
+  const handleConsultationClick = (e) => {
+    e.preventDefault();
     // Navigate to SlotDetailsPage
     navigate("/slot-details");
   };
@@ -60,12 +61,6 @@ const DesignPage = () => {
   const handleQuoteClick = () => {
     // Handle quote click logic here
   };
-
-  const Button = ({ onClick, children }) => (
-    <button type="button" className="button" onClick={onClick}>
-      {children}
-    </button>
-  );
 
   return (
     <Layout>
@@ -93,15 +88,16 @@ const DesignPage = () => {
                   />
                   <div className="card-body">
                     <h6 className="card-title">{design.name}</h6>
-                  </div>
-                  <div className="button-group m-3">
-                    <button
-                      className="button"
-                      onClick={handleConsultationClick}
-                    >
+                    </div>
+                    <div className="button-group m-3">
+                    <button className="button" onClick={handleConsultationClick}>
                       Book Free Consultation
                     </button>
+                    <button className="button" onClick={() => navigate(`/design-details/${design.slug}`)}>
+                      Get Quote
+                    </button>
                   </div>
+                  
                 </div>
               </Link>
             </div>
@@ -113,9 +109,3 @@ const DesignPage = () => {
 };
 
 export default DesignPage;
-
-{
-  /* <button className="button" onClick={() => navigate(`/design-details/${design.slug}`)}>
-                      Get Quote
-          </button> */
-}
