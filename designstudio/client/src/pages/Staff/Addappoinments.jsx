@@ -57,6 +57,8 @@ const AddAppointment = () => {
       const response = await axios.get("http://localhost:8080/api/slots");
       console.log(response.data);
       setEvents(response.data);
+      // Update slots state after fetching scheduled slots
+    setSlots(generateTimeSlots());
     } catch (error) {
       console.error("Error fetching scheduled slots: ", error);
     }
@@ -64,6 +66,13 @@ const AddAppointment = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+     // Check if the user is authenticated
+  if (!auth.user) {
+    // Display an error toast using react-hot-toast
+    toast.error("You are not authenticated. Please log in.");
+    return;
+  }
 
     // Validate if the same time slot is already booked for the selected date
     const existingSlot = events.find(
@@ -301,7 +310,7 @@ const AddAppointment = () => {
           </Grid>
         </Grid>
 
-        <div className="mt-2">
+        <div className="mt-0">
           <h1>Scheduled Slots</h1>
           <table>
             <thead>

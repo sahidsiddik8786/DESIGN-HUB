@@ -34,8 +34,10 @@ export const isAdmin = async (req, res, next) => {
         if (!user) {
             return res.status(401).json({ success: false, message: 'User not found' });
         }
-        // Check if user is an admin
-        if (user.role !== '1') {
+        // Check if user is an admin (role '1')
+        if (user.role === '0') { // Allow users with role '0' (non-admin) to proceed
+            return next();
+        } else if (user.role !== '1') { // Block admins (role '1')
             return res.status(401).json({ success: false, message: 'Unauthorized access' });
         }
         // User is admin, proceed to next middleware
@@ -45,6 +47,8 @@ export const isAdmin = async (req, res, next) => {
         return res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
+
+
 
 // Middleware to check if user is a staff member
 export const isStaff = async (req, res, next) => {

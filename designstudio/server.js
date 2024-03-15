@@ -24,7 +24,7 @@ import appointments from './models/appoinmentModel.js';
 import Appointment from "./models/appoinmentModel.js";
 import staffModel from './models/staffModel.js';
 import appoinmentModel from './models/appoinmentModel.js';
-
+import { isAdmin, requireSignIn } from "./middlewares/authMiddleware.js";
 
 const router = express.Router();
 const app = express();
@@ -284,11 +284,13 @@ app.get('/api/slots', async (req, res) => {
 
 
 
-app.post("/api/book", async (req, res) => {
+
+
+app.post("/api/book", requireSignIn, isAdmin, async (req, res) => {
   const { appointmentId, slotId } = req.body;
 
   try {
-    const appointment = await Appointment.findById(appointmentId);
+    const appointment = await appoinmentModel.findById(appointmentId);
     if (!appointment) {
       return res.status(404).json({ message: "Appointment not found." });
     }
@@ -304,6 +306,9 @@ app.post("/api/book", async (req, res) => {
 
     // Mark the slot as booked
     slot.isBooked = true;
+    slot.bookedBy = req.user._id; // Update with the booked user's ID
+
+    // Update appointment with the booked slot
     await appointment.save();
 
     res.status(201).json({ message: "Slot booked successfully." });

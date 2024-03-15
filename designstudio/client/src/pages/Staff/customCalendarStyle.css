@@ -7,7 +7,7 @@
     overflow: hidden;
     width: 100%;
     max-width: 400px;
-    max-height: 610px;
+    max-height: 600px;
     margin: auto;
     margin-left: 0px; 
     margin-right: auto; 
@@ -104,7 +104,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 40px; /* Set a fixed height for the circles */
+    height: 23px; /* Set a fixed height for the circles */
 }
 
 .calendar-day:hover {
@@ -144,7 +144,7 @@
   /*--------------------------------------------------*/
 
   /* Apply base styles to the entire component */
-.mt-2 {
+.mt-0 {
   font-family: 'Arial', sans-serif;
   color: #333;
   max-width: 1400px;
@@ -153,42 +153,42 @@
 }
 
 /* Style the table headers */
-.mt-2 h1 {
+.mt-0 h1 {
   text-align: center;
   margin-bottom: 20px;
 }
 
 /* Style the table itself */
-.mt-2 table {
+.mt-0 table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
 }
 
-.mt-2 th, .mt-2 td {
+.mt-0 th, .mt-0 td {
   text-align: left;
   padding: 12px;
   border-bottom: 1px solid #ddd; /* Light gray border for rows */
 }
 
-.mt-2 th {
+.mt-0 th {
   background-color: #000; /* Black background for headers */
   color: #fff; /* White text for headers */
 }
 
 /* Zebra striping for rows */
-.mt-5 tbody tr:nth-child(odd) {
+.mt-0 tbody tr:nth-child(odd) {
   background-color: #f2f2f2;
 }
 
 
 /* Responsive layout adjustments */
 @media (max-width: 768px) {
-  .mt-5 h1 {
+  .mt-0 h1 {
     font-size: 18px; /* Smaller font size on smaller screens */
   }
 
-  .mt-5 th, .mt-5 td {
+  .mt-0 th, .mt-0 td {
     padding: 8px; /* Smaller padding on smaller screens */
   }
 }
