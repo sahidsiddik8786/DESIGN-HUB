@@ -14,6 +14,7 @@ const Header = () => {
   const location = useLocation();
   const [cart] = useCart();
   const categories = useCategory();
+
   const handleLogout = () => {
     localStorage.removeItem("auth");
     setAuth({
@@ -22,6 +23,7 @@ const Header = () => {
       token: "",
     });
   };
+  
   const isShopPage = location.pathname === "/Shop";
 
   const fontSize = "24px"; // Adjust the font size as needed
@@ -94,16 +96,19 @@ const Header = () => {
                   id="basic-nav-dropdown"
                   className="nav-dropdown"
                 >
-                  <NavDropdown.Item
-                    as={Link}
-                    to={`/Dashboard/${
-                      auth?.user?.role === "1" ? "AdminDashboard" : "UserDashboard"
-                    }`}
-                    style={{ color: "black", fontSize, marginRight, textTransform: 'none' }}
-                    className="dropdown-item custom-font"
-                  >
-                    Dashboard
-                  </NavDropdown.Item>
+                 <NavDropdown.Item
+                      as={Link}
+                      to={
+                        auth?.user?.role === "1" ? "/Dashboard/AdminDashboard" :
+                        auth?.user?.role === "2" ? "http://localhost:3000/staff-dashboard" :
+                        "/Dashboard/UserDashboard"
+                      }
+                      style={{ color: "black", fontSize, marginRight, textTransform: 'none' }}
+                      className="dropdown-item custom-font"
+                    >
+                      Dashboard
+                </NavDropdown.Item>
+
                   <NavDropdown.Item
                     onClick={handleLogout}
                     as={Link}

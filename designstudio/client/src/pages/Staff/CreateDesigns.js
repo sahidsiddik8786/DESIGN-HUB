@@ -109,7 +109,7 @@ const [auth, setAuth, loading] = useAuth();
 
         if (data?.success) {
           toast.success("Design Created Successfully");
-          navigate("/");
+          navigate("/staff-dashboard");
         } else {
           toast.success("Design not Created");
         }

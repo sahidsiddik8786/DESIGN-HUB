@@ -43,10 +43,11 @@ const Bookdesigns = () => {
       const response = await axios.post("http://localhost:8080/api/book", {
         appointmentId,
         slotId,
+        recipient_email: auth.user.email, // Pass the recipient email here
       });
       console.log("Slot booked:", response.data);
   
-      toast.success("Slot booked successfully");
+      toast.success("Slot booked successfully ");
   
       // Update the slots state after successful booking
       const updatedSlots = slots.map((slot) => {
@@ -64,6 +65,20 @@ const Bookdesigns = () => {
     }
   };
   
+
+  const sendConfirmationEmail = async (date, startTime, endTime) => {
+    try {
+      const response = await axios.post("http://localhost:8080/send_recovery_email", {
+        recipient_email: auth.user.email, // Assuming auth.user contains user details
+        OTP: `Your slot has been booked successfully.\nSlot Details:\nDate: ${date}\nStart Time: ${startTime}\nEnd Time: ${endTime}\nThank you for booking with us!`,
+      });
+      console.log("Email sent:", response.data);
+      toast.success("Email sent successfully ");
+    } catch (error) {
+      console.error("Error sending email", error);
+      // Handle error, show an error message, etc.
+    }
+  };
 
   if (loading) return <Layout>Loading...</Layout>;
   if (error) return <Layout>Error: {error}</Layout>;

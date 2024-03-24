@@ -6,12 +6,16 @@ import Layout from "../../components/layout/Layout";
 import { Link } from "react-router-dom";
 import "./designideas.css";
 import { useNavigate } from "react-router-dom";
+import GoBackButton from "../../components/layout/goback";
+import { useAuth } from "../../context/auth"; // Update the path to AuthProvider
 
 const DesignPage = () => {
   const [category, setCategory] = useState({});
   const [designs, setDesigns] = useState([]);
   const { categoryId } = useParams();
   const navigate = useNavigate();
+  const [auth] = useAuth(); // Use the useAuth hook to access authentication state
+  const isAuthenticated = auth.token !== "";
 
   useEffect(() => {
     const getCategoryDetails = async () => {
@@ -54,8 +58,13 @@ const DesignPage = () => {
 
   const handleConsultationClick = (e) => {
     e.preventDefault();
-    // Navigate to SlotDetailsPage
-    navigate("/slot-details");
+    if (isAuthenticated) {
+      // User is authenticated, navigate to SlotDetailsPage
+      navigate("/slot-details");
+    } else {
+      // User is not authenticated, show toast message
+      toast.error("Login is needed for booking");
+    }
   };
 
   const handleQuoteClick = () => {
@@ -64,6 +73,7 @@ const DesignPage = () => {
 
   return (
     <Layout>
+      <GoBackButton />
       <div className="interior-design">
         <h1>{category.name}</h1>
         <p>{category.description}</p>
@@ -88,8 +98,8 @@ const DesignPage = () => {
                   />
                   <div className="card-body">
                     <h6 className="card-title">{design.name}</h6>
-                    </div>
-                    <div className="button-group m-3">
+                  </div>
+                  <div className="button-group m-3">
                     <button className="button" onClick={handleConsultationClick}>
                       Book Free Consultation
                     </button>
@@ -97,7 +107,6 @@ const DesignPage = () => {
                       Get Quote
                     </button>
                   </div>
-                  
                 </div>
               </Link>
             </div>

@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
-
+import { v4 as uuidv4 } from 'uuid';
 import express from 'express';
-import colors from 'colors';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import connectDB from './config/db.js';
@@ -28,6 +27,7 @@ import { isAdmin, requireSignIn } from "./middlewares/authMiddleware.js";
 
 const router = express.Router();
 const app = express();
+
 
 
 app.use(
@@ -284,15 +284,22 @@ app.get('/api/slots', async (req, res) => {
 
 
 
-
-
 app.post("/api/book", requireSignIn, isAdmin, async (req, res) => {
-  const { appointmentId, slotId } = req.body;
+  const { appointmentId, slotId, recipient_email } = req.body; // Receive recipient email
 
   try {
     const appointment = await appoinmentModel.findById(appointmentId);
     if (!appointment) {
       return res.status(404).json({ message: "Appointment not found." });
+    }
+
+    // Find if the user has already booked a slot on the same day
+    const alreadyBooked = appointment.slots.some(slot => 
+      slot.isBooked && slot.bookedBy.toString() === req.user._id.toString()
+    );
+
+    if (alreadyBooked) {
+      return res.status(400).json({ message: "You can only book one slot per day." });
     }
 
     const slot = appointment.slots.find((slot) => slot._id.toString() === slotId);
@@ -304,18 +311,54 @@ app.post("/api/book", requireSignIn, isAdmin, async (req, res) => {
       return res.status(400).json({ message: "This slot is already booked." });
     }
 
-    // Mark the slot as booked
+    // Generate a unique video conference link
+    const conferenceLink = `https://www.zoom.com/${uuidv4()}`;
+
+    // Mark the slot as booked and update with conference link
     slot.isBooked = true;
     slot.bookedBy = req.user._id; // Update with the booked user's ID
+    slot.conferenceLink = conferenceLink;
 
     // Update appointment with the booked slot
     await appointment.save();
 
+    // Send email to booked user
+    const mailConfigs = {
+      from: 'sahidsiddik0977@gmail.com', // Sender email address
+      to: recipient_email, // Use recipient email received from frontend
+      subject: 'Slot Booking Confirmation From Design Studio',
+      html: `
+        <div style="background-color: #ecfd00; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+          <p style="color: #333; font-size: 16px;">Dear User,</p>
+          <p style="color: #333; font-size: 16px;">Your slot has been booked successfully.</p>
+          <p style="color: #333; font-size: 16px;">Slot Details:</p>
+          <ul style="color: #333; font-size: 16px;">
+            <li>Date: ${appointment.date}</li>
+            <li>Start Time: ${slot.startTime}</li>
+            <li>End Time: ${slot.endTime}</li>
+            <li>Conference Link: <a href="${conferenceLink}">${conferenceLink}</a></li>
+          </ul>
+          <p style="color: #333; font-size: 16px;">Thank you for booking with us!</p>
+        </div>
+      `,
+    };
+
+transporter.sendMail(mailConfigs)
+  .then((info) => {
+    console.log('Email sent: ' + info.response);
     res.status(201).json({ message: "Slot booked successfully." });
+  })
+  .catch((error) => {
+    console.log(error);
+    res.status(500).json({ message: 'Failed to send email.' });
+  });
+
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
+
+
 
 
 

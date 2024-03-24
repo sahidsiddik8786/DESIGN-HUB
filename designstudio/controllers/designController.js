@@ -68,7 +68,7 @@ export const getDesignController = async (req, res) => {
       .populate("category") // Update this line
       .populate("subcategory") // Update this line
       .select("-photo")
-      .limit(120)
+      .limit(100)
       .sort({ createdAt: -1 });
 
     res.status(200).send({

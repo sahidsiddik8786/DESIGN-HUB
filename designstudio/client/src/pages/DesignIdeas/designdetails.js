@@ -5,6 +5,8 @@ import { useParams , useNavigate } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
 import "./design.css";
 import GoBackButton from "../../components/layout/goback";
+import { useAuth } from "../../context/auth"; 
+import toast from "react-hot-toast";
 
 const DesignDetailPage = () => {
   const [design, setDesign] = useState({});
@@ -12,6 +14,8 @@ const DesignDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [auth] = useAuth(); 
+  const isAuthenticated = auth.token !== "";
 
   useEffect(() => {
     if (designSlug) {
@@ -33,9 +37,16 @@ const DesignDetailPage = () => {
     }
   };
 
-  const handleConsultationClick = () => {
-    // Navigate to SlotDetailsPage
-    navigate("/slot-details");
+  const handleConsultationClick = (e) => {
+    e.preventDefault();
+    if (isAuthenticated) {
+      // User is authenticated, navigate to SlotDetailsPage
+      navigate("/slot-details");
+    } else {
+      // User is not authenticated, show toast message
+      toast.error("Login is needed for booking");
+      navigate("/login");
+    }
   };
 
   if (loading) return <Layout>Loading...</Layout>;

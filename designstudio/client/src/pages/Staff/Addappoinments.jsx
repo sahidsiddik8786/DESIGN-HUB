@@ -74,6 +74,19 @@ const AddAppointment = () => {
     return;
   }
 
+
+  const alreadyBooked = events.some(event =>
+    moment(event.date).format("YYYY-MM-DD") === date && 
+    event.isBooked &&
+    event.bookedBy === auth.user._id
+  );
+
+  if (alreadyBooked) {
+    toast.error("You can only book one slot per day.");
+    return;
+  }
+  
+
     // Validate if the same time slot is already booked for the selected date
     const existingSlot = events.find(
       (event) =>
@@ -315,7 +328,7 @@ const AddAppointment = () => {
             <tbody>
               {events.map((event, index) => (
                 <tr key={index}>
-                  <td style={{ textAlign: "center" }}>{event.date}</td>
+                  <td style={{ textAlign: "center" }}>{formatDate(event.date)}</td>
                   <td style={{ textAlign: "center" }}>{event.startTime}</td>
                   <td style={{ textAlign: "center" }}>{event.endTime}</td>
                   <td style={{ textAlign: "center" }}>
@@ -347,5 +360,11 @@ const AddAppointment = () => {
     </div>
   );
 };
-
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const day = date.getDate().toString().padStart(2, '0'); // Ensure 2-digit day
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Ensure 2-digit month (0-indexed)
+  const year = date.getFullYear().toString().slice(-2); // Get last 2 digits of the year
+  return `${day}-${month}-${year}`;
+};
 export default AddAppointment;

@@ -8,18 +8,14 @@ import {
     deleteStaffMemberById,
     sendRegistrationConfirmationEmail,
 } from "../controllers/staffController.js";
+import { requireSignIn } from "../middlewares/authMiddleware.js";
 
 
 
 const router = express.Router();
 
-// Route to create a new staff member
+
 router.post("/create-staff", createStaffMember);
-
-// Route for staff member login
-//router.post("/login-staff", loginController);
-
-// Route to send registration confirmation email
 router.post("/send-registration-email", async (req, res) => {
     try {
       const { email } = req.body;
@@ -33,17 +29,15 @@ router.post("/send-registration-email", async (req, res) => {
       res.status(500).json({ success: false, message: "Error sending registration confirmation email" });
     }
   });
-  
 
-// Protected routes - require sign in and authorization
-//router.use(requireStaffSignIn);
 router.get("/staff",  getAllStaffMembers);
 router.get("/staff/:id", getStaffMemberById);
-
-//router.put("/profile-staff", requireStaffSignIn, updateProfileController); 
-router.put('/profile-staff',  updateProfileController);
-
-
+router.put('/profile-staff', requireSignIn, updateProfileController);
 router.delete("/staff/:id", deleteStaffMemberById);
+
+router.get("/staff-auth", requireSignIn, (req, res) => {
+  res.status(200).send({ ok: true });
+});
+
 
 export default router;
