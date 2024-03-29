@@ -73,6 +73,8 @@ app.use("/api/v1/both", bothRoutes);
 app.use("/api/messages", messageRoutes);
 
 app.use('/api/v1/site', siteRoutes);
+
+
 //app.use("/api/v1/payment", Payment);
 
 app.get('/', (req, res) => {
@@ -193,11 +195,10 @@ app.get('/api/subcategories/:categoryId', async (req, res) => {
 });
 
 
-
-
 //----------Appointment section----------//
+
 app.post('/api/appointment', async (req, res) => {
-  const { staffId, date, slots } = req.body;
+  const { staffId, date, slots, googleMeetLink } = req.body;
 
   // Validate if staffId is a valid MongoDB ObjectId
   if (!mongoose.Types.ObjectId.isValid(staffId)) {
@@ -211,39 +212,40 @@ app.post('/api/appointment', async (req, res) => {
       return res.status(404).json({ message: "Staff member not found." });
     }
 
-    // Check if there is any booked appointment for the same date
+    // Check if the appointment already exists for the given staffId and date
     const existingBookedAppointment = await appointments.findOne({
       staffId,
-      date,
-      'slots.isBooked': true,
-    });
-    if (existingBookedAppointment) {
-      return res.status(400).json({ message: "A booked appointment already exists for this date." });
-    }
-
-    // Check if the appointment already exists for the given staffId and date
-    const existingAppointment = await appointments.findOne({ staffId, date });
-    if (existingAppointment) {
-      // Check if any slot in the existing appointment is already booked
-      const isAnySlotBooked = existingAppointment.slots.some(slot => slot.isBooked);
-      if (isAnySlotBooked) {
-        return res.status(400).json({ message: "Cannot create a new appointment with booked slots." });
+       date ,
+       googleMeetLink,
+       'slots.isBooked': true,
+      });
+      if (existingBookedAppointment) {
+        return res.status(400).json({ message: "A booked appointment already exists for this date." });
       }
+  
+      // Check if the appointment already exists for the given staffId and date
+      const existingAppointment = await appointments.findOne({ staffId, date ,googleMeetLink});
+      if (existingAppointment) {
+        // Check if any slot in the existing appointment is already booked
+        const isAnySlotBooked = existingAppointment.slots.some(slot => slot.isBooked);
+        if (isAnySlotBooked) {
+          return res.status(400).json({ message: "Cannot create a new appointment with booked slots." });
+        }
+      }
+  
+      // If staff exists and no booked appointment exists for this date, create the appointment
+      const newAppointment = new appointments({ staffId, date, slots });
+      await newAppointment.save();
+      res.status(201).json(newAppointment);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
     }
-
-    // If staff exists and no booked appointment exists for this date, create the appointment
-    const newAppointment = new appointments({ staffId, date, slots });
-    await newAppointment.save();
-    res.status(201).json(newAppointment);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+  });
 
 
 app.put('/api/appointment/:appointmentId/reschedule', async (req, res) => {
   const { appointmentId } = req.params;
-  const { date, slots } = req.body;
+  const { date, slots , googleMeetLink} = req.body;
 
   if (!appointmentId.match(/^[0-9a-fA-F]{24}$/)) {
     return res.status(400).json({ message: 'Invalid appointment ID' });
@@ -259,8 +261,7 @@ app.put('/api/appointment/:appointmentId/reschedule', async (req, res) => {
     // Update date and slots
     appointment.date = date;
     appointment.slots = slots;
-
-    // Save the updated appointment
+    appointment.googleMeetLink = googleMeetLink;
     await appointment.save();
 
     res.json(appointment);
@@ -290,7 +291,8 @@ app.get('/api/slots', async (req, res) => {
           startTime: slot.startTime,
           endTime: slot.endTime,
           isBooked: slot.isBooked,
-          bookedBy: slot.bookedBy
+          bookedBy: slot.bookedBy,
+          googleMeetLink: appointment.googleMeetLink
         });
       });
       return acc;
@@ -332,13 +334,11 @@ app.post("/api/book", requireSignIn, isAdmin, async (req, res) => {
       return res.status(400).json({ message: "This slot is already booked." });
     }
 
-    // Generate a unique video conference link
-    const conferenceLink = `https://www.zoom.com/${uuidv4()}`;
+  
 
     // Mark the slot as booked and update with conference link
     slot.isBooked = true;
     slot.bookedBy = req.user._id; // Update with the booked user's ID
-    slot.conferenceLink = conferenceLink;
 
     // Update appointment with the booked slot
     await appointment.save();
@@ -357,7 +357,7 @@ app.post("/api/book", requireSignIn, isAdmin, async (req, res) => {
             <li>Date: ${appointment.date}</li>
             <li>Start Time: ${slot.startTime}</li>
             <li>End Time: ${slot.endTime}</li>
-            <li>Conference Link: <a href="${conferenceLink}">${conferenceLink}</a></li>
+            <li>Google Meet Link: ${appointment.googleMeetLink}</li>
           </ul>
           <p style="color: #333; font-size: 16px;">Thank you for booking with us!</p>
         </div>
@@ -426,6 +426,27 @@ io.on("connection", (socket) => {
 });
 
 
+app.get('/api/event/:eventId', async (req, res) => {
+  const { eventId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(eventId)) {
+    return res.status(400).json({ message: "Invalid event ID." });
+  }
+
+  try {
+    const event = await appointments.findById(eventId)
+      .populate('slots.bookedBy', 'firstname lastname email phone');
+
+    if (!event) {
+      return res.status(404).json({ message: "Event not found." });
+    }
+
+    res.json(event);
+  } catch (err) {
+    console.error("Error fetching event details:", err);
+    res.status(500).json({ message: "Error fetching event details." });
+  }
+});
 
 
 

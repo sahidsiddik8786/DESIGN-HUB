@@ -13,6 +13,8 @@ const Bookdesigns = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [googleMeetLink, setGoogleMeetLink] = useState("");
+
 
   useEffect(() => {
     fetchSlots();
@@ -30,7 +32,7 @@ const Bookdesigns = () => {
       setLoading(false);
     } catch (error) {
       console.error("Error fetching slots", error);
-      setError(error.message);
+     
       setLoading(false);
     }
   };
@@ -64,17 +66,16 @@ const Bookdesigns = () => {
 
     } catch (error) {
       console.error("Error booking slot", error);
-      setError(error.response?.data?.message || "An error occurred");
-      // Handle error, show an error message, etc.
+      toast.error(error.response?.data?.message || "An error occurred");
     }
   };
   
 
-  const sendConfirmationEmail = async (date, startTime, endTime) => {
+  const sendConfirmationEmail = async (date, startTime, endTime , googleMeetLink,) => {
     try {
       const response = await axios.post("http://localhost:8080/send_recovery_email", {
         recipient_email: auth.user.email, // Assuming auth.user contains user details
-        OTP: `Your slot has been booked successfully.\nSlot Details:\nDate: ${date}\nStart Time: ${startTime}\nEnd Time: ${endTime}\nThank you for booking with us!`,
+        OTP: `Your slot has been booked successfully.\nSlot Details:\nDate: ${date}\nStart Time: ${startTime}\nEnd Time: ${endTime}\nGoogle Meet Link: ${googleMeetLink}\nThank you for booking with us!`,
       });
       console.log("Email sent:", response.data);
       toast.success("Email sent successfully ");

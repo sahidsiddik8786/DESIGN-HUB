@@ -25,3 +25,20 @@ export const getSites = async (req, res) => {
   }
 };
 
+export const getSitesByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const sites = await Site.find({ createdBy: userId }).populate('createdBy');
+    // Convert Buffers to base64 strings for the client
+    const sitesWithBase64Images = sites.map(site => ({
+      ...site._doc,
+      images: site.images.map(image => ({
+        data: `data:${image.contentType};base64,${image.data.toString('base64')}`,
+        // No need for contentType anymore since it's included in the data URI
+      })),
+    }));
+    res.json(sitesWithBase64Images);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

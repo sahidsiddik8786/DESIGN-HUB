@@ -24,6 +24,7 @@ import "./customCalendarStyle.css";
 import { useAuth } from "../../context/auth";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { Link } from "react-router-dom";
 
 const AddAppointment = () => {
   const [auth, setAuth] = useAuth();
@@ -35,7 +36,8 @@ const AddAppointment = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [events, setEvents] = useState([]);
   const [showDetails, setShowDetails] = useState(false);
-  
+  const [googleMeetLink, setGoogleMeetLink] = useState("");
+
   const [rescheduleDialogOpen, setRescheduleDialogOpen] = useState(false);
   const [rescheduleEventId, setRescheduleEventId] = useState(null);
   const [newRescheduleDate, setNewRescheduleDate] = useState("");
@@ -124,6 +126,7 @@ const AddAppointment = () => {
           isBooked: false,
         },
       ],
+      googleMeetLink,
     };
 
     try {
@@ -262,6 +265,17 @@ const AddAppointment = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>
+  <TextField
+    fullWidth
+    label="Google Meet Link"
+    type="text"
+    value={googleMeetLink}
+    onChange={(e) => setGoogleMeetLink(e.target.value)}
+    required
+  />
+</Grid>
+
+                <Grid item xs={12}>
                   <Button type="submit" variant="contained" color="primary">
                     Create Schedule
                   </Button>
@@ -356,7 +370,7 @@ const AddAppointment = () => {
                           className="eye-opener-button"
                         >
                           <FontAwesomeIcon icon={faEye} />{" "}
-                          {/* This renders the eye icon */}
+                      View Details
                         </button>
                         {showDetails && (
                           <>
@@ -364,8 +378,11 @@ const AddAppointment = () => {
                               {event.bookedBy.firstname}{" "}
                               {event.bookedBy.lastname}
                             </div>
+                  
                             <div>Email: {event.bookedBy.email}</div>
                             <div>Phone: {event.bookedBy.phone}</div>
+                            <div>Meet Link: {event.googleMeetLink}</div>
+                            <Link to={`/user/${event.bookedBy._id}/images`}>View User Images</Link>
                           </>
                         )}
                       </>

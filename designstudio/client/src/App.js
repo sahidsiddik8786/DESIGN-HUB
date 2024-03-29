@@ -26,6 +26,7 @@ import Updatestaffprofile from "./pages/Staff/Updatestaffprofile";
 import { Toaster } from "react-hot-toast";
 import Login from "./pages/Auth/Login";
 import ChatComponent from "./pages/DesignIdeas/chat";
+import UserImagesPage from "./pages/Staff/viewmore";
 
 //design
 import Exploredesigns from "./pages/Exploredesigns";
@@ -87,6 +88,7 @@ function App() {
           <Route path="/selectexperts" element={<ExpertiseList />} />
           <Route path="/chat" element={<ChatComponent />} />
           <Route path="/sitedetails" element={<SiteManager />} />
+     
         </Route>
 
            {/*admin route*/}
@@ -118,6 +120,8 @@ function App() {
           <Route path="add-appoinments" element={<AppointmentForm />} />
           <Route path="staff-dashboard/create-designs" element={<CreateDesignbystaff />}/>
           </Route>
+          
+          <Route path="/user/:userId/images" element={<UserImagesPage/>} />
 
           <Route path="/subcategory-designs/:categoryId" element={<DesignPage />}/>
           <Route path="/designs" element={<DesignPage />} />
