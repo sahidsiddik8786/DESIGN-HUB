@@ -7,6 +7,8 @@ import {
     updateProfileController,
     deleteStaffMemberById,
     sendRegistrationConfirmationEmail,
+    getAllExpertIn,
+    getStaffByExpertise,
 } from "../controllers/staffController.js";
 import { requireSignIn } from "../middlewares/authMiddleware.js";
 
@@ -38,6 +40,9 @@ router.delete("/staff/:id", deleteStaffMemberById);
 router.get("/staff-auth", requireSignIn, (req, res) => {
   res.status(200).send({ ok: true });
 });
+
+router.get('/expertise/all', getAllExpertIn);
+router.get('/expertise/:expertise', getStaffByExpertise);
 
 
 export default router;

@@ -67,8 +67,9 @@ const DesignPage = () => {
     }
   };
 
-  const handleQuoteClick = () => {
-    // Handle quote click logic here
+  const handleQuoteClick = (e) => {
+    e.preventDefault();
+    navigate("/selectexperts");
   };
 
   return (
@@ -100,10 +101,13 @@ const DesignPage = () => {
                     <h6 className="card-title">{design.name}</h6>
                   </div>
                   <div className="button-group m-3">
-                    <button className="button" onClick={handleConsultationClick}>
+                    <button
+                      className="button"
+                      onClick={handleConsultationClick}>
                       Book Free Consultation
                     </button>
-                    <button className="button" onClick={() => navigate(`/design-details/${design.slug}`)}>
+                    
+                    <button className="button" onClick={handleQuoteClick}>
                       Get Quote
                     </button>
                   </div>

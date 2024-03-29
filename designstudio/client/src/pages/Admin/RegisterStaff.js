@@ -42,6 +42,7 @@ const AddStaffMember = () => {
     email: '',
     password: '',
     phone: '',
+    expertin: '',
   });
 
   const [formErrors, setFormErrors] = useState({
@@ -56,6 +57,8 @@ const AddStaffMember = () => {
     email: '',
     password: '',
     phone: '',
+    expertin: '',
+
   });
 
   const [passwordStrength, setPasswordStrength] = useState("weak");
@@ -86,6 +89,7 @@ const AddStaffMember = () => {
       case 'city':
       case 'state':
       case 'country':
+      case 'expertin':
         errorMessage = value.trim() === '' ? 'This field is required.' : '';
         break;
       case 'postal':
@@ -159,6 +163,8 @@ const AddStaffMember = () => {
         email: '',
         password: '',
         phone: '',
+        expertin: '',
+
       });
 
 
@@ -215,6 +221,9 @@ const AddStaffMember = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField type="tel" label="Phone" name="phone" fullWidth value={formData.phone} onChange={handleChange} required error={!!formErrors.phone} helperText={formErrors.phone} />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField type="tel" label="Expert In " name="expertin" fullWidth value={formData.expertin} onChange={handleChange} required error={!!formErrors.expertin} helperText={formErrors.expertin} />
                 </Grid>
                 <Grid item xs={12}>
                   <Button type="submit" variant="contained" color="primary" fullWidth>

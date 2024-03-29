@@ -1,10 +1,8 @@
+import StaffModel from "../models/staffModel.js";
 import JWT from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import { comparePassword, hashPassword } from "../helpers/authHelper.js";
 import staffModel from "../models/staffModel.js";
-import { createBrowserHistory } from 'history';
-
-
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",
@@ -36,10 +34,10 @@ export const sendRegistrationConfirmationEmail = (email, password) => {
 
 export const createStaffMember = async (req, res) => {
   try {
-    const { firstname, lastname, address, streetaddress, city, state, country, postal, email, password, phone } = req.body;
+    const { firstname, lastname, address, streetaddress, city, state, country, postal, email, password, phone,expertin } = req.body;
 
     // Check if any required field is missing or empty
-    if (!firstname || !lastname || !address || !streetaddress || !city || !state || !country || !postal || !email || !password || !phone) {
+    if (!firstname || !lastname || !address || !streetaddress || !city || !state || !country || !postal || !email || !password || !phone || !expertin ) {
       return res.status(400).json({
         success: false,
         message: "Please provide all required fields",
@@ -64,7 +62,7 @@ export const createStaffMember = async (req, res) => {
     }
 
     // Check if user already exists
-    const existingUser = await staffModel.findOne({ email: email });
+    const existingUser = await StaffModel.findOne({ email: email });
     if (existingUser) {
       return res.status(409).json({
         success: false,
@@ -80,7 +78,7 @@ export const createStaffMember = async (req, res) => {
       });
     }
 
-    const user = await new staffModel({
+    const user = await new StaffModel({
       firstname,
       lastname,
       address,
@@ -91,6 +89,7 @@ export const createStaffMember = async (req, res) => {
       country,
       email,
       phone,
+      expertin,
       password: hashedPassword,
     }).save();
 
@@ -126,7 +125,7 @@ export const loginController = async (req, res) => {
       });
     }
     // Check user
-    const staff = await staffModel.findOne({ email });
+    const staff = await StaffModel.findOne({ email });
     if (!staff) {
       return res.status(404).json({
         success: false,
@@ -145,14 +144,6 @@ export const loginController = async (req, res) => {
     const token = JWT.sign({ _id: staff._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-
-  // Set token in response headers
-  res.setHeader('Authorization', `Bearer ${token}`);
-
-  // Update browser history to prevent going back to login page
-  history.replace('/');
-
-
     res.status(200).json({
       success: true,
       message: "Login successful",
@@ -182,7 +173,7 @@ export const testController = (req, res) => {
 // Get all staff members
 export const getAllStaffMembers = async (req, res) => {
   try {
-    const staffMembers = await saffModel.find();
+    const staffMembers = await StaffModel.find();
     res.status(200).json({ success: true, data: staffMembers });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
@@ -192,7 +183,7 @@ export const getAllStaffMembers = async (req, res) => {
 // Get staff member by ID
 export const getStaffMemberById = async (req, res) => {
   try {
-    const staffMember = await staffModel.findById(req.params.id);
+    const staffMember = await StaffModel.findById(req.params.id);
     if (!staffMember) {
       return res.status(404).json({ success: false, message: "Staff member not found" });
     }
@@ -206,7 +197,7 @@ export const getStaffMemberById = async (req, res) => {
 // Delete staff member by ID
 export const deleteStaffMemberById = async (req, res) => {
   try {
-    await staffModel.findByIdAndDelete(req.params.id);
+    await StaffModel.findByIdAndDelete(req.params.id);
     res.status(200).json({ success: true, message: "Staff member deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
@@ -216,12 +207,15 @@ export const deleteStaffMemberById = async (req, res) => {
 
 //--------------------------------------------------------------------------------profile update
 
-
 export const updateProfileController = async (req, res) => {
   try {
-    const { firstname, lastname, password, address, streetaddress, state, city, postal, country, phone } = req.body;
+    const { firstname, lastname, password, address, streetaddress, state, city, postal, country, phone, expertin } = req.body;
     const userId = req.user?._id;
-    const user = await staffModel.findById(userId);
+    const user = await staffModel.findById(req.user._id);
+
+    console.log("User ID:", userId); // Debugging log
+    console.log("Request Body:", req.body); // Debugging log
+    console.log("Found User:", user); // Debugging log
 
     if (!user) {
       return res.status(404).send({
@@ -230,7 +224,45 @@ export const updateProfileController = async (req, res) => {
       });
     }
 
-    // Validate incoming data (similar to your existing validation logic)
+    // Validate incoming data
+    if (firstname && typeof firstname !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid name format",
+      });
+    }
+    if (lastname && typeof lastname !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid name format",
+      });
+    }
+    if (password && typeof password !== 'string') {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid password format',
+      });
+    }
+
+    if (address && typeof address !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid address format",
+      });
+    }
+    if (streetaddress && typeof streetaddress !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid address format",
+      });
+    }
+    // Validate phone format (e.g., allow only digits, optional dashes, and parentheses)
+    if (phone && !/^\d{10}$/.test(phone)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid phone number format",
+      });
+    }
 
     // Update user properties with the new values
     user.firstname = firstname || user.firstname;
@@ -243,8 +275,11 @@ export const updateProfileController = async (req, res) => {
     user.postal = postal || user.postal;
     user.country = country || user.country;
     user.phone = phone || user.phone;
+    user.expertin = expertin || user.expertin;
+
 
     const updatedUser = await user.save();
+    console.log("Updated User:", updatedUser); // Debugging log
 
     res.status(200).send({
       success: true,
@@ -252,11 +287,43 @@ export const updateProfileController = async (req, res) => {
       updatedUser,
     });
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error:", error); // Debugging log
     res.status(400).send({
       success: false,
       message: "Error While Updating Profile",
-      error: error.message,
+      error: error.message, // Include the error message for better debugging
     });
+  }
+};
+
+// Get all unique expertin values
+export const getAllExpertIn = async (req, res) => {
+  try {
+    const expertIns = await StaffModel.distinct('expertin');
+    res.status(200).json({ success: true, data: expertIns });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+
+export const getStaffByExpertise = async (req, res) => {
+  try {
+    const { expertise } = req.params;
+    const staffMembers = await StaffModel.find({ expertin: expertise });
+
+    if (!staffMembers || staffMembers.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No staff members found for this expertise',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: staffMembers,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 };

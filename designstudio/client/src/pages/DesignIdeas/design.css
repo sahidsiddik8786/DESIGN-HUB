@@ -184,3 +184,85 @@
     display: inline-block; /* To apply padding and centering */
   }
   
+  /*---------------------------------------------sitedetails.js----------------------------------*/
+  .file-upload-card {
+    width: 500px; 
+    height: auto;
+    background: #f9f9f9c1;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.664);
+    margin: auto;
+    text-align: center;
+  }
+  
+  .file-upload-dropzone {
+    border: 2px dashed #242323;
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    color: #060606;
+  }
+  
+  .file-upload-button {
+    display: inline-block;
+    background: #ff0000;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  .description-textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    resize: vertical;
+  }
+  
+  .submit-buttonS {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    background: #6046a1;
+    color: #0c0c0c;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .error-message {
+    color: red;
+  }
+  
+  .image-preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.image-preview-card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.image-preview-card img {
+  max-width: 100px; /* Adjust as necessary */
+  max-height: 100px; /* Adjust as necessary */
+  margin-bottom: 5px;
+}
+
+.image-preview-card button {
+  display: block;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}

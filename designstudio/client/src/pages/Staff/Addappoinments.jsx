@@ -22,6 +22,8 @@ import Calendar from "./Calendar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./customCalendarStyle.css";
 import { useAuth } from "../../context/auth";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 const AddAppointment = () => {
   const [auth, setAuth] = useAuth();
@@ -32,7 +34,8 @@ const AddAppointment = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
   const [events, setEvents] = useState([]);
-
+  const [showDetails, setShowDetails] = useState(false);
+  
   const [rescheduleDialogOpen, setRescheduleDialogOpen] = useState(false);
   const [rescheduleEventId, setRescheduleEventId] = useState(null);
   const [newRescheduleDate, setNewRescheduleDate] = useState("");
@@ -67,25 +70,24 @@ const AddAppointment = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-     // Check if the user is authenticated
-  if (!auth.user) {
-    // Display an error toast using react-hot-toast
-    toast.error("You are not authenticated. Please log in.");
-    return;
-  }
+    // Check if the user is authenticated
+    if (!auth.user) {
+      // Display an error toast using react-hot-toast
+      toast.error("You are not authenticated. Please log in.");
+      return;
+    }
 
+    const alreadyBooked = events.some(
+      (event) =>
+        moment(event.date).format("YYYY-MM-DD") === date &&
+        event.isBooked &&
+        event.bookedBy === auth.user._id
+    );
 
-  const alreadyBooked = events.some(event =>
-    moment(event.date).format("YYYY-MM-DD") === date && 
-    event.isBooked &&
-    event.bookedBy === auth.user._id
-  );
-
-  if (alreadyBooked) {
-    toast.error("You can only book one slot per day.");
-    return;
-  }
-  
+    if (alreadyBooked) {
+      toast.error("You can only book one slot per day.");
+      return;
+    }
 
     // Validate if the same time slot is already booked for the selected date
     const existingSlot = events.find(
@@ -207,6 +209,9 @@ const AddAppointment = () => {
     background: "#333",
     zIndex: 1,
   };
+  const toggleDetails = () => {
+    setShowDetails(!showDetails);
+  };
 
   return (
     <div>
@@ -218,73 +223,26 @@ const AddAppointment = () => {
       </div>
       <StaffHeader />
       <Container>
-      
-          <Grid item xs={0} md={6}>
-            <Calendar handleSelectDate={handleSelectDate} />
-          </Grid>
+        <Grid item xs={0} md={6}>
+          <Calendar handleSelectDate={handleSelectDate} />
+        </Grid>
 
-            <Dialog open={openDialog} onClose={handleCloseDialog}>
-              <DialogTitle>Add New Appointment</DialogTitle>
-              <DialogContent>
-                <form onSubmit={handleSubmit}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        id="date"
-                        type="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                        required
-                        disabled
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FormControl fullWidth>
-                        <Select
-                          labelId="time-slot-label"
-                          id="time-slot"
-                          value={slots.length > 0 ? slots[0].startTime : ""}
-                          label="Time Slot"
-                          onChange={handleTimeChange}
-                          required
-                        >
-                          {slots.map((slot, index) => (
-                            <MenuItem key={index} value={slot.startTime}>
-                              {slot.startTime} - {slot.endTime}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Button type="submit" variant="contained" color="primary">
-                        Create Schedule
-                      </Button>
-                    </Grid>
-                  </Grid>
-                  {errorMessage && (
-                    <Typography color="error">{errorMessage}</Typography>
-                  )}
-                  {successMessage && (
-                    <Typography color="success">{successMessage}</Typography>
-                  )}
-                </form>
-              </DialogContent>
-            </Dialog>
-
-            <Dialog
-              open={rescheduleDialogOpen}
-              onClose={handleRescheduleDialogClose}
-            >
-              <DialogTitle>Reschedule Appointment</DialogTitle>
-              <DialogContent>
-                <TextField
-                  type="date"
-                  value={newRescheduleDate}
-                  onChange={(e) => setNewRescheduleDate(e.target.value)}
-                  fullWidth
-                />
+        <Dialog open={openDialog} onClose={handleCloseDialog}>
+          <DialogTitle>Add New Appointment</DialogTitle>
+          <DialogContent>
+            <form onSubmit={handleSubmit}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    id="date"
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    required
+                    disabled
+                  />
+                </Grid>
                 <Grid item xs={12}>
                   <FormControl fullWidth>
                     <Select
@@ -303,14 +261,58 @@ const AddAppointment = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleRescheduleDialogClose}>Cancel</Button>
-                <Button onClick={handleRescheduleConfirm}>Confirm</Button>
-              </DialogActions>
-            </Dialog>
-      
-      
+                <Grid item xs={12}>
+                  <Button type="submit" variant="contained" color="primary">
+                    Create Schedule
+                  </Button>
+                </Grid>
+              </Grid>
+              {errorMessage && (
+                <Typography color="error">{errorMessage}</Typography>
+              )}
+              {successMessage && (
+                <Typography color="success">{successMessage}</Typography>
+              )}
+            </form>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog
+          open={rescheduleDialogOpen}
+          onClose={handleRescheduleDialogClose}
+        >
+          <DialogTitle>Reschedule Appointment</DialogTitle>
+          <DialogContent>
+            <TextField
+              type="date"
+              value={newRescheduleDate}
+              onChange={(e) => setNewRescheduleDate(e.target.value)}
+              fullWidth
+            />
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <Select
+                  labelId="time-slot-label"
+                  id="time-slot"
+                  value={slots.length > 0 ? slots[0].startTime : ""}
+                  label="Time Slot"
+                  onChange={handleTimeChange}
+                  required
+                >
+                  {slots.map((slot, index) => (
+                    <MenuItem key={index} value={slot.startTime}>
+                      {slot.startTime} - {slot.endTime}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleRescheduleDialogClose}>Cancel</Button>
+            <Button onClick={handleRescheduleConfirm}>Confirm</Button>
+          </DialogActions>
+        </Dialog>
 
         <div className="mt-0">
           <h1>Scheduled Slots</h1>
@@ -328,24 +330,44 @@ const AddAppointment = () => {
             <tbody>
               {events.map((event, index) => (
                 <tr key={index}>
-                  <td style={{ textAlign: "center" }}>{formatDate(event.date)}</td>
+                  <td style={{ textAlign: "center" }}>
+                    {formatDate(event.date)}
+                  </td>
                   <td style={{ textAlign: "center" }}>{event.startTime}</td>
                   <td style={{ textAlign: "center" }}>{event.endTime}</td>
                   <td style={{ textAlign: "center" }}>
-                  {event.isBooked ? (
-        <div>Booked</div>
-      ) : (
-        <Button className="mt-1" onClick={() => handleReschedule(event.slotId)} style={{ backgroundColor: "green", color: "white" }}>
-          Reschedule
-        </Button>
-      )}
+                    {event.isBooked ? (
+                      <div>Booked</div>
+                    ) : (
+                      <Button
+                        className="mt-1"
+                        onClick={() => handleReschedule(event.slotId)}
+                        style={{ backgroundColor: "green", color: "white" }}
+                      >
+                        Reschedule
+                      </Button>
+                    )}
                   </td>
                   <td style={{ textAlign: "center" }}>
                     {event.isBooked ? (
                       <>
-                        <div>{event.bookedBy.firstname} {event.bookedBy.lastname}</div>
-                        <div>Email: {event.bookedBy.email}</div>
-                        <div>Phone: {event.bookedBy.phone}</div>
+                        <button
+                          onClick={toggleDetails}
+                          className="eye-opener-button"
+                        >
+                          <FontAwesomeIcon icon={faEye} />{" "}
+                          {/* This renders the eye icon */}
+                        </button>
+                        {showDetails && (
+                          <>
+                            <div>
+                              {event.bookedBy.firstname}{" "}
+                              {event.bookedBy.lastname}
+                            </div>
+                            <div>Email: {event.bookedBy.email}</div>
+                            <div>Phone: {event.bookedBy.phone}</div>
+                          </>
+                        )}
                       </>
                     ) : (
                       <div>Not Booked</div>
@@ -362,8 +384,8 @@ const AddAppointment = () => {
 };
 const formatDate = (dateString) => {
   const date = new Date(dateString);
-  const day = date.getDate().toString().padStart(2, '0'); // Ensure 2-digit day
-  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Ensure 2-digit month (0-indexed)
+  const day = date.getDate().toString().padStart(2, "0"); // Ensure 2-digit day
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Ensure 2-digit month (0-indexed)
   const year = date.getFullYear().toString().slice(-2); // Get last 2 digits of the year
   return `${day}-${month}-${year}`;
 };

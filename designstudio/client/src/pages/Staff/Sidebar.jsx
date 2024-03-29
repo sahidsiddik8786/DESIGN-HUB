@@ -52,7 +52,7 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
         </li>
         <li className='sidebar-list-item' key="reports">
           <Link to="/reports">
-            <BsMenuButtonWideFill className='icon' /> Reports
+            <BsMenuButtonWideFill className='icon' /> Chat
           </Link>
         </li>
         <li className='sidebar-list-item' key="settings">

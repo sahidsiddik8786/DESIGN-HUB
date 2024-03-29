@@ -48,7 +48,10 @@ const staffSchema = new mongoose.Schema({
         type:String,
         require:true,
     },
-
+    expertin:{
+        type:String,
+        require:true,
+    },
     role:{
         type:String,
         default:'2'

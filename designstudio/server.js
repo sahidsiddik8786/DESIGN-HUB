@@ -1,3 +1,4 @@
+import { createServer } from 'http';
 import mongoose from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 import express from 'express';
@@ -18,18 +19,34 @@ import imageRoutes from "./routes/imageRoute.js"
 import staffRoutes from './routes/staffRoute.js'
 import bothRoutes from "./routes/bothRoute.js"
 //import Payment from     "./routes/payment.js";
+
+
 import Design from "./models/designModel.js"
 import appointments from './models/appoinmentModel.js';
 import Appointment from "./models/appoinmentModel.js";
 import staffModel from './models/staffModel.js';
 import appoinmentModel from './models/appoinmentModel.js';
 import { isAdmin, requireSignIn } from "./middlewares/authMiddleware.js";
+import Message from './models/messageModel.js';
+import { Server } from 'socket.io';
+import  messageRoutes from "./routes/messageRoute.js"
+import  siteRoutes from "./routes/siteRoute.js"
+
+
+dotenv.config();
 
 const router = express.Router();
 const app = express();
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+     origin: "http://localhost:3000",
+     credentials: true,
+  },
+ });
 
 
-
+app.use(cors());
 app.use(
   session({
     secret: 'qwerty!@@@@####HHG',
@@ -52,6 +69,10 @@ app.use("/api/v1/design", designRoutes);
 app.use("/api/v1/image", imageRoutes);
 app.use("/api/v1/both", bothRoutes);
 
+
+app.use("/api/messages", messageRoutes);
+
+app.use('/api/v1/site', siteRoutes);
 //app.use("/api/v1/payment", Payment);
 
 app.get('/', (req, res) => {
@@ -388,13 +409,30 @@ app.get('/api/v1/design/by-subcategory/:subcategoryId', async (req, res) => {
 });
 
 
+/*---------------------------chaT-------------------*/
+global.onlineUsers = new Map();
+io.on("connection", (socket) => {
+  global.chatSocket = socket;
+  socket.on("add-user", (userId) => {
+    onlineUsers.set(userId, socket.id);
+  });
+
+  socket.on("send-msg", (data) => {
+    const sendUserSocket = onlineUsers.get(data.to);
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("msg-recieve", data.msg);
+    }
+  });
+});
 
 
-dotenv.config();
+
+
+
+
 connectDB();
-
 const PORT = process.env.PORT || 8080;
-
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`.bgCyan);
 });
+io.listen(9000);

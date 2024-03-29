@@ -25,6 +25,7 @@ import Profile from "./pages/user/Profile";
 import Updatestaffprofile from "./pages/Staff/Updatestaffprofile";
 import { Toaster } from "react-hot-toast";
 import Login from "./pages/Auth/Login";
+import ChatComponent from "./pages/DesignIdeas/chat";
 
 //design
 import Exploredesigns from "./pages/Exploredesigns";
@@ -52,6 +53,8 @@ import AdminOrders from "./pages/Admin/AdminOrders";
 import WishlistPage from "./pages/WishlistPage";
 import Registerstaff from "./pages/Admin/RegisterStaff";
 import AppointmentForm from "./pages/Staff/Addappoinments";
+import ExpertiseList from "./pages/DesignIdeas/selectexperts";
+import SiteManager from "./pages/DesignIdeas/sitedetails";
 
 const RecoveryContext = createContext();
 
@@ -79,6 +82,12 @@ function App() {
             <Route path="Userdashboard/Profile" element={<Profile />} />
           </Route>
 
+
+          <Route element={<PrivateRoute />}>
+          <Route path="/selectexperts" element={<ExpertiseList />} />
+          <Route path="/chat" element={<ChatComponent />} />
+          <Route path="/sitedetails" element={<SiteManager />} />
+        </Route>
 
            {/*admin route*/}
           <Route path="/Dashboard" element={<AdminRoute />}>
@@ -132,6 +141,8 @@ function App() {
           <Route path="/reset" element={<ResetPassword />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/*" element={<PageNotFound />} />
+       
+       
         </Routes>
       </div>
       <Toaster />

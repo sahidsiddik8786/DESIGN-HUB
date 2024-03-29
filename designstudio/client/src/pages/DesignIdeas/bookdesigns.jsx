@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 import Layout from "../../components/layout/Layout";
 import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
@@ -11,6 +12,7 @@ const Bookdesigns = () => {
   const [slots, setSlots] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchSlots();
@@ -58,6 +60,8 @@ const Bookdesigns = () => {
       });
   
       setSlots(updatedSlots);
+      navigate("/sitedetails")
+
     } catch (error) {
       console.error("Error booking slot", error);
       setError(error.response?.data?.message || "An error occurred");

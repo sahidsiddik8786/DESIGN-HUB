@@ -8,6 +8,7 @@ import useCategory from "../../hooks/useCategory";
 import { useCart } from "../../context/cart";
 import { Badge } from "antd";
 import { NavLink } from "react-router-dom";
+import Chat from "../../pages/DesignIdeas/chat";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
@@ -69,10 +70,22 @@ const Header = () => {
                   className="nav-link custom-font"
                 >
                   designs
-                </Nav.Link>
-
-                
+                </Nav.Link> 
               )}
+
+{auth.user?.role !== "1" && (
+                <Nav.Link
+                  as={Link}
+                  to="/chat"
+                  style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
+                  className="nav-link custom-font"
+                >
+                  chat
+                </Nav.Link> 
+              )}
+              
+
+
     {auth.user && (
                 <div className="nav-item">
                   <Nav.Link
