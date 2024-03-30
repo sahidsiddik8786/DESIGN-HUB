@@ -4,6 +4,7 @@ import { Select, Input, Button, message, Modal, Table } from 'antd';
 import Layout from '../../components/layout/Layout';
 import AdminMenu from '../../components/layout/AdminMenu';
 import SubcategoryForm from '../../components/Form/SubcategoryForm';
+import StaffHeader from "../Staff/StaffHeader";
 
 const { Option } = Select;
 
@@ -136,7 +137,8 @@ const CreatesubCategoryDesign = () => {
 
   return (
     
-    <Layout title={'Dashboard - Manage Subcategories'}>
+    <>
+      <StaffHeader/>
       <div className="">
         <div className="row">
           <div className="col-md-2 pl-0">
@@ -189,7 +191,7 @@ const CreatesubCategoryDesign = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 

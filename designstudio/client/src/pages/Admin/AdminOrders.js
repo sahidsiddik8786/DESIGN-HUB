@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import AdminMenu from "../../components/layout/AdminMenu";
+
 import { useAuth } from "../../context/auth";
 import moment from "moment";
 
@@ -42,9 +42,7 @@ const AdminOrders = () => {
   return (
     <>
       <div className="row">
-        <div className="col-md-0">
-          <AdminMenu />
-        </div>
+        
         <div className="col-xs-12 col-md-9">
           <table className="table">
             <thead>

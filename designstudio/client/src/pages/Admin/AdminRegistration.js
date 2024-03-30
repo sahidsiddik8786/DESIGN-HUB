@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Layout from "../../components/layout/Layout";
 import AdminMenu from "../../components/layout/AdminMenu";
 import { Table, Select, Row, Col, Space, Typography, Tag } from "antd";
+import StaffHeader from "../Staff/StaffHeader";
 
 // Styled buttons
 const StyledButton = styled.button`
@@ -36,7 +37,8 @@ const Content = styled.div`
 
 const RegisterOptions = () => {
   return (
-    <Layout title={"New Registration"}>
+    < >
+    <StaffHeader/>
       <div className="col-md-2 pl-0">
         <AdminMenu />
       </div>
@@ -53,7 +55,7 @@ const RegisterOptions = () => {
           </div>
         </Content>
       </Container>
-    </Layout>
+    </>
   );
 };
 

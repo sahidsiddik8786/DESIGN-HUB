@@ -1,61 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink } from "react-router-dom";
-import "./HeaderFooter.css";
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import './AdminMenu.css';
+
 const AdminMenu = () => {
   const [isToggled, setIsToggled] = useState(false);
 
   const toggleSidebar = () => {
-    setIsToggled(!isToggled);
+    setIsToggled(prevState => !prevState);
   };
 
   return (
-    <div id="wrapper" className={`toggled-${isToggled ? '2' : ''}`}>
-    <div className="admin-menu">
-      <div className="list-group dashboard-menu">
-      <NavLink to="/Dashboard/AdminDashboard/adminregister" className="list-group-item list-group-item-action">
-          Registration  
+    <div id="wrapper">
+      <div className={`admin-menu ${isToggled ? 'toggled' : ''}`}>
+        <div className="toggle-button" onClick={toggleSidebar}>
+          <i className="fas fa-bars"></i>
+        </div>
+        <div className="sidebar-content">
+        <NavLink to="/Dashboard/AdminDashboard" activeClassName="active" className="menu-item">
+            <i className="fas fa-tachometer-alt"></i> Dashboard
+          </NavLink>
+
+          <NavLink to="/Dashboard/AdminDashboard/adminregister" activeClassName="active" className="menu-item">
+            <i className="fas fa-user-plus icon"></i> Registration
+          </NavLink>
+          <NavLink to="/Dashboard/AdminDashboard/create-category" activeClassName="active" className="menu-item">
+            <i className="fas fa-plus-square icon"></i> Create Category
+          </NavLink>
+    
+        <NavLink to="/Dashboard/AdminDashboard/create-subcategory" activeClassName="active" className="menu-item">
+        <i className="fas fa-box-open"></i> Create SubCategory
         </NavLink>
-        <NavLink to="/Dashboard/AdminDashboard/create-category" className="list-group-item list-group-item-action">
-          Create Category
+        <NavLink to="/Dashboard/AdminDashboard/create-product" activeClassName="active" className="menu-item">
+        <i className="fas fa-image"></i> Create Product
         </NavLink>
-      <ul className="sidebar-nav nav-pills nav-stacked" id="menu">
-      <li className="active">
-            <a href="/Dashboard/AdminDashboard"><span className="fa-stack fa-lg pull-left"><i className="fa fa-dashboard fa-stack-1x "></i></span> Dashboard</a>
-            <ul className="nav-pills nav-stacked">
-              <li><a href="#">link1</a></li>
-              <li><a href="#">link2</a></li>
-            </ul>
-          </li>
-          </ul>
-      
-        <NavLink to="/Dashboard/AdminDashboard/adminregister" className="list-group-item list-group-item-action">
-          Registration  
+        <NavLink to="/Dashboard/AdminDashboard/products" activeClassName="active" className="menu-item">
+        <i className="fas fa-chalkboard-teacher"></i> Product
         </NavLink>
-        <NavLink to="/Dashboard/AdminDashboard/create-category" className="list-group-item list-group-item-action">
-          Create Category
+        <NavLink to="/Dashboard/AdminDashboard/create-categorydesign" activeClassName="active" className="menu-item">
+        <i className="fas fa-chart-bar"></i>  Create Category for design
         </NavLink>
-        <NavLink to="/Dashboard/AdminDashboard/create-subcategory" className="list-group-item list-group-item-action">
-          Create SubCategory
+        <NavLink to="/Dashboard/AdminDashboard/designimages" activeClassName="active" className="menu-item">
+        <i className="fas fa-cog"></i> Upload Category Based Images
         </NavLink>
-        <NavLink to="/Dashboard/AdminDashboard/create-product" className="list-group-item list-group-item-action">
-          Create Product
+        <NavLink to="/Dashboard/AdminDashboard/create-subcategorydesign" activeClassName="active" className="menu-item">
+        <i className="fas fa-question-circle"></i>  Create SubCategory for design
         </NavLink>
-        <NavLink to="/Dashboard/AdminDashboard/products" className="list-group-item list-group-item-action">
-          Product
-        </NavLink>
-        <NavLink to="/Dashboard/AdminDashboard/create-categorydesign" className="list-group-item list-group-item-action">
-          Create Category for design
-        </NavLink>
-        <NavLink to="/Dashboard/AdminDashboard/designimages" className="list-group-item list-group-item-action">
-          Upload Category Based Images
-        </NavLink>
-        <NavLink to="/Dashboard/AdminDashboard/create-subcategorydesign" className="list-group-item list-group-item-action">
-          Create SubCategory for design
-        </NavLink>
-     
+        </div>
       </div>
-    </div>
     </div>
   );
 };

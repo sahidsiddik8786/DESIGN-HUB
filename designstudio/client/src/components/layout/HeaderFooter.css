@@ -65,11 +65,73 @@
 
 
 
-
 .user-menu-container {
-  position: fixed;
-  width: 20%;
-  background-color: #ffffff;
-  z-index: 1000;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #000000; /* black background */
+  color: #fff; /* white text color */
+  width: 270px; /* sidebar width */
+  height: 89vh; /* full-height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* space between menu and info */
 }
+
+.sidebar-title {
+  text-align: center;
+  padding: 20px 0;
+
+}
+
+.sidebar-title h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 25px 50px;
+}
+
+.menu-divider {
+  height: 2px;
+  background-color: #020202; /* light line for divider */
+  margin-top: 10px;
+}
+
+.menu-items {
+  flex-grow: 1;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 55px 50px;
+  font-size: 20px;
+  border-bottom: 1px solid #070707; 
+  text-decoration: none; /* removes underline from links */
+  color: #fff; /* white text color */
+  transition: background-color 0.5s; /* smooth background transition on hover */
+}
+
+.menu-item:hover {
+  background-color: #f600c1; /* darker background on hover */
+}
+
+.menu-item i {
+  margin-right: 10px; /* space between icon and text */
+  /* Define your icon sizes here if they are fonts; 
+     otherwise, you can add width and height to <img> tags. */
+}
+
+.menu-info {
+  padding: 20px;
+  text-align: center;
+}
+
+.menu-info i {
+  font-size: 24px; /* larger icon size for info */
+}
+
+
+
+
+.active {
+  background-color: #f308d038; /* Active item background color */
+}
+

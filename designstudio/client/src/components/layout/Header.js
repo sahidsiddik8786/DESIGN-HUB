@@ -86,7 +86,7 @@ const Header = () => {
               
 
 
-    {auth.user && (
+              {auth.user?.role !== "1" && (
                 <div className="nav-item">
                   <Nav.Link
                     as={Link}

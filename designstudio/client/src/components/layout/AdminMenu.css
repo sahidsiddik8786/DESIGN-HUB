@@ -1,96 +1,62 @@
 /* AdminMenu.css */
 
-/* Sidebar wrapper */
-.sidebar-wrapper {
-    position: fixed;
+.admin-menu {
+  background-color: #000000d7; /* Dark blue background color */
+  color: #fff;
+  width: 270px; /* Width of the sidebar */
+  height: 100vh; /* Full height */
+  position: fixed; /* Fixed sidebar */
+  transform: translateX(0); /* Start with sidebar visible */
+  transition: transform 0.3s ease-in-out; /* Smooth opening and closing */
+  z-index: 1000; /* Ensure the sidebar is above other content */
+}
 
-    left: 0;
-    z-index: 1000;
-    height: 100%;
-    width: 250px;
-    background-color: #343a40;
-    color: #ffffff;
-    overflow-y: auto;
-    transition: all 0.3s;
-  }
-  
-  /* Sidebar toggled class */
-  .sidebar-wrapper.toggled {
-    width: 80px;
-  }
-  
-  /* Sidebar navigation */
-  .sidebar-nav {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-  
-  /* Sidebar navigation items */
-  .sidebar-nav li {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-  }
-  
-  /* Sidebar navigation links */
-  .sidebar-nav li a {
-    display: block;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: #ffffff;
-  }
-  
-  /* Active navigation link */
-  .sidebar-nav li.active > a {
-    background-color: #495057;
-  }
-  
-  /* Nested navigation */
-  .sidebar-nav ul {
-    display: none;
-  }
-  
-  .sidebar-nav ul.show {
-    display: block;
-  }
-  
-  /* Toggle button */
-  #menu-toggle {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    background-color: #343a40;
-    color: #ffffff;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-  }
-  
-  /* Icon inside toggle button */
-  #menu-toggle .glyphicon {
-    font-size: 20px;
-  }
-  
+.admin-menu.toggled {
+  transform: translateX(-250px); /* Hide sidebar */
+}
 
-  .admin-menu {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 250px; /* Adjust the width as needed */
-    background-color: #f8f9fa; /* Example background color */
-    overflow-y: auto;
-    border-right: 1px solid #dee2e6; /* Example border */
-  }
-  
-  #menu {
-    padding-top: 20px;
-  }
-  
-  .list-group-item {
-    border-radius: 0;
-  }
-  
-  /* Add other custom styles as needed */
-  
+.sidebar-content {
+  padding-top: 20px; /* Space for the toggle button */
+}
+
+.toggle-button {
+  cursor: pointer;
+  color: #fff;
+  position: absolute; /* Position absolutely within the sidebar */
+  top: 10px; /* Align top */
+  right: -50px; /* Align to the right outside the sidebar */
+  background-color: #0dcaa4; /* Background of the toggle button */
+  width: 50px; /* Width of the toggle button */
+  height: 50px; /* Height of the toggle button */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-right-radius: 10px; /* Rounded corners for the button */
+  border-bottom-right-radius: 10px; /* Rounded corners for the button */
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  text-decoration: none;
+  color: #fff;
+  transition: background-color 0.3s;
+}
+
+.menu-item:hover, .menu-item.active {
+  background-color: #be06f143; /* Darker background color on hover/active */
+}
+
+.menu-item .icon {
+  margin-right: 10px; /* Space between icon and text */
+}
+
+/* Styling for active NavLink */
+.active {
+  background-color: #1ABC9C; /* Color for active state */
+}
+
+/* Ensure FontAwesome is included */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+

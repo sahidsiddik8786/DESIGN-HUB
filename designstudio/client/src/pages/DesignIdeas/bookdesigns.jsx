@@ -15,7 +15,6 @@ const Bookdesigns = () => {
   const navigate = useNavigate();
   const [googleMeetLink, setGoogleMeetLink] = useState("");
 
-
   useEffect(() => {
     fetchSlots();
   }, []);
@@ -32,7 +31,6 @@ const Bookdesigns = () => {
       setLoading(false);
     } catch (error) {
       console.error("Error fetching slots", error);
-     
       setLoading(false);
     }
   };
@@ -43,45 +41,46 @@ const Bookdesigns = () => {
         toast.error("Login then only book the slot");
         return;
       }
-  
+
+      // Check if the user has already booked a slot on the same day
+      const alreadyBooked = slots.some(
+        (slot) =>
+          slot.appointmentId === appointmentId &&
+          slot.isBooked &&
+          slot.bookedBy === auth.user._id
+      );
+
+      if (alreadyBooked) {
+        toast.error("You can only book one slot per day.");
+        return;
+      }
+
       const response = await axios.post("http://localhost:8080/api/book", {
         appointmentId,
         slotId,
         recipient_email: auth.user.email, // Pass the recipient email here
       });
       console.log("Slot booked:", response.data);
-  
+
       toast.success("Slot booked successfully ");
-  
+
       // Update the slots state after successful booking
       const updatedSlots = slots.map((slot) => {
-        if (slot.appointmentId === appointmentId && slot.slotId === slotId) {
+        if (
+          slot.appointmentId === appointmentId &&
+          slot.slotId === slotId &&
+          slot.bookedBy === auth.user._id
+        ) {
           return { ...slot, isBooked: true };
         }
         return slot;
       });
-  
-      setSlots(updatedSlots);
-      navigate("/sitedetails")
 
+      setSlots(updatedSlots);
+      navigate("/sitedetails");
     } catch (error) {
       console.error("Error booking slot", error);
       toast.error(error.response?.data?.message || "An error occurred");
-    }
-  };
-  
-
-  const sendConfirmationEmail = async (date, startTime, endTime , googleMeetLink,) => {
-    try {
-      const response = await axios.post("http://localhost:8080/send_recovery_email", {
-        recipient_email: auth.user.email, // Assuming auth.user contains user details
-        OTP: `Your slot has been booked successfully.\nSlot Details:\nDate: ${date}\nStart Time: ${startTime}\nEnd Time: ${endTime}\nGoogle Meet Link: ${googleMeetLink}\nThank you for booking with us!`,
-      });
-      console.log("Email sent:", response.data);
-      toast.success("Email sent successfully ");
-    } catch (error) {
-      console.error("Error sending email", error);
-      // Handle error, show an error message, etc.
     }
   };
 
@@ -91,7 +90,7 @@ const Bookdesigns = () => {
   return (
     <Layout>
       <div className="slot-details-container">
-      <GoBackButton />
+        <GoBackButton />
         <h1>Book your appointment </h1>
         <h4>
           <p>

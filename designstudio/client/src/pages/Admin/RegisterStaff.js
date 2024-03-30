@@ -6,6 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GoBackButton from '../../components/layout/goback';
 import Layout from "../../components/layout/Layout";
+import StaffHeader from "../Staff/StaffHeader";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -175,7 +176,8 @@ const AddStaffMember = () => {
   };
 
   return (
-    <Layout title={"New Registration"}>
+    <>
+      <StaffHeader/>
       <div className={classes.root}>
       <Container maxWidth="sm" className={classes.formContainer} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '70vh' }}>
           <Card className={classes.card}>
@@ -237,7 +239,7 @@ const AddStaffMember = () => {
         </Container>
         <ToastContainer />
       </div>
-    </Layout>
+    </>
   );
 };
 

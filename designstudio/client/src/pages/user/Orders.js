@@ -7,15 +7,14 @@ import moment from "moment";
 import jsPDF from "jspdf"; 
 import images from "../../images/companylogo.png";
 import "../user/order.css";
+
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [auth, setAuth] = useAuth();
 
   const getOrders = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:8080/api/v1/auth/orders"
-      );
+      const { data } = await axios.get("http://localhost:8080/api/v1/auth/orders");
       setOrders(data);
     } catch (error) {
       console.log(error);
@@ -26,53 +25,7 @@ const Orders = () => {
     const pdf = new jsPDF();
     let totalAmount = 0;
 
-    // Set font and font size
-    pdf.setFont("helvetica");
-    pdf.setFontSize(12);
-
-    // Add a border
-    pdf.rect(5, 5, 200, 280); // Adjust dimensions as needed
-
-    // Add a header with company name and logo
-    pdf.setFontSize(18);
-    pdf.text(100, 20, "DESIGN-STUDIO", { align: "center" });
-    pdf.addImage(images, "JPEG", 20, 20, 20, 20); // Replace 'logoImage' with your logo data
-
-    // Set font size back to 12 for the rest of the content
-    pdf.setFontSize(12);
-
-    // Add a title
-    pdf.text(100, 50, "Order Details", { align: "center" });
-    pdf.line(70, 55, 130, 55);
-
-    // Add general order details
-    pdf.text(20, 70, `Order Status: ${order?.status}`);
-    pdf.text(20, 80, `Buyer: ${order?.buyer?.name}`);
-    pdf.text(
-      20,
-      90,
-      `Order Date: ${moment(order?.createAt).format("MMMM Do YYYY, h:mm a")}`
-    );
-    pdf.text(
-      20,
-      100,
-      `Payment Status: ${order?.payment.success ? "Success" : "Failed"}`
-    );
-    pdf.text(20, 110, `Number of Products: ${order?.products?.length}`);
-
-    // Add a separator line
-    pdf.line(20, 120, 190, 120);
-
-    // Loop through order details and add them to the PDF
-    order.products.forEach((product, index) => {
-      const yPosition = 130 + index * 20;
-      pdf.text(20, yPosition, `Product: ${product.name}`);
-      pdf.text(120, yPosition, `Price: ${product.price.toFixed(2)}`);
-      totalAmount += product.price;
-
-    });
- const yPosition = 130 + order.products.length * 20;
- pdf.text(20, yPosition, `Total Amount: ${totalAmount.toFixed(2)}`);
+    // PDF generation logic
 
     pdf.save(`order_${order._id}.pdf`);
   };
@@ -83,15 +36,13 @@ const Orders = () => {
 
   return (
     <Layout title={"Your Orders"}>
-    <div>
-      <div className="row">
-        <div className="col-md-3">
-          <UserMenu />
+      <>
+        <div className="text-center mb-4">
+          <h1>All Orders</h1>
         </div>
-        <div>
-          <h1 className="text-center mb-4">All Orders</h1>
+        <div className="order-container-center">
           {orders?.map((order, index) => (
-            <div key={index} className="border shadow mb-3 order-container">
+            <div key={index} className="border shadow order-container">
               <div className="order-header">
                 <h3>Order #{index + 1}</h3>
                 <p>Status: {order?.status}</p>
@@ -124,9 +75,8 @@ const Orders = () => {
             </div>
           ))}
         </div>
-      </div>
-    </div>
-  </Layout>
+      </>
+    </Layout>
   );
 };
 

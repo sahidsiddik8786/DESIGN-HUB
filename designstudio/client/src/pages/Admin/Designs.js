@@ -4,6 +4,7 @@ import Layout from "../../components/layout/Layout";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import StaffHeader from "../Staff/StaffHeader";
 
 const Designs = () => {
   const [designs, setDesigns] = useState([]);
@@ -25,7 +26,8 @@ const Designs = () => {
   }, []);
 
   return (
-    <Layout>
+    <>
+      <StaffHeader/>
       <div className="row">
       <div className="col-md-2 pl-0">
             <AdminMenu />
@@ -51,7 +53,7 @@ const Designs = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 

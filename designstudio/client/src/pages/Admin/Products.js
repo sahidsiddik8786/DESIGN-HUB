@@ -4,6 +4,7 @@ import Layout from "../../components/layout/Layout";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import StaffHeader from "../Staff/StaffHeader";
 const Products = () => {
   const [products, setProducts] = useState([]);
 
@@ -23,7 +24,8 @@ const Products = () => {
     getAllProducts();
   }, []);
   return (
-    <Layout>
+    <>
+      <StaffHeader/>
       <div className="row">
       <div className="col-md-2 pl-0">
             <AdminMenu />
@@ -53,7 +55,7 @@ const Products = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 

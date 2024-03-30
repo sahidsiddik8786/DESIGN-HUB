@@ -5,6 +5,7 @@ import Layout from "../../components/layout/Layout";
 import axios from "axios";
 import { Select } from "antd";
 import { useNavigate } from "react-router-dom";
+import StaffHeader from "../Staff/StaffHeader";
 import {
   CButton,
   CCol,
@@ -110,8 +111,9 @@ const CreateProduct = () => {
   };
 
   return (
-    <Layout>
+   
     <>
+      <StaffHeader/>
       <div className="product-form">
         <div className="  ">
           <div className="row">
@@ -236,7 +238,7 @@ const CreateProduct = () => {
         </div>
       </div>
     </>
-    </Layout>
+ 
   );
 };
 

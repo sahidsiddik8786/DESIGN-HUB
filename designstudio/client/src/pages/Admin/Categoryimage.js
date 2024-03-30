@@ -6,6 +6,7 @@ import axios from "axios";
 import { Select, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { CButton, CForm, CFormInput } from "@coreui/react";
+import StaffHeader from "../Staff/StaffHeader";
 
 const { Option } = Select;
 
@@ -82,8 +83,8 @@ const CreateDesign = () => {
   };
 
   return (
-    <Layout>
       <>
+        <StaffHeader/>
         <div className="design-form">
           <div>
             <div className="row">
@@ -159,7 +160,7 @@ const CreateDesign = () => {
           </div>
         </div>
       </>
-    </Layout>
+
   );
 };
 
