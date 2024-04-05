@@ -18,26 +18,49 @@ export const createSite = async (req, res) => {
 
 export const getSites = async (req, res) => {
   try {
-    const sites = await Site.find().populate('createdBy');
-    res.json(sites);
+    const sites = await Site.find().populate({
+      path: 'createdBy',
+      select: 'name' // Only fetch the name field
+    });
+
+    // Convert Buffers to base64 strings for the client and include description and createdBy
+    const sitesWithDetails = sites.map(site => ({
+      _id: site._id,
+      description: site.description,
+      createdBy: site.createdBy ? site.createdBy.name : null, // Check if createdBy exists
+      images: site.images.map(image => ({
+        data: `data:${image.contentType};base64,${image.data.toString('base64')}`,
+        description: image.description,
+        createdBy: site.createdBy ? site.createdBy.name : null // Check if createdBy exists
+      })),
+    }));
+
+    res.json(sitesWithDetails);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
+
+
 export const getSitesByUserId = async (req, res) => {
   try {
     const { userId } = req.params;
-    const sites = await Site.find({ createdBy: userId }).populate('createdBy');
-    // Convert Buffers to base64 strings for the client
-    const sitesWithBase64Images = sites.map(site => ({
-      ...site._doc,
+    const sites = await Site.find({ createdBy: userId }).populate('createdBy', 'name'); // Make sure to fetch the name
+
+    // Convert Buffers to base64 strings for the client and include description and createdBy
+    const sitesWithDetails = sites.map(site => ({
+      _id: site._id,
+      description: site.description,
+      createdBy: site.createdBy,
       images: site.images.map(image => ({
         data: `data:${image.contentType};base64,${image.data.toString('base64')}`,
-        // No need for contentType anymore since it's included in the data URI
+        description: image.description,
+        createdBy: site.createdBy.name // Assuming there is a name field in the createdBy document
       })),
     }));
-    res.json(sitesWithBase64Images);
+
+    res.json(sitesWithDetails);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

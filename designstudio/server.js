@@ -19,7 +19,7 @@ import imageRoutes from "./routes/imageRoute.js"
 import staffRoutes from './routes/staffRoute.js'
 import bothRoutes from "./routes/bothRoute.js"
 //import Payment from     "./routes/payment.js";
-
+import    Site from "./models/siteModel.js" 
 
 import Design from "./models/designModel.js"
 import appointments from './models/appoinmentModel.js';
@@ -31,10 +31,12 @@ import Message from './models/messageModel.js';
 import { Server } from 'socket.io';
 import  messageRoutes from "./routes/messageRoute.js"
 import  siteRoutes from "./routes/siteRoute.js"
-
+import multer from 'multer';
 
 dotenv.config();
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 const router = express.Router();
 const app = express();
 const server = createServer(app);
@@ -195,7 +197,7 @@ app.get('/api/subcategories/:categoryId', async (req, res) => {
 });
 
 
-//----------Appointment section----------//
+/*-----------------------------apointment --------------------------------------*/
 
 app.post('/api/appointment', async (req, res) => {
   const { staffId, date, slots, googleMeetLink } = req.body;
@@ -215,32 +217,22 @@ app.post('/api/appointment', async (req, res) => {
     // Check if the appointment already exists for the given staffId and date
     const existingBookedAppointment = await appointments.findOne({
       staffId,
-       date ,
-       googleMeetLink,
-       'slots.isBooked': true,
-      });
-      if (existingBookedAppointment) {
-        return res.status(400).json({ message: "A booked appointment already exists for this date." });
-      }
-  
-      // Check if the appointment already exists for the given staffId and date
-      const existingAppointment = await appointments.findOne({ staffId, date ,googleMeetLink});
-      if (existingAppointment) {
-        // Check if any slot in the existing appointment is already booked
-        const isAnySlotBooked = existingAppointment.slots.some(slot => slot.isBooked);
-        if (isAnySlotBooked) {
-          return res.status(400).json({ message: "Cannot create a new appointment with booked slots." });
-        }
-      }
-  
-      // If staff exists and no booked appointment exists for this date, create the appointment
-      const newAppointment = new appointments({ staffId, date, slots });
-      await newAppointment.save();
-      res.status(201).json(newAppointment);
-    } catch (err) {
-      res.status(500).json({ message: err.message });
+      date,
+      'slots.isBooked': true,
+    });
+
+    if (existingBookedAppointment) {
+      return res.status(400).json({ message: "A booked appointment already exists for this date." });
     }
-  });
+
+    // If staff exists and no booked appointment exists for this date, create the appointment
+    const newAppointment = new appointments({ staffId, date, slots, googleMeetLink }); // Include googleMeetLink here
+    await newAppointment.save();
+    res.status(201).json(newAppointment);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 
 app.put('/api/appointment/:appointmentId/reschedule', async (req, res) => {
@@ -410,20 +402,6 @@ app.get('/api/v1/design/by-subcategory/:subcategoryId', async (req, res) => {
 
 
 /*---------------------------chaT-------------------*/
-global.onlineUsers = new Map();
-io.on("connection", (socket) => {
-  global.chatSocket = socket;
-  socket.on("add-user", (userId) => {
-    onlineUsers.set(userId, socket.id);
-  });
-
-  socket.on("send-msg", (data) => {
-    const sendUserSocket = onlineUsers.get(data.to);
-    if (sendUserSocket) {
-      socket.to(sendUserSocket).emit("msg-recieve", data.msg);
-    }
-  });
-});
 
 
 app.get('/api/event/:eventId', async (req, res) => {
@@ -448,6 +426,86 @@ app.get('/api/event/:eventId', async (req, res) => {
   }
 });
 
+app.post('/api/upload-suggestion', upload.array('suggestionImages', 5), async (req, res) => {
+  try {
+    const userId = req.body.siteId; // Assuming userId is sent as siteId from the frontend
+    const suggestionImages = req.files; // Array of uploaded files
+
+    // Find the site by userId
+    const site = await Site.findOne({ createdBy: userId });
+
+    if (!site) {
+      return res.status(404).json({ error: 'Site not found' });
+    }
+
+    // Add each design suggestion image to the site's designSuggestions array
+    suggestionImages.forEach(image => {
+      site.designSuggestions.push({
+        data: image.buffer,
+        contentType: image.mimetype,
+      });
+    });
+
+    // Save the updated site
+    await site.save();
+
+    res.status(200).json({ message: 'Design suggestions uploaded successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/get-suggestion-images/:siteId', async (req, res) => {
+  try {
+    const { siteId } = req.params;
+    const site = await Site.findOne({ createdBy: siteId });
+
+    if (!site) {
+      return res.status(404).json({ error: 'Site not found' });
+    }
+
+    const images = site.designSuggestions;
+    if (!images || images.length === 0) {
+      return res.status(404).json({ error: 'No images found' });
+    }
+
+    // Send all image data
+    res.json(images.map(image => ({
+      contentType: image.contentType,
+      data: image.data.toString('base64') // Assuming the data is a Buffer
+    })));
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+app.get('/api/get-suggestionimages/:siteId', async (req, res) => {
+  try {
+    const { siteId } = req.params;
+    const site = await Site.findById(siteId);
+
+    if (!site) {
+      return res.status(404).json({ error: 'Site not found' });
+    }
+
+    const images = site.designSuggestions;
+    if (!images || images.length === 0) {
+      return res.status(404).json({ error: 'No images found' });
+    }
+
+    // Send all image data
+    res.json(images.map(image => ({
+      contentType: image.contentType,
+      data: image.data.toString('base64') // Assuming the data is a Buffer
+    })));
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
 

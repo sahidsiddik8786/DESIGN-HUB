@@ -56,6 +56,7 @@ import Registerstaff from "./pages/Admin/RegisterStaff";
 import AppointmentForm from "./pages/Staff/Addappoinments";
 import ExpertiseList from "./pages/DesignIdeas/selectexperts";
 import SiteManager from "./pages/DesignIdeas/sitedetails";
+import SiteDetails from "./pages/user/Siteimage";
 
 const RecoveryContext = createContext();
 
@@ -76,11 +77,11 @@ function App() {
 
 
           {/*user route*/}
-          <Route path="/Dashboard" element={<PrivateRoute />}>
-            <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/" element={<PrivateRoute />}>
             <Route path="Userdashboard" element={<Userdashboard />} />
-            <Route path="Userdashboard/Orders" element={<Orders />} />
-            <Route path="Userdashboard/Profile" element={<Profile />} />
+            <Route path="Orders" element={<Orders />} />
+            <Route path="Profile" element={<Profile />} />
+            <Route path="site-details" element={<SiteDetails />} />
           </Route>
 
 
@@ -88,8 +89,9 @@ function App() {
           <Route path="/selectexperts" element={<ExpertiseList />} />
           <Route path="/chat" element={<ChatComponent />} />
           <Route path="/sitedetails" element={<SiteManager />} />
-     
+          <Route path="/cart" element={<CartPage />} />
         </Route>
+
 
            {/*admin route*/}
           <Route path="/Dashboard" element={<AdminRoute />}>
@@ -129,7 +131,7 @@ function App() {
           <Route path="/design-details/:designSlug" element={<DesignDetailPage />}/>
           <Route path="/slot-details" element={<Bookdesigns />} />
           <Route path="/wishlist" element={<WishlistPage />} />
-          <Route path="/cart" element={<CartPage />} />
+       
           <Route path="/search" element={<Search />} />
           <Route path="/product/:slug" element={<ProductDetails />} />
           <Route path="/searchInput" element={<searchInput />} />

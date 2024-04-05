@@ -43,16 +43,16 @@
 
 .nav-link:hover,
 .nav-dropdown:hover {
-  color: #3498db; /* Highlight color on hover */
+  color: #3498db; 
 }
 
 .dropdown-item {
-  color: #ecf0f1; /* White text color for dropdown items */
+  color: #ecf0f1; 
 }
 
 .dropdown-item:hover {
-  background-color: #3498db; /* Highlight color for dropdown items on hover */
-  color: #ecf0f1; /* White text color for dropdown items on hover */
+  background-color: #3498db;
+  color: #ecf0f1; 
 }
 
 .search-bar-wrapper {
@@ -66,18 +66,19 @@
 
 
 .user-menu-container {
-  background-color: #000000; /* black background */
-  color: #fff; /* white text color */
-  width: 270px; /* sidebar width */
-  height: 89vh; /* full-height */
+  background-color: #000000; 
+  color: #f1e9e9; 
+  width: 270px; 
+  height: 87vh; 
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* space between menu and info */
+  justify-content: space-between; 
+  position: fixed;
 }
 
 .sidebar-title {
-  text-align: center;
-  padding: 20px 0;
+  padding: 10px 0;
+  margin-left: -10px;
 
 }
 
@@ -85,12 +86,12 @@
   margin: 0;
   font-size: 24px;
   font-weight: bold;
-  padding: 25px 50px;
+  padding: 35px 50px;
 }
 
 .menu-divider {
   height: 2px;
-  background-color: #020202; /* light line for divider */
+  background-color: #020202; 
   margin-top: 10px;
 }
 
@@ -98,25 +99,23 @@
   flex-grow: 1;
 }
 
-.menu-item {
+.menuitem {
   display: flex;
   align-items: center;
-  padding: 55px 50px;
-  font-size: 20px;
+  padding: 35px 50px;
+  font-size: 24px;
   border-bottom: 1px solid #070707; 
-  text-decoration: none; /* removes underline from links */
-  color: #fff; /* white text color */
-  transition: background-color 0.5s; /* smooth background transition on hover */
+  text-decoration: none; 
+  color: #fff; 
+  transition: background-color 0.5s; 
 }
 
-.menu-item:hover {
-  background-color: #f600c1; /* darker background on hover */
+.menuitem:hover {
+  background-color: #f600c1; 
 }
 
-.menu-item i {
-  margin-right: 10px; /* space between icon and text */
-  /* Define your icon sizes here if they are fonts; 
-     otherwise, you can add width and height to <img> tags. */
+.menuitem i {
+  margin-right: 10px; 
 }
 
 .menu-info {
@@ -124,14 +123,23 @@
   text-align: center;
 }
 
+
 .menu-info i {
   font-size: 24px; /* larger icon size for info */
 }
-
-
 
 
 .active {
   background-color: #f308d038; /* Active item background color */
 }
 
+.menu {
+  display: flex;
+  align-items: center;
+  padding: 35px 50px;
+  font-size: 24px;
+  border-bottom: 1px solid #070707; 
+  text-decoration: none; 
+  color: #fff; 
+  transition: background-color 0.5s; 
+}

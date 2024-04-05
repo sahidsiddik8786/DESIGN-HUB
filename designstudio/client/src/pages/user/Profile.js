@@ -144,7 +144,7 @@ const Profile = () => {
         <div className="col-md-3">
           <UserMenu />
         </div>
-        <div className="col-md-9">
+        <div className="col-md-9 mt-3">
           <form className="form-containe register-form" onSubmit={handleSubmit}>
             <h4 className="title">Profile Update</h4>
             <div className="row mb-3">

@@ -43,61 +43,62 @@ const Header = () => {
             className="justify-content-left"
           >
             <Nav className="mb-2 mb-lg-0">
-              {auth.user?.role !== "1" && (
-                <Nav.Link as={Link} to="/" style={{ color: "white", fontSize, marginRight, textTransform: 'none' }} className="nav-link custom-font">
-                  Interior
-                </Nav.Link>
-              )}
 
-              {auth.user?.role !== "1" && (
-                <Nav.Link
-                  as={Link}
-                  to="/Shop"
-                  style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
-                  className="nav-link custom-font"
-                >
-                  products
-                </Nav.Link>
+            {auth.user?.role !== "1" && auth.user?.role !== "2" && (
+  <Nav.Link as={Link} to="/" style={{ color: "white", fontSize, marginRight, textTransform: 'none' }} className="nav-link custom-font">
+    Interior
+  </Nav.Link>
+)}
 
-                
-              )}
+{auth.user?.role !== "1" && auth.user?.role !== "2" && (
+  <Nav.Link
+    as={Link}
+    to="/Shop"
+    style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
+    className="nav-link custom-font"
+  >
+    Products
+  </Nav.Link>
+)}
+
+{auth.user?.role !== "1" && auth.user?.role !== "2" && (
+  <Nav.Link
+    as={Link}
+    to="/Explore-Designs"
+    style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
+    className="nav-link custom-font"
+  >
+    Designs
+  </Nav.Link>
+)}
+
+
+{auth.user?.role !== "1" && auth.user?.role !== "2" && (
+  <Nav.Link
+    as={Link}
+    to="/chat"
+    style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
+    className="nav-link custom-font"
+  >
+    Chat
+  </Nav.Link>
+)}
+
               
-              {auth.user?.role !== "1" && (
-                <Nav.Link
-                  as={Link}
-                  to="/Explore-Designs"
-                  style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
-                  className="nav-link custom-font"
-                >
-                  designs
-                </Nav.Link> 
-              )}
-
-{auth.user?.role !== "1" && (
-                <Nav.Link
-                  as={Link}
-                  to="/chat"
-                  style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
-                  className="nav-link custom-font"
-                >
-                  chat
-                </Nav.Link> 
-              )}
-              
+{auth.user?.role !== "1" && auth.user?.role !== "2" && (
+  <div className="nav-item">
+    <Nav.Link
+      as={Link}
+      to="/cart"
+      style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
+      className="nav-link custom-font"
+    >
+      <i className='fas fa-shopping-cart'></i> Cart
+    </Nav.Link>
+  </div>
+)}
 
 
-              {auth.user?.role !== "1" && (
-                <div className="nav-item">
-                  <Nav.Link
-                    as={Link}
-                    to="/cart"
-                    style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
-                    className="nav-link custom-font"
-                  >
-                    <i className='fas fa-shopping-cart'></i> Cart
-                  </Nav.Link>
-                </div>
-              )}
               
               {!auth.user ? (
                 <Nav.Link as={Link} to="/login" style={{ color: "white", fontSize, marginRight, textTransform: 'none' }} className="nav-link custom-font">
@@ -114,7 +115,7 @@ const Header = () => {
                       to={
                         auth?.user?.role === "1" ? "/Dashboard/AdminDashboard" :
                         auth?.user?.role === "2" ? "http://localhost:3000/staff-dashboard" :
-                        "/Dashboard/UserDashboard"
+                        "/UserDashboard"
                       }
                       style={{ color: "black", fontSize, marginRight, textTransform: 'none' }}
                       className="dropdown-item custom-font"

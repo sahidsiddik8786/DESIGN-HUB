@@ -5,10 +5,17 @@ const siteSchema = new mongoose.Schema({
     type: String, 
     required: true 
   },
+  
   images: [{ 
     data: Buffer,
     contentType: String,
-  }], 
+  }],
+
+  designSuggestions: [{ 
+    data: Buffer,
+    contentType: String,
+  }],
+
   createdBy: { 
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users',

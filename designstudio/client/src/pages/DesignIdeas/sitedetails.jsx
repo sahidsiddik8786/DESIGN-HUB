@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState  } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/auth'; // Ensure this path is correct
 import "./design.css";
 import toast from "react-hot-toast";
 import GoBackButton from "../../components/layout/goback";
 import Layout from "../../components/layout/Layout";
+import { useNavigate } from "react-router-dom";
 
 const SiteManager = () => {
   const [auth] = useAuth(); // Ensure auth context provides user ID
@@ -12,7 +13,7 @@ const SiteManager = () => {
   const [images, setImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -40,6 +41,7 @@ const SiteManager = () => {
       setImages([]);
       setPreviewImages([]);
       setErrorMessage('')
+      navigate("/site-details");
 
     } catch (error) {
       console.error('Error creating site', error);

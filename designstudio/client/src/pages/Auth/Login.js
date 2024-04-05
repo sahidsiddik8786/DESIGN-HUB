@@ -46,7 +46,7 @@ const Login = () => {
             navigate("/staff-dashboard");
             break;
           default:
-            navigate("/Dashboard/UserDashboard");
+            navigate("/UserDashboard");
         }
       } else {
         toast.error(res.data.message);

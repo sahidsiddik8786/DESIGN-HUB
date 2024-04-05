@@ -13,12 +13,13 @@ const Dashboard = () => {
           <div className="col-md-3">
             <UserMenu />
           </div>
-          <div className="col-md-9">
+          <div className="col-md-9  mt-5">
           <Card
-              title={<h2 style={{ fontSize: "1.5em" }}>User Information</h2>} // Increase title size
-              style={{ width: "80%", fontSize: "1.2em" }}
-            >
+              title={<h2 style={{ fontSize: "1.5em" }}>User Information</h2>}
+              style={{ width: "80%", fontSize: "1.2em" }}>
+
               <Divider>Personal Details</Divider>
+              
               <p>
                 <strong>Name:</strong> {auth?.user?.firstname}{" "}
                 {auth?.user?.lastname}
