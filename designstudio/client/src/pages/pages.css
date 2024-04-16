@@ -328,6 +328,26 @@
   margin-top: 2rem;
   z-index: -2;
 }
+.image-overlay {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 12%; /* Adjust the width as needed */
+  height: auto; /* Let the height adjust automatically */
+  z-index: 9999;
+  overflow: hidden;
+}
 
 
-  
+.image-overlay img {
+  width: 100%; /* Reduce the width of the image */
+  border-radius: 90px;
+  border-color: #bdf503;
+  transition: transform 0.3s ease;
+}
+
+.image-overlay img:hover {
+  transform: scale(1.1);
+}
+

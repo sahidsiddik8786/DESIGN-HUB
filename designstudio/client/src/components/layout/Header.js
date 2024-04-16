@@ -45,27 +45,71 @@ const Header = () => {
             <Nav className="mb-2 mb-lg-0">
 
             {auth.user?.role !== "1" && auth.user?.role !== "2" && (
-  <Nav.Link as={Link} to="/" style={{ color: "white", fontSize, marginRight, textTransform: 'none' }} className="nav-link custom-font">
+  <Nav.Link as={Link} to="/"  style={{
+    backgroundColor: "", // Purple color similar to the button in the image
+    color: "white",
+    fontSize: "24px", // Increased font size for larger text
+    marginRight: "12px", // Adjust the spacing as needed
+    textTransform: 'none',
+    display: 'inline-block',
+    padding: '17px 30px', // Increased padding for a larger button
+    borderRadius: '35px', // Adjusted for visual proportionality
+    textAlign: 'center',
+    textDecoration: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)' // Optional shadow for depth
+  }} className="nav-link custom-font">
     Interior
   </Nav.Link>
 )}
 
 {auth.user?.role !== "1" && auth.user?.role !== "2" && (
-  <Nav.Link
-    as={Link}
-    to="/Shop"
-    style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
-    className="nav-link custom-font"
-  >
-    Products
-  </Nav.Link>
+ <Nav.Link
+ as={Link}
+ to="/Shop"
+ style={{
+   backgroundColor: "#FF0000", // Purple color similar to the button in the image
+   color: "white",
+   fontSize: "24px", // Increased font size for larger text
+   marginRight: "12px", // Adjust the spacing as needed
+   textTransform: 'none',
+   display: 'inline-block',
+   padding: '17px 30px', // Increased padding for a larger button
+   borderRadius: '35px', // Adjusted for visual proportionality
+   textAlign: 'center',
+   textDecoration: 'none',
+   border: 'none',
+   cursor: 'pointer',
+   boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)' // Optional shadow for depth
+ }}
+ className="nav-link custom-font"
+>
+ Shop Now
+</Nav.Link>
+
 )}
 
 {auth.user?.role !== "1" && auth.user?.role !== "2" && (
+  
   <Nav.Link
     as={Link}
     to="/Explore-Designs"
-    style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
+    style={{
+      backgroundColor: "", // Purple color similar to the button in the image
+      color: "white",
+      fontSize: "24px", // Increased font size for larger text
+      marginRight: "12px", // Adjust the spacing as needed
+      textTransform: 'none',
+      display: 'inline-block',
+      padding: '17px 30px', // Increased padding for a larger button
+      borderRadius: '35px', // Adjusted for visual proportionality
+      textAlign: 'center',
+      textDecoration: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)' // Optional shadow for depth
+    }}
     className="nav-link custom-font"
   >
     Designs
@@ -77,7 +121,21 @@ const Header = () => {
   <Nav.Link
     as={Link}
     to="/chat"
-    style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
+    style={{
+      backgroundColor: "", // Purple color similar to the button in the image
+      color: "white",
+      fontSize: "24px", // Increased font size for larger text
+      marginRight: "12px", // Adjust the spacing as needed
+      textTransform: 'none',
+      display: 'inline-block',
+      padding: '17px 30px', // Increased padding for a larger button
+      borderRadius: '35px', // Adjusted for visual proportionality
+      textAlign: 'center',
+      textDecoration: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)' // Optional shadow for depth
+    }}
     className="nav-link custom-font"
   >
     Chat
@@ -90,7 +148,21 @@ const Header = () => {
     <Nav.Link
       as={Link}
       to="/cart"
-      style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}
+      style={{
+        backgroundColor: "", // Purple color similar to the button in the image
+        color: "white",
+        fontSize: "24px", // Increased font size for larger text
+        marginRight: "12px", // Adjust the spacing as needed
+        textTransform: 'none',
+        display: 'inline-block',
+        padding: '17px 30px', // Increased padding for a larger button
+        borderRadius: '35px', // Adjusted for visual proportionality
+        textAlign: 'center',
+        textDecoration: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)' // Optional shadow for depth
+      }}
       className="nav-link custom-font"
     >
       <i className='fas fa-shopping-cart'></i> Cart
@@ -101,12 +173,42 @@ const Header = () => {
 
               
               {!auth.user ? (
-                <Nav.Link as={Link} to="/login" style={{ color: "white", fontSize, marginRight, textTransform: 'none' }} className="nav-link custom-font">
+                <Nav.Link as={Link} to="/login"  style={{
+                  backgroundColor: "#8A2BE2", // Purple color similar to the button in the image
+                  color: "white",
+                  fontSize: "24px", // Increased font size for larger text
+                  marginRight: "12px", // Adjust the spacing as needed
+                  textTransform: 'none',
+                  display: 'inline-block',
+                  padding: '17px 30px', // Increased padding for a larger button
+                  borderRadius: '35px', // Adjusted for visual proportionality
+                  textAlign: 'center',
+                  textDecoration: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)' // Optional shadow for depth
+                }}
+                 className="nav-link custom-font">
                   <i className='fas fa-user'></i> SignIn
                 </Nav.Link>
               ) : (
                 <NavDropdown
-                  title={<span style={{ color: "white", fontSize, marginRight, textTransform: 'none' }}>{auth?.user?.firstname} {auth?.user?.lastname}</span>}
+                  title={<span style={{
+                    backgroundColor: "#8A2BE2", // Purple color similar to the button in the image
+                    color: "white",
+                    fontSize: "20px", // Increased font size for larger text
+                    marginRight: "12px", // Adjust the spacing as needed
+                    textTransform: 'none',
+                    display: 'inline-block',
+                    padding: '10px 30px', // Increased padding for a larger button
+                    borderRadius: '35px', // Adjusted for visual proportionality
+                    textAlign: 'center',
+                    textDecoration: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)' // Optional shadow for depth
+                  }}>
+                    {auth?.user?.firstname} {auth?.user?.lastname}</span>}
                   id="basic-nav-dropdown"
                   className="nav-dropdown"
                 >
@@ -117,17 +219,45 @@ const Header = () => {
                         auth?.user?.role === "2" ? "http://localhost:3000/staff-dashboard" :
                         "/UserDashboard"
                       }
-                      style={{ color: "black", fontSize, marginRight, textTransform: 'none' }}
+                      style={{
+                        backgroundColor: "#8A2BE2", // Purple color similar to the button in the image
+                        color: "white",
+                        fontSize: "20px", // Increased font size for larger text
+                        marginRight: "12px", // Adjust the spacing as needed
+                        textTransform: 'none',
+                        display: 'inline-block',
+                        padding: '10px 30px', // Increased padding for a larger button
+                        borderRadius: '35px', // Adjusted for visual proportionality
+                        textAlign: 'center',
+                        textDecoration: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)' // Optional shadow for depth
+                      }}
                       className="dropdown-item custom-font"
                     >
                       Dashboard
                 </NavDropdown.Item>
-
+<div/>  <br/>
                   <NavDropdown.Item
                     onClick={handleLogout}
                     as={Link}
                     to="/login"
-                    style={{ color: "black", fontSize, marginRight, textTransform: 'none' }}
+                    style={{
+                      backgroundColor: "#FF0000", // Purple color similar to the button in the image
+                      color: "white",
+                      fontSize: "20px", // Increased font size for larger text
+                      marginRight: "12px", // Adjust the spacing as needed
+                      textTransform: 'none',
+                      display: 'inline-block',
+                      padding: '10px 30px', // Increased padding for a larger button
+                      borderRadius: '35px', // Adjusted for visual proportionality
+                      textAlign: 'center',
+                      textDecoration: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)' // Optional shadow for depth
+                    }}
                     className="dropdown-item custom-font"
                   >
                     Logout

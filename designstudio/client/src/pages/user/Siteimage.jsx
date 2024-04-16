@@ -47,6 +47,12 @@ const SiteDetails = () => {
     fetchSiteDetails();
   }, []);
 
+  // Function to handle booking action
+  const bookDesign = (siteId, imageId) => {
+    // Implement booking logic here
+    console.log("Booking design for site", siteId, "with image", imageId);
+  };
+
   // Settings for the image sliders
   const siteImageSliderSettings = {
     dots: true,
@@ -83,52 +89,61 @@ const SiteDetails = () => {
                 <ul className="site-list">
                   {siteDetails.map((site) => (
                     <li key={site._id} className="site-item">
-                      <center>
-                        <h2>BEFORE</h2>
-                      </center>
-                      <h3 className="image-container">
-                        Details: {site.description}
-                      </h3>
-                      <div className="image-slider-container">
-                        <Slider
-                          {...siteImageSliderSettings}
-                          className="image-slider"
-                        >
-                          {site.images.map((image) => (
-                            <div key={image._id} className="image-slide">
-                              <img
-                                src={image.data}
-                                alt={image.description}
-                                className="site-image"
-                              />
-                            </div>
-                          ))}
-                        </Slider>
-                      </div>
-                      <br></br>
-                      {site.suggestedImages &&
-                        site.suggestedImages.length > 0 && (
-                          <div className="suggested-images-container">
-                             <center>
-                        <h2>AFTER</h2>
-                      </center>
-                            <h4>Select the images based on our ideas </h4>
-                            <div className="suggested-images-grid">
-                              {site.suggestedImages.map((image, index) => (
-                                <div
-                                  key={index}
-                                  className="suggested-image-item"
-                                >
+                      <div className="before-after-container">
+                        <div className="before-details">
+                          <center>
+                            <h2>BEFORE</h2>
+                          </center>
+                          <h3 className="image-container">
+                            Details: {site.description}
+                          </h3>
+                          <div className="image-slider-container">
+                            <Slider
+                              {...siteImageSliderSettings}
+                              className="image-slider"
+                            >
+                              {site.images.map((image) => (
+                                <div key={image._id} className="image-slide">
                                   <img
-                                    src={`data:${image.contentType};base64,${image.data}`}
-                                    alt="Suggested Image"
-                                    className="suggested-image"
+                                    src={image.data}
+                                    alt={image.description}
+                                    className="site-image"
                                   />
                                 </div>
                               ))}
-                            </div>
+                            </Slider>
                           </div>
-                        )}
+                        </div>
+                        {site.suggestedImages &&
+                          site.suggestedImages.length > 0 && (
+                            <div className="after-details">
+                              <center>
+                                <h2>AFTER</h2>
+                              </center>
+                              <h4>Select the images based on our ideas </h4>
+                              <div className="suggested-images-grid">
+                                {site.suggestedImages.map((image, index) => (
+                                  <div
+                                    key={index}
+                                    className="suggested-image-item"
+                                  >
+                                    <img
+                                      src={`data:${image.contentType};base64,${image.data}`}
+                                      alt="Suggested Image"
+                                      className="suggested-image"
+                                    />
+                                    <button
+                                      className="book-design-button"
+                                      onClick={() => bookDesign(site._id, image._id)}
+                                    >
+                                      Book Design
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                      </div>
                     </li>
                   ))}
                 </ul>

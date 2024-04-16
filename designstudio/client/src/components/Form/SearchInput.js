@@ -22,17 +22,28 @@ const SearchInput = () => {
 
   return (
     <form className="d-flex ml-auto" role="search" onSubmit={handleSubmit}>
-      <div className="input-group">
+      <div className="input-group" style={{ borderRadius: '20px', overflow: 'hidden' }}>
         <input
           className="form-control me-2"
           type="search"
-          placeholder="Search"
+          placeholder="Search..."
           aria-label="Search"
           value={values.keyword}
           onChange={(e) => setValues({ ...values, keyword: e.target.value })}
+          style={{ borderTopLeftRadius: '20px', borderBottomLeftRadius: '20px' }}
         />
-        <button className="success" type="submit">
-          Search
+        <button
+          className="btn"
+          type="submit"
+          style={{
+            backgroundColor: 'red',
+            color: 'white',
+            borderTopRightRadius: '20px',
+            borderBottomRightRadius: '20px',
+            border: 'none'
+          }}
+        >
+          <i className="fa fa-search"></i>
         </button>
       </div>
     </form>

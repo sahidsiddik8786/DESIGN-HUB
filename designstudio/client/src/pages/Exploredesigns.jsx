@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import Layout from "../components/layout/Layout";
 import "./Exploredesigns.css";
+import anime from "../../src/assets/anime.jpg"
 
 const Designs = () => {
   const [designs, setDesigns] = useState([]);
@@ -48,6 +49,19 @@ const Designs = () => {
 
   return (
     <Layout>
+    
+    <div className="image-overlay">
+  <a
+    href="http://localhost:8501/"
+    target="_blank"
+    rel="noopener noreferrer"
+
+  >
+    <img src={anime} alt="Overlay Image" />
+  </a>
+</div>
+
+
       <div className="interior-design">
         <h1>Home Interior Design</h1>
         <p>

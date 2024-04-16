@@ -2,17 +2,27 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/layout/Layout";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Checkbox, Radio, Button  , Card, CardMedia, CardContent, Typography, Grid } from "@mui/material";
+import {
+  Checkbox,
+  Radio,
+  Button,
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  Grid,
+} from "@mui/material";
 import { Prices } from "../components/Prices";
 import { useCart } from "../context/cart";
 import toast from "react-hot-toast";
 import SearchInput from "../components/Form/SearchInput";
 import "./pages.css";
 import NavigationMenu from "../components/layout/NavigationMenu";
-import { Checkbox as AntCheckbox, Radio as AntRadio } from 'antd';
+import { Checkbox as AntCheckbox, Radio as AntRadio } from "antd";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Link } from "react-router-dom";
-
+import anime from "../../src/assets/anime.jpg";
+import { useAuth } from "../context/auth";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -27,33 +37,39 @@ const HomePage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true); // Always show sidebar
   const [wishlist, setWishlist] = useState([]);
   const [isInWishlist, setIsInWishlist] = useState([]);
+  const [auth] = useAuth();
 
   useEffect(() => {
     const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
     setWishlist(storedWishlist);
 
-    const isInWishlistArray = products.map((product) => wishlist.some((item) => item._id === product._id));
+    const isInWishlistArray = products.map((product) =>
+      wishlist.some((item) => item._id === product._id)
+    );
     setIsInWishlist(isInWishlistArray);
-
   }, [wishlist, products]);
 
   const handleToggleWishlist = (productId) => {
-    const productIndex = products.findIndex((product) => product._id === productId);
+    const productIndex = products.findIndex(
+      (product) => product._id === productId
+    );
     const updatedWishlist = [...wishlist];
-  
+
     if (productIndex !== -1) {
       const product = products[productIndex];
-  
-      const isProductInWishlist = updatedWishlist.some((item) => item._id === productId);
-  
+
+      const isProductInWishlist = updatedWishlist.some(
+        (item) => item._id === productId
+      );
+
       if (!isProductInWishlist) {
         updatedWishlist.push(product);
       } else {
         updatedWishlist.splice(productIndex, 1);
       }
-  
+
       setWishlist(updatedWishlist);
-  
+
       localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
     }
   };
@@ -64,7 +80,9 @@ const HomePage = () => {
 
   const getAllCategory = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/v1/category/get-category");
+      const { data } = await axios.get(
+        "http://localhost:8080/api/v1/category/get-category"
+      );
       if (data?.success) {
         setCategories(data?.category);
       }
@@ -81,7 +99,9 @@ const HomePage = () => {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`http://localhost:8080/api/v1/product/product-list/${page}`);
+      const { data } = await axios.get(
+        `http://localhost:8080/api/v1/product/product-list/${page}`
+      );
       setLoading(false);
       setProducts(data.products);
     } catch (error) {
@@ -92,7 +112,9 @@ const HomePage = () => {
 
   const getTotal = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/v1/product/product-count");
+      const { data } = await axios.get(
+        "http://localhost:8080/api/v1/product/product-count"
+      );
       setTotal(data?.total);
     } catch (error) {
       console.log(error);
@@ -107,7 +129,9 @@ const HomePage = () => {
   const loadMore = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`http://localhost:8080/api/v1/product/product-list/${page}`);
+      const { data } = await axios.get(
+        `http://localhost:8080/api/v1/product/product-list/${page}`
+      );
       setLoading(false);
       setProducts([...products, ...data?.products]);
     } catch (error) {
@@ -136,10 +160,13 @@ const HomePage = () => {
 
   const filterProduct = async () => {
     try {
-      const { data } = await axios.post("http://localhost:8080/api/v1/product/product-filters", {
-        checked,
-        radio,
-      });
+      const { data } = await axios.post(
+        "http://localhost:8080/api/v1/product/product-filters",
+        {
+          checked,
+          radio,
+        }
+      );
       setProducts(data?.products);
     } catch (error) {
       console.log(error);
@@ -147,8 +174,21 @@ const HomePage = () => {
   };
 
   return (
-    <Layout title={"All Products - Best offers "}>
-      <NavigationMenu />
+    <Layout>
+       <div className="image-overlay">
+        {auth.user ? (
+          <a
+            href="http://localhost:8501/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src={anime} alt="Overlay Image" />
+          </a>
+        ) : (
+          <img src={anime} alt="Overlay Image" />
+        )}
+      </div>
+
       <Button
         variant="outlined"
         color="primary"
@@ -163,21 +203,21 @@ const HomePage = () => {
           <h4 className="text-center">Filter By Category</h4>
           <div className="d-flex flex-column">
             {categories?.map((c) => (
-             <AntCheckbox
+              <AntCheckbox
                 key={c._id}
                 onChange={(e) => handleFilter(e.target.checked, c._id)}
               >
                 {c.name}
-                </AntCheckbox>
+              </AntCheckbox>
             ))}
           </div>
           {/* Price filter */}
           <h4 className="text-center mt-4">Filter By Price</h4>
           <div className="d-flex flex-column">
-          <AntRadio.Group onChange={(e) => setRadio(e.target.value)}>
+            <AntRadio.Group onChange={(e) => setRadio(e.target.value)}>
               {Prices?.map((p) => (
                 <div key={p._id}>
-                   <AntRadio value={p.array}>{p.name}</AntRadio>
+                  <AntRadio value={p.array}>{p.name}</AntRadio>
                 </div>
               ))}
             </AntRadio.Group>
@@ -193,11 +233,11 @@ const HomePage = () => {
             </Button>
           </div>
         </div>
-   
+
         <div className="col-md-9 offset-1">
-         {/* <h1 className="text-center mb-4">SHOP</h1>*/}
+          {/* <h1 className="text-center mb-4">SHOP</h1>*/}
           <Grid container spacing={3}>
-            {products?.map((p , index) => (
+            {products?.map((p, index) => (
               <Grid item key={p._id} xs={12} sm={6} md={4}>
                 <Card className="mb-4" sx={{ width: "80%" }}>
                   <CardMedia
@@ -210,11 +250,15 @@ const HomePage = () => {
                     <Typography variant="h6" component="div" className="mb-2">
                       {p.name}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" className="mb-2">
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      className="mb-2"
+                    >
                       {p.description.substring(0, 50)}...
                     </Typography>
                     <Typography variant="h6" color="primary" className="mb-2">
-                    ₹{p.price}
+                      ₹{p.price}
                     </Typography>
 
                     <FavoriteIcon
@@ -238,7 +282,10 @@ const HomePage = () => {
                       fullWidth
                       onClick={() => {
                         setCart([...cart, p]);
-                        localStorage.setItem("cart", JSON.stringify([...cart, p]));
+                        localStorage.setItem(
+                          "cart",
+                          JSON.stringify([...cart, p])
+                        );
                         toast.success("Item Added to cart");
                         navigate("/cart");
                       }}
@@ -268,7 +315,7 @@ const HomePage = () => {
             component={Link}
             to="/wishlist"
             variant="contained"
-            color="primary"  
+            color="primary"
             className="mt-3"
           >
             View Wishlist
@@ -277,6 +324,6 @@ const HomePage = () => {
       </div>
     </Layout>
   );
-}
+};
 
 export default HomePage;

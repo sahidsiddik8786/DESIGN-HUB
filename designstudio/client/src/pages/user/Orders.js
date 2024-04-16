@@ -7,7 +7,7 @@ import moment from "moment";
 import jsPDF from "jspdf"; 
 import images from "../../images/companylogo.png";
 import "../user/order.css";
-
+import GoBackButton from "../../components/layout/goback";
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [auth, setAuth] = useAuth();
@@ -36,9 +36,10 @@ const Orders = () => {
 
   return (
     <Layout title={"Your Orders"}>
+        <GoBackButton />
       <>
         <div className="text-center mb-4">
-          <h1>All Orders</h1>
+     
         </div>
         <div className="order-container-center">
           {orders?.map((order, index) => (

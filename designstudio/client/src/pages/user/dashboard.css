@@ -44,7 +44,7 @@
   margin: auto;
   text-align: center;
   border-radius: 20px;
-  background-color: rgba(215, 203, 232, 0.662);
+  background-color: rgb(237, 230, 247);
   overflow: hidden; /* Prevents image overflow */
   margin-left: -90px;
 }
@@ -98,4 +98,52 @@
 .suggested-image-description {
   font-size: 14px;
   color: #666;
+}
+
+
+
+.before-after-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.before-details {
+  width: 100%; /* Adjust the width as needed */
+}
+
+.after-details {
+  width: 100%; 
+}
+
+
+.book-design-button {
+  background-color: #b234a1; /* Green */
+  border: none;
+  color: rgb(254, 254, 254);
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 30px;
+  width: 600px;
+}
+
+.book-design-button:hover {
+  background-color: #e90a0a; /* Darker Green */
+}
+
+.suggested-image-item {
+  position: relative; /* Ensure button stays on top of image */
+  display: inline-block;
+}
+
+/* Adjust button position */
+.book-design-button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }
