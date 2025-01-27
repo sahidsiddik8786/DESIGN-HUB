@@ -73,6 +73,7 @@ const Login = () => {
                 className="form-input"
                 placeholder="Email"
                 required
+                name="email"  // Ensure this name attribute matches the Selenium selector
               />
               {emailError && <p className="error-text">{emailError}</p>}
             </div>
@@ -84,6 +85,7 @@ const Login = () => {
                 className="form-input"
                 placeholder="Password"
                 required
+                name="password"  // Ensure this name attribute matches the Selenium selector
               />
               {passwordError && <p className="error-text">{passwordError}</p>}
             </div>
@@ -92,7 +94,7 @@ const Login = () => {
                 <h5>Forgot Password</h5>
               </NavLink>
             </div >
-            <button type="submit" className="submit-button m-2" disabled={loading}>
+            <button type="submit" className="submit-button m-2" disabled={loading} id="login-button"> {/* Ensure this id matches the Selenium selector */}
               {loading ? "Logging in..." : "Sign In"}
             </button>
             <p className="register-link">

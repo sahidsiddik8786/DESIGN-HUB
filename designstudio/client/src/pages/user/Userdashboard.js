@@ -3,11 +3,18 @@ import { Card, Divider } from "antd"; // Import Card and Divider components
 import { useAuth } from "../../context/auth";
 import UserMenu from "../../components/layout/UserMenu";
 import Layout from "../../components/layout/Layout";
+import { Button } from 'antd';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const [auth] = useAuth();
   return (
     <Layout title={"Dashboard"}>
+        <div>
+      <Link to="/Shop">
+        <Button id="shop-button"></Button>
+      </Link>
+    </div>
       <div>
         <div className="row">
           <div className="col-md-3">
@@ -47,7 +54,9 @@ const Dashboard = () => {
             </Card>
           </div>
         </div>
+      
       </div>
+      
     </Layout>
   );
 };

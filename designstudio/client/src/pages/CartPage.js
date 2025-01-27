@@ -102,7 +102,7 @@ const CartPage = () => {
       setCart([]);
 
 
-      navigate("/Dashboard/UserDashboard/Orders");
+      navigate("/Orders");
       toast.success("Payment Completed Successfully ");
     } catch (error) {
       console.log(error);
